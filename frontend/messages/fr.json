@@ -1,0 +1,322 @@
+{
+	"sidebar": {
+		"appName": "Nexus",
+		"appTagline": "Suite de gestion",
+		"sectionMain": "Opérations",
+		"sectionLogs": "Enregistrements",
+		"products": "Produits",
+		"stock": "Stock",
+		"clients": "Clients",
+		"suppliers": "Fournisseurs",
+		"sales": "Ventes",
+		"history": "Historique",
+		"logs": "Journaux d'activité",
+		"dashboard": "Tableau de bord",
+		"categories": "Catégories",
+		"settings": "Paramètres",
+		"settingsDescription": "Configuration du système"
+	},
+	"products": {
+		"title": "Produits",
+		"total": "{count} au total",
+		"addProduct": "Ajouter un produit",
+		"searchPlaceholder": "Rechercher par nom ou catégorie…",
+		"loading": "Chargement des produits…",
+		"errorLoad": "Échec du chargement des produits.",
+		"emptyTitle": "Aucun produit trouvé",
+		"emptySubtitle": "Commencez par ajouter votre premier produit.",
+		"emptySearchSubtitle": "Aucun résultat pour \"{query}\"",
+		"pageInfo": "Page {page} sur {pages}",
+		"productId": "#{id}",
+		"refresh": "Actualiser",
+		"noCategory": "Aucune catégorie"
+	},
+	"productOptions": {
+		"eyebrow": "Actions sur le produit",
+		"title": "Que souhaitez-vous faire ?",
+		"close": "Fermer",
+		"viewDetails": {
+			"title": "Voir les détails",
+			"desc": "Voir les détails du produit"
+		},
+		"updateProduct": {
+			"title": "Mettre à jour le produit",
+			"desc": "Mettre à jour les informations du produit"
+		},
+		"deleteProduct": {
+			"title": "Supprimer le produit",
+			"desc": "Supprimer le produit du système",
+			"error": "Échec de la suppression du produit"
+		}
+	},
+	"updateProduct": {
+		"title": "Mettre à jour le produit",
+		"subtitle": "Mettre à jour les informations du produit",
+		"toast": {
+			"success": "Produit mis à jour avec succès",
+			"error": "Échec de la mise à jour du produit"
+		}
+	},
+	"productDetails": {
+		"eyebrow": "Détails du produit",
+		"created": "Créé le",
+		"updated": "Mis à jour le",
+		"fetchError": "Impossible de charger le produit",
+		"breadcrumb": {
+			"products": "Produits",
+			"product": "Produit"
+		},
+		"variants": {
+			"title": "Variantes",
+			"empty": "Aucune variante trouvée pour ce produit",
+			"batches": "lots",
+			"size": "Taille",
+			"color": "Couleur",
+			"flavor": "Saveur",
+			"weight": "Poids",
+			"height": "Hauteur"
+		},
+		"refresh": "Actualiser",
+		"searchPlaceholder": "Rechercher par nom ou code-barre..."
+	},
+	"categories": {
+		"title": "Catégories",
+		"total": "{count, plural, =0 {Aucune catégorie} one {1 catégorie} other {{count} catégories}}",
+		"addCategory": "Ajouter une catégorie",
+		"searchPlaceholder": "Rechercher des catégories...",
+		"loading": "Chargement des catégories...",
+		"errorLoad": "Impossible de charger les catégories. Veuillez réessayer.",
+		"emptyTitle": "Aucune catégorie trouvée",
+		"emptySubtitle": "Commencez par créer votre première catégorie.",
+		"emptySearchSubtitle": "Aucune catégorie ne correspond à « {query} ». Essayez une autre recherche.",
+		"pageInfo": "Page {page} sur {pages}",
+		"refresh": "Actualiser"
+	},
+	"calculator": {
+		"title": "Calculatrice",
+		"subtitle": "Saisissez une valeur ou une expression",
+		"cancel": "Annuler",
+		"done": "Valider",
+		"close": "Fermer"
+	},
+	"pageInfo": "Page {page} sur {pages}",
+	"addCategory": {
+		"title": "Ajouter une catégorie",
+		"subtitle": "Ajoutez une nouvelle catégorie pour organiser vos produits",
+		"sectionLabel": "Informations principales",
+		"nameLabel": "Nom de la catégorie",
+		"namePlaceholder": "Entrez le nom de la catégorie",
+		"btnClose": "Fermer",
+		"btnCreate": "Créer la catégorie",
+		"successCreate": "Catégorie créée avec succès",
+		"errorCreate": "Échec de la création de la catégorie",
+		"errorNameRequired": "Le nom de la catégorie est requis",
+		"updateTitle": "Mettre à jour la catégorie",
+		"updateSubtitle": "Mettez à jour les détails de la catégorie",
+		"updateBtn": "Mettre à jour la catégorie",
+		"successUpdate": "Catégorie mise à jour avec succès",
+		"errorUpdate": "Échec de la mise à jour de la catégorie"
+	},
+	"categoryOptions": {
+		"eyebrow": "Actions sur la catégorie",
+		"title": "Que souhaitez-vous faire ?",
+		"close": "Fermer",
+		"viewProducts": {
+			"title": "Voir les produits",
+			"desc": "Parcourir tous les produits de cette catégorie"
+		},
+		"updateCategory": {
+			"title": "Mettre à jour la catégorie",
+			"desc": "Modifier le nom ou les détails de cette catégorie"
+		},
+		"deleteCategory": {
+			"title": "Supprimer la catégorie",
+			"desc": "Supprimer définitivement cette catégorie et tous ses produits"
+		}
+	},
+	"addProduct": {
+		"step1": {
+			"title": "Nouveau produit",
+			"subtitle": "Étape 1 sur 2 — Informations de base",
+			"name": "Nom du produit",
+			"productNamePlaceholder": "ex. Casque sans fil",
+			"category": "Catégorie",
+			"categoryPlaceholder": "Rechercher et sélectionner une catégorie…"
+		},
+		"step2": {
+			"title": "Ajouter une variante",
+			"updateTitle": "Mettre à jour la variante",
+			"subtitle": "Étape 2 sur 2 — Détails de la variante",
+			"updateSubtitle": "Mettre à jour les détails de la variante",
+			"primaryLabel": "Détails principaux",
+			"name": "Nom de la variante",
+			"namePlaceholder": "ex. Rouge / L",
+			"barcode": "Code-barres",
+			"barcodePlaceholder": "123456789",
+			"secondaryLabel": "Détails secondaires",
+			"quantity": "Quantité",
+			"quantityPlaceholder": "ex. 100",
+			"alertPeriodPerDay": "Période d’alerte (jours)",
+			"alertPeriodPerDayPlaceholder": "ex. 7",
+			"alertPeriodPerStock": "Période d’alerte (stock)",
+			"alertPeriodPerStockPlaceholder": "ex. 20",
+			"fabricationDate": "Date de fabrication",
+			"fabricationDatePlaceholder": "Sélectionner une date",
+			"expirationDate": "Date d’expiration",
+			"expirationDatePlaceholder": "Sélectionner une date",
+			"nLot": "N° Lot",
+			"nLotPlaceholder": "ex. 123456",
+			"PPA": "PPA",
+			"PPAPlaceholder": "ex. 200",
+			"pricingLabel": "Tarification",
+			"purchasePrice": "Prix d’achat",
+			"purchasePricePlaceholder": "ex. 50",
+			"sellingPriceHT": "Prix de vente HT",
+			"sellingPriceHTPlaceholder": "ex. 80",
+			"vatRate": "TVA (%)",
+			"vatRatePlaceholder": "ex. 19",
+			"sellingPriceTTC": "Prix de vente TTC",
+			"sellingPriceTTCPlaceholder": "ex. 95",
+			"profit": "Marge",
+			"profitPlaceholder": "ex. 100",
+			"profitRate": "Marge (%)",
+			"profitRatePlaceholder": "ex. 20",
+			"discount": "Prix de Promotion ",
+			"discountPlaceholder": "ex. 80",
+			"discountRate": "Promotion (TTC - %)",
+			"discountRatePlaceholder": "ex. 10",
+			"discountLabel": "Promotion",
+			"attributes": "Attributs",
+			"size": "Taille",
+			"sizePlaceholder": "ex. XL",
+			"color": "Couleur",
+			"colorPlaceholder": "ex. Rouge",
+			"flavor": "Saveur",
+			"flavorPlaceholder": "ex. Vanille",
+			"weight": "Poids (g)",
+			"weightPlaceholder": "ex. 500",
+			"height": "Hauteur (cm)",
+			"heightPlaceholder": "ex. 30",
+			"supplier": "Fournisseur",
+			"supplierPlaceholder": "ex. Fournisseur XYZ"
+		},
+		"actions": {
+			"cancel": "Annuler",
+			"next": "Suivant",
+			"saving": "Enregistrement…",
+			"createProduct": "Créer le produit",
+			"creating": "Création…",
+			"close": "Fermer",
+			"update": "Mettre à jour"
+		},
+		"toast": {
+			"productCreated": "Produit créé avec succès",
+			"variantCreated": "Variante créée — le produit est prêt !",
+			"unknownError": "Une erreur est survenue, veuillez réessayer",
+			"variantUpdated": "Variante mise à jour avec succès",
+			"fieldsRequired": {
+				"name": "Le nom du produit est requis",
+				"category": "La catégorie est requise",
+				"variantName": "Le nom de la variante est requis",
+				"variantBarcode": "Le code-barres est requis",
+				"variantPurchasePrice": "Le prix d'achat est requis",
+				"variantVatRate": "La TVA est requise",
+				"variantQuantity": "La quantité est requise",
+				"variantSellingPriceHT": "Le prix de vente HT (hors taxes) est requis"
+			}
+		},
+		"optional": "optionnel"
+	},
+	"settings": {
+		"eyebrow": "Préférences",
+		"title": "Paramètres",
+		"desc": "Gérez vos préférences de langue, d'apparence et de données.",
+		"language": {
+			"title": "Langue",
+			"desc": "Choisissez la langue utilisée dans l'application."
+		},
+		"theme": {
+			"title": "Apparence",
+			"desc": "Sélectionnez un thème ou suivez les préférences de votre système.",
+			"light": "Clair",
+			"dark": "Sombre",
+			"system": "Système",
+			"dim": "Tamisé"
+		},
+		"data": {
+			"title": "Données",
+			"desc": "Exportez vos données pour une sauvegarde ou importez une exportation précédente.",
+			"export": {
+				"title": "Exporter les données",
+				"desc": "Télécharger toutes vos données en fichier JSON"
+			},
+			"import": {
+				"title": "Importer les données",
+				"desc": "Restaurer les données depuis un fichier JSON exporté"
+			}
+		},
+		"toast": {
+			"langChanged": "Langue mise à jour",
+			"themeChanged": "Thème mis à jour",
+			"exportSuccess": "Base de données exportée avec succès",
+			"exportError": "L'export a échoué — veuillez réessayer",
+			"importSuccess": "Base de données importée — un redémarrage peut être nécessaire",
+			"importError": "L'import a échoué — veuillez réessayer",
+			"importInvalidFile": "Fichier invalide — veuillez sélectionner un fichier .sqlite"
+		}
+	},
+	"addSupplier": {
+		"title": "Ajouter un fournisseur",
+		"subtitle": "Ajouter un nouveau fournisseur pour gérer vos achats",
+		"sectionLabel": "Informations principales",
+		"nameLabel": "Nom du fournisseur",
+		"namePlaceholder": "Entrez le nom du fournisseur",
+		"emailLabel": "Email",
+		"emailPlaceholder": "Entrez l'email",
+		"phoneLabel": "Téléphone",
+		"phonePlaceholder": "Entrez le téléphone",
+		"addressLabel": "Adresse",
+		"addressPlaceholder": "Entrez l'adresse",
+		"btnClose": "Fermer",
+		"btnCreate": "Créer le fournisseur",
+		"successCreate": "Fournisseur créé avec succès",
+		"errorCreate": "Échec de la création du fournisseur",
+		"errorNameRequired": "Le nom du fournisseur est requis",
+		"updateTitle": "Modifier le fournisseur",
+		"updateSubtitle": "Modifier les détails du fournisseur",
+		"updateBtn": "Modifier le fournisseur",
+		"successUpdate": "Fournisseur modifié avec succès",
+		"errorUpdate": "Échec de la modification du fournisseur"
+	},
+	"suppliers": {
+		"title": "Fournisseurs",
+		"total": "{count, plural, =0 {Aucun fournisseur} one {1 fournisseur} other {{count} fournisseurs}}",
+		"addSupplier": "Ajouter un fournisseur",
+		"searchPlaceholder": "Rechercher des fournisseurs...",
+		"loading": "Chargement des fournisseurs...",
+		"errorLoad": "Impossible de charger les fournisseurs. Veuillez réessayer.",
+		"emptyTitle": "Aucun fournisseur trouvé",
+		"emptySubtitle": "Commencez par créer votre premier fournisseur.",
+		"emptySearchSubtitle": "Aucun fournisseur ne correspond à « {query} ». Essayez une autre recherche.",
+		"pageInfo": "Page {page} sur {pages}",
+		"refresh": "Actualiser",
+		"supplierId": "ID Fournisseur : {id}"
+	},
+	"supplierOptions": {
+		"eyebrow": "Fournisseur",
+		"title": "Que souhaitez-vous faire ?",
+		"close": "Fermer",
+		"viewDetails": {
+			"title": "Voir les détails",
+			"desc": "Voir les détails du fournisseur"
+		},
+		"updateSupplier": {
+			"title": "Mettre à jour le fournisseur",
+			"desc": "Modifier le nom ou les détails de ce fournisseur"
+		},
+		"deleteSupplier": {
+			"title": "Supprimer le fournisseur",
+			"desc": "Supprimer ce fournisseur du système"
+		}
+	}
+}

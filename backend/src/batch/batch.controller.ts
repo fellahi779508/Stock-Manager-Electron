@@ -1,0 +1,59 @@
+import {
+  Controller,
+  Get,
+  Body,
+  Param,
+  Delete,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { BatchService } from './batch.service';
+import { CreateBatchDto } from './dto/create-batch.dto';
+import { UpdateBatchDto } from './dto/update-batch.dto';
+
+@Controller('batch')
+export class BatchController {
+  constructor(private readonly batchService: BatchService) {}
+
+  @Get()
+  findAll(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('search') search?: string,
+  ) {
+    return this.batchService.findAll(page, limit, search);
+  }
+
+  @Get('product/:id')
+  getBatchByProductId(@Param('id') id: string) {
+    return this.batchService.getBatchByProductId(+id);
+  }
+
+  @Get('alert')
+  alert(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.batchService.getExpiringBatches(page, limit);
+  }
+  @Get('expired')
+  getExpired(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.batchService.getExpiredBatches(page, limit);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.batchService.findOne(+id);
+  }
+
+  @Put('verify-expiry')
+  verifyExpiry() {
+    return this.batchService.verifyExpiry();
+  }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateBatchDto: UpdateBatchDto) {
+    return this.batchService.update(+id, updateBatchDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.batchService.remove(+id);
+  }
+}

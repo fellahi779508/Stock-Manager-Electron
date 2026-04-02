@@ -1,0 +1,324 @@
+{
+	"sidebar": {
+		"appName": "Nexus",
+		"appTagline": "نظام إدارة",
+		"sectionMain": "العمليات",
+		"sectionLogs": "السجلات",
+		"products": "المنتجات",
+		"stock": "المخزون",
+		"clients": "العملاء",
+		"suppliers": "الموردون",
+		"sales": "المبيعات",
+		"history": "السجل",
+		"logs": "سجلات النشاط",
+		"dashboard": "لوحة التحكم",
+		"settings": "الإعدادات",
+		"settingsDescription": "إعدادات النظام",
+		"categories": "الفئات"
+	},
+	"products": {
+		"title": "المنتجات",
+		"total": "المجموع {count}",
+		"addProduct": "إضافة منتج",
+		"searchPlaceholder": "ابحث بالاسم أو الفئة…",
+		"loading": "جاري تحميل المنتجات…",
+		"errorLoad": "فشل في تحميل المنتجات",
+		"emptyTitle": "لا توجد منتجات",
+		"emptySubtitle": "ابدأ بإضافة أول منتج",
+		"emptySearchSubtitle": "لا توجد نتائج لـ \"{query}\"",
+		"pageInfo": "الصفحة {page} من {pages}",
+		"productId": "#{id}",
+		"refresh": "تحديث",
+		"noCategory": "لا توجد فئة"
+	},
+	"pageInfo": "الصفحة {page} من {pages}",
+	"productOptions": {
+		"eyebrow": "إجراءات على المنتج",
+		"title": "ما الذي ترغب في فعله؟",
+		"close": "إغلاق",
+		"viewDetails": {
+			"title": "عرض التفاصيل",
+			"desc": "عرض تفاصيل المنتج"
+		},
+		"updateProduct": {
+			"title": "تحديث المنتج",
+			"desc": "تحديث معلومات المنتج"
+		},
+		"deleteProduct": {
+			"title": "حذف المنتج",
+			"desc": "حذف المنتج من النظام",
+			"error": "فشل في حذف المنتج"
+		}
+	},
+	"calculator": {
+		"title": "الآلة الحاسبة",
+		"subtitle": "أدخل قيمة أو تعبيراً",
+		"cancel": "إلغاء",
+		"done": "تأكيد",
+		"close": "إغلاق"
+	},
+	"updateProduct": {
+		"title": "تحديث المنتج",
+		"subtitle": "تحديث معلومات المنتج",
+		"toast": {
+			"success": "تم تحديث المنتج بنجاح",
+			"error": "فشل في تحديث المنتج"
+		}
+	},
+
+	"productDetails": {
+		"eyebrow": "تفاصيل المنتج",
+		"created": "أُنشئ في",
+		"updated": "عُدِّل في",
+		"fetchError": "فشل تحميل المنتج",
+		"breadcrumb": {
+			"products": "المنتجات",
+			"product": "منتج"
+		},
+		"variants": {
+			"title": "المتغيرات",
+			"empty": "لا توجد متغيرات لهذا المنتج",
+			"batches": "دفعات",
+			"size": "المقاس",
+			"color": "اللون",
+			"flavor": "النكهة",
+			"weight": "الوزن",
+			"height": "الارتفاع"
+		},
+		"refresh": "تحديث",
+		"searchPlaceholder": "البحث بالاسم أو الرمز الشريطي..."
+	},
+	"categories": {
+		"title": "الفئات",
+		"total": "{count, plural, =0 {لا توجد فئات} one {فئة واحدة} two {فئتان} few {{count} فئات} many {{count} فئة} other {{count} فئة}}",
+		"addCategory": "إضافة فئة",
+		"searchPlaceholder": "البحث في الفئات...",
+		"loading": "جارٍ تحميل الفئات...",
+		"errorLoad": "فشل تحميل الفئات. يرجى المحاولة مرة أخرى.",
+		"emptyTitle": "لم يتم العثور على فئات",
+		"emptySubtitle": "ابدأ بإنشاء فئتك الأولى.",
+		"emptySearchSubtitle": "لا توجد فئات تطابق \"{query}\". جرّب بحثاً مختلفاً.",
+		"pageInfo": "الصفحة {page} من {pages}",
+		"refresh": "تحديث"
+	},
+	"addCategory": {
+		"title": "إضافة فئة",
+		"subtitle": "أضف فئة جديدة لتنظيم منتجاتك",
+		"sectionLabel": "المعلومات الأساسية",
+		"nameLabel": "اسم الفئة",
+		"namePlaceholder": "أدخل اسم الفئة",
+		"btnClose": "إغلاق",
+		"btnCreate": "إنشاء الفئة",
+		"successCreate": "تم إنشاء الفئة بنجاح",
+		"errorCreate": "فشل في إنشاء الفئة",
+		"errorNameRequired": "اسم الفئة مطلوب",
+		"updateTitle": "تحديث الفئة",
+		"updateSubtitle": "قم بتحديث تفاصيل الفئة",
+		"updateBtn": "تحديث الفئة",
+		"successUpdate": "تم تحديث الفئة بنجاح",
+		"errorUpdate": "فشل في تحديث الفئة"
+	},
+	"categoryOptions": {
+		"eyebrow": "إجراءات الفئة",
+		"title": "ما الذي ترغب في فعله؟",
+		"close": "إغلاق",
+		"viewProducts": {
+			"title": "عرض المنتجات",
+			"desc": "تصفح جميع المنتجات في هذه الفئة"
+		},
+		"updateCategory": {
+			"title": "تحديث الفئة",
+			"desc": "تعديل اسم أو تفاصيل هذه الفئة"
+		},
+		"deleteCategory": {
+			"title": "حذف الفئة",
+			"desc": "حذف هذه الفئة نهائياً وجميع منتجاتها"
+		}
+	},
+	"addProduct": {
+		"step1": {
+			"title": "منتج جديد",
+			"subtitle": "الخطوة 1 من 2 — المعلومات الأساسية",
+			"name": "اسم المنتج",
+			"productNamePlaceholder": "مثال: سماعات لاسلكية",
+			"category": "الفئة",
+			"categoryPlaceholder": "ابحث واختر فئة…"
+		},
+		"step2": {
+			"title": "إضافة متغير",
+			"updateTitle": "تحديث المتغير",
+			"subtitle": "الخطوة 2 من 2 — تفاصيل المتغير",
+			"updateSubtitle": "تحديث تفاصيل المتغير",
+			"primaryLabel": "التفاصيل الأساسية",
+			"name": "اسم المتغير",
+			"namePlaceholder": "مثال: أحمر / L",
+			"barcode": "الباركود",
+			"barcodePlaceholder": "123456789",
+			"secondaryLabel": "تفاصيل إضافية",
+			"quantity": "الكمية",
+			"quantityPlaceholder": "مثال: 100",
+			"alertPeriodPerDay": "فترة التنبيه (أيام)",
+			"alertPeriodPerDayPlaceholder": "مثال: 7",
+			"alertPeriodPerStock": "فترة التنبيه (كمية)",
+			"alertPeriodPerStockPlaceholder": "مثال: 20",
+			"fabricationDate": "تاريخ التصنيع",
+			"fabricationDatePlaceholder": "اختر تاريخ",
+			"expirationDate": "تاريخ الانتهاء",
+			"expirationDatePlaceholder": "اختر تاريخ",
+			"nLot": "رقم اللوت",
+			"nLotPlaceholder": "مثال: 123456",
+			"PPALabel": "PPA",
+			"PPAPlaceholder": "مثال: 200",
+			"pricingLabel": "التسعير",
+			"purchasePrice": "سعر الشراء",
+			"purchasePricePlaceholder": "مثال: 50",
+			"sellingPriceHT": "سعر البيع بدون ضريبة",
+			"sellingPriceHTPlaceholder": "مثال: 80",
+			"vatRate": "نسبة الضريبة (%)",
+			"vatRatePlaceholder": "مثال: 19",
+			"sellingPriceTTC": "سعر البيع مع الضريبة",
+			"sellingPriceTTCPlaceholder": "مثال: 95",
+			"profit": "الربح",
+			"profitPlaceholder": "مثال: 100",
+			"profitRate": "نسبة الربح (%)",
+			"profitRatePlaceholder": "مثال: 20",
+			"discount": "سعر الخصم",
+			"discountPlaceholder": "مثال: 80",
+			"discountRate": "نسبة الخصم (%)",
+			"discountRatePlaceholder": "مثال: 10",
+			"discountLabel": "الخصم",
+			"attributes": "الخصائص",
+			"size": "الحجم",
+			"PPA": "PPA",
+			"sizePlaceholder": "مثال: XL",
+			"color": "اللون",
+			"colorPlaceholder": "مثال: أحمر",
+			"flavor": "النكهة",
+			"flavorPlaceholder": "مثال: فانيليا",
+			"weight": "الوزن (غ)",
+			"weightPlaceholder": "مثال: 500",
+			"height": "الارتفاع (سم)",
+			"heightPlaceholder": "مثال: 30",
+			"supplier": "المورد",
+			"supplierPlaceholder": "مثال: شركة التوريد"
+		},
+		"actions": {
+			"cancel": "إلغاء",
+			"next": "التالي",
+			"saving": "جارٍ الحفظ…",
+			"createProduct": "إنشاء المنتج",
+			"creating": "جارٍ الإنشاء…",
+			"close": "إغلاق",
+			"update": "تحديث"
+		},
+		"toast": {
+			"productCreated": "تم إنشاء المنتج بنجاح",
+			"variantCreated": "تم إنشاء المتغير — المنتج جاهز!",
+			"unknownError": "حدث خطأ، يرجى المحاولة مرة أخرى",
+			"variantUpdated": "تم تحديث المتغير بنجاح",
+			"fieldsRequired": {
+				"name": "اسم المنتج مطلوب",
+				"category": "الفئة مطلوبة",
+				"variantName": "اسم المتغير مطلوب",
+				"variantBarcode": "الباركود مطلوب",
+				"variantPurchasePrice": "سعر الشراء مطلوب",
+				"variantVatRate": "نسبة الضريبة مطلوبة",
+				"variantQuantity": "الكمية مطلوبة",
+				"variantSellingPriceHT": "سعر البيع الاجمالي (الذي لا يشمل الضرائب) مطلوب"
+			}
+		},
+		"optional": "اختياري"
+	},
+	"settings": {
+		"eyebrow": "التفضيلات",
+		"title": "الإعدادات",
+		"desc": "إدارة تفضيلات اللغة والمظهر والبيانات.",
+		"language": {
+			"title": "اللغة",
+			"desc": "اختر اللغة المستخدمة في جميع أنحاء التطبيق."
+		},
+		"theme": {
+			"title": "المظهر",
+			"desc": "اختر ثيمًا أو اتبع إعداد النظام.",
+			"light": "فاتح",
+			"dark": "داكن",
+			"system": "النظام",
+			"dim": "خافت"
+		},
+		"data": {
+			"title": "البيانات",
+			"desc": "صدّر بياناتك للنسخ الاحتياطي أو استورد تصديرًا سابقًا.",
+			"export": {
+				"title": "تصدير البيانات",
+				"desc": "تنزيل جميع بياناتك كملف JSON"
+			},
+			"import": {
+				"title": "استيراد البيانات",
+				"desc": "استعادة البيانات من ملف JSON تم تصديره مسبقًا"
+			}
+		},
+		"toast": {
+			"langChanged": "تم تحديث اللغة",
+			"themeChanged": "تم تحديث المظهر",
+			"exportSuccess": "تم تصدير قاعدة البيانات بنجاح",
+			"exportError": "فشل التصدير — يرجى المحاولة مرة أخرى",
+			"importSuccess": "تم استيراد قاعدة البيانات — قد يكون إعادة التشغيل مطلوبة",
+			"importError": "فشل الاستيراد — يرجى المحاولة مرة أخرى",
+			"importInvalidFile": "ملف غير صالح — يرجى اختيار ملف .sqlite"
+		}
+	},
+	"addSupplier": {
+		"title": "إضافة مورد",
+		"subtitle": "أضف مورد جديد لتنظيم مشترياتك",
+		"sectionLabel": "المعلومات الأساسية",
+		"nameLabel": "اسم المورد",
+		"namePlaceholder": "أدخل اسم المورد",
+		"emailLabel": "البريد الإلكتروني",
+		"emailPlaceholder": "أدخل البريد الإلكتروني",
+		"phoneLabel": "الهاتف",
+		"phonePlaceholder": "أدخل الهاتف",
+		"addressLabel": "العنوان",
+		"addressPlaceholder": "أدخل العنوان",
+		"btnClose": "إغلاق",
+		"btnCreate": "إنشاء المورد",
+		"successCreate": "تم إنشاء المورد بنجاح",
+		"errorCreate": "فشل في إنشاء المورد",
+		"errorNameRequired": "اسم المورد مطلوب",
+		"updateTitle": "تحديث المورد",
+		"updateSubtitle": "قم بتحديث تفاصيل المورد",
+		"updateBtn": "تحديث المورد",
+		"successUpdate": "تم تحديث المورد بنجاح",
+		"errorUpdate": "فشل في تحديث المورد"
+	},
+	"suppliers": {
+		"title": "الموردين",
+		"total": "{count, plural, =0 {لا يوجد موردين} one {مورد واحد} two {موردين} few {{count} موردين} many {{count} مورد} other {{count} مورد}}",
+		"addSupplier": "إضافة مورد",
+		"searchPlaceholder": "البحث في الموردين...",
+		"loading": "جارٍ تحميل الموردين...",
+		"errorLoad": "فشل تحميل الموردين. يرجى المحاولة مرة أخرى.",
+		"emptyTitle": "لم يتم العثور على موردين",
+		"emptySubtitle": "ابدأ بإنشاء موردك الأول.",
+		"emptySearchSubtitle": "لا توجد موردين يطابقون \"{query}\". جرّب بحثاً مختلفاً.",
+		"pageInfo": "الصفحة {page} من {pages}",
+		"refresh": "تحديث",
+		"supplierId": "معرف المورد: {id}"
+	},
+	"supplierOptions": {
+		"eyebrow": "المورد",
+		"title": "ما الذي تود القيام به؟",
+		"close": "إغلاق",
+		"viewDetails": {
+			"title": "عرض التفاصيل",
+			"desc": "عرض تفاصيل المورد"
+		},
+		"updateSupplier": {
+			"title": "تحديث المورد",
+			"desc": "تحديث تفاصيل المورد"
+		},
+		"deleteSupplier": {
+			"title": "حذف المورد",
+			"desc": "حذف هذا المورد من النظام"
+		}
+	}
+}

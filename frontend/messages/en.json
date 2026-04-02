@@ -1,0 +1,323 @@
+{
+	"sidebar": {
+		"appName": "Nexus",
+		"appTagline": "Management Suite",
+		"sectionMain": "Operations",
+		"sectionLogs": "Records",
+		"products": "Products",
+		"stock": "Stock",
+		"clients": "Clients",
+		"suppliers": "Suppliers",
+		"sales": "Sales",
+		"history": "History",
+		"logs": "Activity Logs",
+		"settings": "Settings",
+		"settingsDescription": "System configuration",
+		"dashboard": "Dashboard",
+		"categories": "Categories"
+	},
+	"products": {
+		"title": "Products",
+		"total": "{count} total",
+		"addProduct": "Add Product",
+		"searchPlaceholder": "Search by name or category…",
+		"loading": "Loading products…",
+		"errorLoad": "Failed to load products.",
+		"emptyTitle": "No products found",
+		"emptySubtitle": "Start by adding your first product.",
+		"emptySearchSubtitle": "No results for \"{query}\"",
+		"pageInfo": "Page {page} of {pages}",
+		"productId": "#{id}",
+		"refresh": "Refresh",
+		"noCategory": "No category"
+	},
+	"productOptions": {
+		"eyebrow": "Product actions",
+		"title": "What would you like to do?",
+		"close": "Close",
+		"viewDetails": {
+			"title": "View Details",
+			"desc": "View product details"
+		},
+		"updateProduct": {
+			"title": "Update Product",
+			"desc": "Update product information"
+		},
+		"deleteProduct": {
+			"title": "Delete Product",
+			"desc": "Delete product from the system",
+			"error": "Failed to delete product"
+		}
+	},
+	"categories": {
+		"title": "Categories",
+		"total": "{count, plural, =0 {No categories} one {1 category} other {{count} categories}}",
+		"addCategory": "Add Category",
+		"searchPlaceholder": "Search categories...",
+		"loading": "Loading categories...",
+		"errorLoad": "Failed to load categories. Please try again.",
+		"emptyTitle": "No categories found",
+		"emptySubtitle": "Get started by creating your first category.",
+		"emptySearchSubtitle": "No categories matched \"{query}\". Try a different search.",
+		"pageInfo": "Page {page} of {pages}",
+		"refresh": "Refresh"
+	},
+	"pageInfo": "Page {page} of {pages}",
+	"addCategory": {
+		"title": "Add Category",
+		"subtitle": "Add a new category to organize your products",
+		"sectionLabel": "Primary Information",
+		"nameLabel": "Category Name",
+		"namePlaceholder": "Enter category name",
+		"btnClose": "Close",
+		"btnCreate": "Create Category",
+		"successCreate": "Category created successfully",
+		"errorCreate": "Failed to create category",
+		"errorNameRequired": "Category name is required",
+		"updateTitle": "Update Category",
+		"updateSubtitle": "Update category details",
+		"updateBtn": "Update Category",
+		"successUpdate": "Category updated successfully",
+		"errorUpdate": "Failed to update category"
+	},
+	"updateProduct": {
+		"title": "Update Product",
+		"subtitle": "Update product information",
+		"toast": {
+			"success": "Product updated successfully",
+			"error": "Failed to update product"
+		}
+	},
+	"productDetails": {
+		"eyebrow": "Product details",
+		"created": "Created",
+		"updated": "Updated",
+		"fetchError": "Failed to load product",
+		"breadcrumb": {
+			"products": "Products",
+			"product": "Product"
+		},
+		"variants": {
+			"title": "Variants",
+			"empty": "No variants found for this product",
+			"batches": "batches",
+			"size": "Size",
+			"color": "Color",
+			"flavor": "Flavor",
+			"weight": "Weight",
+			"height": "Height"
+		},
+		"refresh": "Refresh",
+		"searchPlaceholder": "Search by name or barcode..."
+	},
+	"categoryOptions": {
+		"eyebrow": "Category actions",
+		"title": "What would you like to do?",
+		"close": "Close",
+		"viewProducts": {
+			"title": "View Products",
+			"desc": "Browse all products inside this category"
+		},
+		"updateCategory": {
+			"title": "Update Category",
+			"desc": "Edit the name or details of this category"
+		},
+		"deleteCategory": {
+			"title": "Delete Category",
+			"desc": "Permanently remove this category and all its products"
+		}
+	},
+	"addProduct": {
+		"step1": {
+			"title": "New Product",
+			"subtitle": "Step 1 of 2 — Basic information",
+			"name": "Product name",
+			"productNamePlaceholder": "e.g. Wireless Headphones",
+			"category": "Category",
+			"categoryPlaceholder": "Search & select a category…"
+		},
+		"step2": {
+			"title": "Add Variant",
+			"updateTitle": "Update Variant",
+			"subtitle": "Step 2 of 2 — Variant details",
+			"updateSubtitle": "Update variant details",
+			"primaryLabel": "Primary Details",
+			"name": "Variant name",
+			"namePlaceholder": "e.g. Red / L",
+			"barcode": "Barcode",
+			"barcodePlaceholder": "123456789",
+			"secondaryLabel": "Secondary Details",
+			"quantity": "Quantity",
+			"quantityPlaceholder": "e.g. 100",
+			"alertPeriodPerDay": "Alert period (days)",
+			"alertPeriodPerDayPlaceholder": "e.g. 7",
+			"alertPeriodPerStock": "Alert period (stock)",
+			"alertPeriodPerStockPlaceholder": "e.g. 20",
+			"fabricationDate": "Fabrication date",
+			"fabricationDatePlaceholder": "Select a date",
+			"expirationDate": "Expiration date",
+			"expirationDatePlaceholder": "Select a date",
+			"nLot": "N° Lot",
+			"nLotPlaceholder": "e.g. 123456",
+			"PPA": "PPA",
+			"PPAPlaceholder": "e.g. 200",
+			"purchasePrice": "Purchase price",
+			"pricingLabel": "Pricing",
+			"purchasePricePlaceholder": "e.g. 50",
+			"sellingPriceHT": "Selling price HT",
+			"sellingPriceHTPlaceholder": "e.g. 80",
+			"vatRate": "VAT rate (%)",
+			"vatRatePlaceholder": "e.g. 19",
+			"sellingPriceTTC": "Selling price TTC",
+			"sellingPriceTTCPlaceholder": "e.g. 95",
+			"profit": "Profit",
+			"profitPlaceholder": "e.g. 100",
+			"profitRate": "Profit Rate (%)",
+			"profitRatePlaceholder": "e.g. 20",
+			"discount": "Discount ",
+			"discountPlaceholder": "e.g. 80",
+			"discountLabel": "Discount",
+			"discountRate": "Discount Rate (%)",
+			"discountRatePlaceholder": "e.g. 10",
+			"attributes": "Attributes",
+			"size": "Size",
+			"sizePlaceholder": "e.g. XL",
+			"color": "Color",
+			"colorPlaceholder": "e.g. Red",
+			"flavor": "Flavor",
+			"flavorPlaceholder": "e.g. Vanilla",
+			"weight": "Weight (g)",
+			"weightPlaceholder": "e.g. 500",
+			"height": "Height (cm)",
+			"heightPlaceholder": "e.g. 30",
+			"supplier": "Supplier",
+			"supplierPlaceholder": "e.g. Mohammed"
+		},
+
+		"actions": {
+			"cancel": "Cancel",
+			"next": "Next",
+			"saving": "Saving…",
+			"createProduct": "Create product",
+			"creating": "Creating…",
+			"close": "Close",
+			"update": "Update"
+		},
+		"toast": {
+			"productCreated": "Product created successfully",
+			"variantCreated": "Variant created — product is ready!",
+			"unknownError": "Something went wrong, please try again",
+			"variantUpdated": "Variant updated successfully",
+			"fieldsRequired": {
+				"name": "Product name is required",
+				"category": "Category is required",
+				"variantName": "Variant name is required",
+				"variantBarcode": "Variant barcode is required",
+				"variantPurchasePrice": "Variant purchase price is required",
+				"variantQuantity": "Variant quantity is required",
+				"variantSellingPriceHT": "Variant selling price HT (before taxes) is required"
+			}
+		},
+		"optional": "optional"
+	},
+	"calculator": {
+		"title": "Calculator",
+		"subtitle": "Enter a value or expression",
+		"cancel": "Cancel",
+		"done": "Done",
+		"close": "Close"
+	},
+
+	"settings": {
+		"eyebrow": "Preferences",
+		"title": "Settings",
+		"desc": "Manage your language, appearance, and data preferences.",
+		"language": {
+			"title": "Language",
+			"desc": "Choose the language used across the application."
+		},
+		"theme": {
+			"title": "Appearance",
+			"desc": "Select a theme or follow your system preference.",
+			"light": "Light",
+			"dark": "Dark",
+			"system": "System",
+			"dim": "Dim"
+		},
+		"data": {
+			"title": "Data",
+			"desc": "Export your data for backup or import a previous export.",
+			"export": {
+				"title": "Export data",
+				"desc": "Download all your data as a JSON file"
+			},
+			"import": {
+				"title": "Import data",
+				"desc": "Restore data from a previously exported JSON file"
+			}
+		},
+		"toast": {
+			"langChanged": "Language updated",
+			"themeChanged": "Theme updated",
+			"exportSuccess": "Database exported successfully",
+			"exportError": "Export failed — please try again",
+			"importSuccess": "Database imported — restart may be required",
+			"importError": "Import failed — please try again",
+			"importInvalidFile": "Invalid file — please select a .sqlite file"
+		}
+	},
+	"addSupplier": {
+		"title": "Add Supplier",
+		"subtitle": "Add a new supplier to manage your purchases",
+		"sectionLabel": "Primary Information",
+		"nameLabel": "Supplier Name",
+		"namePlaceholder": "Enter supplier name",
+		"emailLabel": "Email",
+		"emailPlaceholder": "Enter email",
+		"phoneLabel": "Phone",
+		"phonePlaceholder": "Enter phone",
+		"addressLabel": "Address",
+		"addressPlaceholder": "Enter address",
+		"btnClose": "Close",
+		"btnCreate": "Create Supplier",
+		"successCreate": "Supplier created successfully",
+		"errorCreate": "Failed to create supplier",
+		"errorNameRequired": "Supplier name is required",
+		"updateTitle": "Update Supplier",
+		"updateSubtitle": "Update supplier details",
+		"updateBtn": "Update Supplier",
+		"successUpdate": "Supplier updated successfully",
+		"errorUpdate": "Failed to update supplier"
+	},
+	"suppliers": {
+		"title": "Suppliers",
+		"total": "{count, plural, =0 {No suppliers} one {1 supplier} other {{count} suppliers}}",
+		"addSupplier": "Add Supplier",
+		"searchPlaceholder": "Search suppliers...",
+		"loading": "Loading suppliers...",
+		"errorLoad": "Failed to load suppliers. Please try again.",
+		"emptyTitle": "No suppliers found",
+		"emptySubtitle": "Get started by creating your first supplier.",
+		"emptySearchSubtitle": "No suppliers matched \"{query}\". Try a different search.",
+		"pageInfo": "Page {page} of {pages}",
+		"refresh": "Refresh",
+		"supplierId": "Supplier ID: {id}"
+	},
+	"supplierOptions": {
+		"eyebrow": "Supplier",
+		"title": "What would you like to do?",
+		"close": "Close",
+		"viewDetails": {
+			"title": "View details",
+			"desc": "View supplier details"
+		},
+		"updateSupplier": {
+			"title": "Update supplier",
+			"desc": "Update supplier details"
+		},
+		"deleteSupplier": {
+			"title": "Delete supplier",
+			"desc": "Delete supplier from the system"
+		}
+	}
+}
