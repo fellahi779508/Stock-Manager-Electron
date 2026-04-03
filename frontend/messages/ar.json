@@ -155,7 +155,7 @@
 			"barcode": "الباركود",
 			"barcodePlaceholder": "123456789",
 			"secondaryLabel": "تفاصيل إضافية",
-			"quantity": "الكمية",
+			"quantity": "الكمية (الكمية في المخزون)",
 			"quantityPlaceholder": "مثال: 100",
 			"alertPeriodPerDay": "فترة التنبيه (أيام)",
 			"alertPeriodPerDayPlaceholder": "مثال: 7",
@@ -319,6 +319,51 @@
 		"deleteSupplier": {
 			"title": "حذف المورد",
 			"desc": "حذف هذا المورد من النظام"
+		}
+	},
+	"variantOptions": {
+		"eyebrow": "البديل",
+		"title": "ما الذي تود القيام به؟",
+		"close": "إغلاق",
+		"viewDetails": {
+			"title": "عرض التفاصيل",
+			"desc": "عرض تفاصيل البديل"
+		},
+		"updateVariant": {
+			"title": "تحديث البديل",
+			"desc": "تحديث تفاصيل البديل"
+		},
+		"deleteVariant": {
+			"title": "حذف البديل",
+			"desc": "حذف هذا البديل من النظام"
+		}
+	},
+	"stock": {
+		"title": "المخزون",
+		"total": "{count} إدخال",
+		"searchPlaceholder": "البحث باسم المتغير…",
+		"refresh": "تحديث",
+		"loading": "جارٍ تحميل المخزون…",
+		"errorLoad": "فشل تحميل المخزون",
+		"emptyTitle": "لا توجد إدخالات مخزون",
+		"emptySubtitle": "سيظهر المخزون هنا بعد إضافة الدفعات",
+		"emptySearchSubtitle": "لا نتائج لـ \"{query}\"",
+		"pageInfo": "صفحة {page} من {pages}",
+		"col": {
+			"variant": "المتغير",
+			"quantity": "الكمية",
+			"purchasePrice": "سعر الشراء",
+			"sellingPriceTTC": "سعر البيع",
+			"vatRate": "الضريبة",
+			"supplier": "المورد",
+			"fabricationDate": "تاريخ التصنيع",
+			"expirationDate": "تاريخ الانتهاء",
+			"alert": "التنبيه",
+			"profit": "الربح",
+			"profitRate": "نسبة الربح",
+			"promotion": "العروض",
+			"barcode": "الباركود",
+			"lot": "رقم اللوت"
 		}
 	}
 }

@@ -81,16 +81,20 @@ export class ProductService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
+    console.log(updateProductDto);
     const product = await this.productRepository.preload({
       id,
       ...updateProductDto,
     });
     if (!product) throw new NotFoundException('Product not found');
-    if (updateProductDto.categoryId) {
+
+    if (updateProductDto.categoryId != 0) {
       const category = await this.categoryService.findOne(
-        updateProductDto.categoryId,
+        updateProductDto.categoryId!,
       );
       product.category = category;
+    } else {
+      product.category = null as any;
     }
     return await this.productRepository.save(product);
   }

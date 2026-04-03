@@ -72,3 +72,14 @@ export async function putVariant(id: number, body: PostVarinat) {
 		return { response: error.response.data.message, status: 0 };
 	}
 }
+export async function deleteVariantById(id: number) {
+	try {
+		const response = await api
+			.delete(`/product-variant/${id}`)
+			.then((res) => res.data);
+		return { response, status: 1 };
+	} catch (error: any) {
+		console.log(error.response.data.message);
+		return { response: error.response.data.message, status: 0 };
+	}
+}

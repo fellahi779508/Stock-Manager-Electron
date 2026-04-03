@@ -4,7 +4,7 @@ import { UpdateStockDto } from './dto/update-stock.dto';
 import { Batch } from 'src/batch/entities/batch.entity';
 import { Stock } from './entities/stock.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, Repository } from 'typeorm';
+import { DataSource, ILike, Like, Repository } from 'typeorm';
 import { Log } from 'src/logs/entities/log.entity';
 import { Types, Actions, Reasons } from 'utils/actions';
 
@@ -27,7 +27,10 @@ export class StockService {
   async findAll(page: number, limit: number, search?: string) {
     if (search) {
       const [items, total] = await this.stockRepository.findAndCount({
-        where: { batch: { variant: { name: ILike(`%${search}%`) } } },
+        where: [
+          { batch: { variant: { name: ILike(`%${search}%`) } } },
+          { batch: { variant: { barcode: Like(`%${search}%`) } } },
+        ],
         take: limit,
         skip: (page - 1) * limit,
         relations: ['batch', 'batch.variant'],
@@ -40,7 +43,7 @@ export class StockService {
     const [items, total] = await this.stockRepository.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
-      relations: ['batch'],
+      relations: ['batch', 'batch.variant', 'batch.supplier'],
     });
     return {
       data: items,

@@ -21,6 +21,7 @@ import {
 	AlignVerticalSpaceAround,
 	Barcode,
 	Plus,
+	Trash2,
 	UserStar,
 	X,
 } from "lucide-react";
@@ -35,6 +36,14 @@ import { getAllSuppliers, GetSupplierById } from "@/api/supplier-api";
 import AddSupllierModal from "../suppliers/add-supplier";
 import AddCategoryModal from "../category/add-category";
 import CalculatorModal from "../calculator/calculator";
+
+// Date formatting helper function
+const formatDateToISO = (
+	dateString: string | null | undefined,
+): string | null => {
+	if (!dateString) return null;
+	return new Date(dateString).toISOString();
+};
 
 //main modal
 export default function ProductModal({
@@ -303,6 +312,18 @@ function Step1From({
 							className={styles.addSupplier}
 							onClick={() => setShowCategoryModal(true)}
 						/>
+						{isUpdate && (
+							<Trash2
+								className={styles.deleteSupplier}
+								onClick={() => {
+									setSelectedCategory(null);
+									setPostProduct({
+										...postProduct,
+										categoryId: 0,
+									} as PostProduct);
+								}}
+							/>
+						)}
 					</div>
 				</div>
 			</div>
@@ -640,8 +661,8 @@ export function Step2Form({
 			promotionRate: parseFloat(variantPrimary.discountRate.toString()),
 			vatRate: parseFloat(variantPrimary.vatRate.toString()),
 			PPA: parseFloat(variantPrimary.PPA.toString()),
-			fabricationDate: variantSecondary.fabricationDate ?? null,
-			expirationDate: variantSecondary.expirationDate ?? null,
+			fabricationDate: formatDateToISO(variantSecondary.fabricationDate),
+			expirationDate: formatDateToISO(variantSecondary.expirationDate),
 			quantity: parseInt(variantSecondary.quantity.toString()),
 			alertPeriodPerDay: parseInt(
 				variantSecondary.alertPeriodPerDay.toString(),
@@ -659,6 +680,7 @@ export function Step2Form({
 				: undefined,
 			flavor: variantAttributes.flavor,
 			nLot: variantPrimary.nLot,
+			supplierId: selectedSupplier,
 		};
 
 		setPostVariant(newVariant);
@@ -893,7 +915,7 @@ export function Step2Form({
 											fabricationDate: e.target.value,
 										}))
 									}
-									className={styles.input}
+									className={styles.dateInput}
 								/>
 							</div>
 							<div className={styles.field}>
@@ -909,7 +931,7 @@ export function Step2Form({
 											expirationDate: e.target.value,
 										}))
 									}
-									className={styles.input}
+									className={styles.dateInput}
 								/>
 							</div>
 						</div>

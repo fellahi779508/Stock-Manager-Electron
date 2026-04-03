@@ -261,6 +261,26 @@
 	opacity: 0.5;
 	cursor: pointer;
 }
+.dateInput {
+	padding: 8px 11px;
+	border-radius: 9px;
+	border: 1.5px solid var(--border);
+	background-color: var(--background);
+	color: var(--foreground-muted);
+	width: 100%;
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+	color: var(--accent);
+	opacity: 1;
+	cursor: pointer;
+	filter: invert(0.4);
+}
+
+.dateInput::-webkit-calendar-picker-indicator:hover {
+	color: #2563eb;
+	filter: invert(0.3);
+}
 
 /* ── Supplier row ────────────────────────────────────────────────────────── */
 .suppliersSection {

@@ -72,27 +72,34 @@ export type Variant = {
 	batches: Batch[];
 	createdAt: string;
 	updatedAt: string;
+	purchasePrice: number;
+	sellingPriceHT: number;
+	sellingPriceTTC: number;
+	vatRate: number;
+	promotionPrice?: number;
+	promotionRate?: number;
+	profit: number;
+	profitRate: number;
+	PPA?: number;
 };
 export type Batch = {
+	nLot?: string;
 	fabricationDate?: string;
 	expirationDate?: string;
 	supplier: Supplier | null;
 	alertPeriodPerDay?: number;
-	purchasePrice: number;
-	sellingPriceHT: number;
-	sellingPriceTTC: number;
-
-	vatRate: number;
 	stock: Stock;
 	createdAt: string;
 	updatedAt: string;
 	id: number;
+	variant: Variant;
 };
 export type Stock = {
 	createdAt: string;
 	updatedAt: string;
 	id: number;
 	quantity: number;
+	batch: Batch;
 };
 export type Supplier = {
 	createdAt: string;

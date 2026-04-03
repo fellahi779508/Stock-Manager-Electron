@@ -24,6 +24,7 @@ export class Stock {
   updatedAt: string;
 
   @OneToOne(() => Batch, (batch) => batch.stock, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'batch_id' })
   batch: Batch;
 
   @OneToMany(() => Log, (log) => log.stock)

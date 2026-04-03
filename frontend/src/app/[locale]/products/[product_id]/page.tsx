@@ -25,6 +25,7 @@ import { useTranslations } from "next-intl";
 import { getProductvariantsById } from "@/api/variant-api";
 import Link from "next/link";
 import ProductModal from "@/components/products/add-product";
+import VariantSelectOptions from "@/components/variants/variant-select-options";
 
 export default function ProductDetails() {
 	const param = useParams();
@@ -32,6 +33,7 @@ export default function ProductDetails() {
 	const t = useTranslations();
 	const [product, setProduct] = useState<Product>();
 	const [variants, setVariants] = useState<Variant[]>([]);
+	const [openSelectOptions, setOpenSelectoptions] = useState(false);
 	const [meta, setMeta] = useState<{
 		total: number;
 		page: number;
@@ -182,7 +184,7 @@ export default function ProductDetails() {
 										variant={variant}
 										productId={product.id}
 										t={t}
-										setOpenModal={setOpenModal}
+										setOpenModal={setOpenSelectoptions}
 										setSelectedVariant={setSelectedvariant}
 									/>
 								))}
@@ -241,6 +243,15 @@ export default function ProductDetails() {
 						{t("pageInfo", { page, pages: meta.pages })}
 					</span>
 				</div>
+			)}
+			{openSelectOptions && (
+				<VariantSelectOptions
+					productId={product?.id || 0}
+					setUpdateVariant={setOpenModal}
+					variantId={selectedvariant}
+					setVariantSelectOptionsOpen={setOpenSelectoptions}
+					setSuccessToast={setSuccessToast}
+				/>
 			)}
 			{openModal && (
 				<ProductModal

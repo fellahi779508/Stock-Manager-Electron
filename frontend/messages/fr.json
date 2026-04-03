@@ -154,7 +154,7 @@
 			"barcode": "Code-barres",
 			"barcodePlaceholder": "123456789",
 			"secondaryLabel": "Détails secondaires",
-			"quantity": "Quantité",
+			"quantity": "Quantité (stock)",
 			"quantityPlaceholder": "ex. 100",
 			"alertPeriodPerDay": "Période d’alerte (jours)",
 			"alertPeriodPerDayPlaceholder": "ex. 7",
@@ -317,6 +317,51 @@
 		"deleteSupplier": {
 			"title": "Supprimer le fournisseur",
 			"desc": "Supprimer ce fournisseur du système"
+		}
+	},
+	"variantOptions": {
+		"eyebrow": "Variante",
+		"title": "Que souhaitez-vous faire ?",
+		"close": "Fermer",
+		"viewDetails": {
+			"title": "Voir les détails",
+			"desc": "Voir les détails de la variante"
+		},
+		"updateVariant": {
+			"title": "Mettre à jour la variante",
+			"desc": "Modifier les détails de cette variante"
+		},
+		"deleteVariant": {
+			"title": "Supprimer la variante",
+			"desc": "Supprimer cette variante du système"
+		}
+	},
+	"stock": {
+		"title": "Stock",
+		"total": "{count} entrées",
+		"searchPlaceholder": "Rechercher par variante…",
+		"refresh": "Actualiser",
+		"loading": "Chargement du stock…",
+		"errorLoad": "Échec du chargement du stock",
+		"emptyTitle": "Aucune entrée de stock",
+		"emptySubtitle": "Le stock apparaîtra ici une fois les lots ajoutés",
+		"emptySearchSubtitle": "Aucun résultat pour \"{query}\"",
+		"pageInfo": "Page {page} sur {pages}",
+		"col": {
+			"variant": "Variante",
+			"quantity": "Qté",
+			"purchasePrice": "Achat",
+			"sellingPriceTTC": "Prix TTC",
+			"vatRate": "TVA",
+			"supplier": "Fournisseur",
+			"fabricationDate": "Date fab.",
+			"expirationDate": "Date exp.",
+			"alert": "Alerte",
+			"profit": "Bénéfice",
+			"profitRate": "Bénéfice %",
+			"promotion": "Promo",
+			"barcode": "Code-barres",
+			"lot": "N° Lot"
 		}
 	}
 }

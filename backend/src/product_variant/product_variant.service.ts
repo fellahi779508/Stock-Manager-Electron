@@ -49,12 +49,11 @@ export class ProductVariantService {
       });
 
       const savedVariant = await variantRepo.save(variant);
-      let supplier: Supplier = new Supplier();
+      let supplier: Supplier | null = null;
       if (createDto.supplierId) {
-        supplier ==
-          (await supplierRepo.findOne({
-            where: { id: createDto.supplierId },
-          }));
+        supplier = await supplierRepo.findOne({
+          where: { id: createDto.supplierId },
+        });
         if (!supplier) {
           throw new NotFoundException('supplier not found');
         }
@@ -66,7 +65,7 @@ export class ProductVariantService {
         updatedAt: createDto.updatedAt,
         variant: savedVariant,
         alertPeriodPerDay: createDto.alertPeriodPerDay,
-        supplier: supplier.id ? supplier : undefined,
+        supplier: supplier?.id ? supplier : undefined,
         alertPeriodPerStock: createDto.alertPeriodPerStock,
         nLot: createDto.nLot,
       });

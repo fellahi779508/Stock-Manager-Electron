@@ -147,7 +147,7 @@
 			"barcode": "Barcode",
 			"barcodePlaceholder": "123456789",
 			"secondaryLabel": "Secondary Details",
-			"quantity": "Quantity",
+			"quantity": "Quantity (stock)",
 			"quantityPlaceholder": "e.g. 100",
 			"alertPeriodPerDay": "Alert period (days)",
 			"alertPeriodPerDayPlaceholder": "e.g. 7",
@@ -318,6 +318,51 @@
 		"deleteSupplier": {
 			"title": "Delete supplier",
 			"desc": "Delete supplier from the system"
+		}
+	},
+	"variantOptions": {
+		"eyebrow": "Variant",
+		"title": "What would you like to do?",
+		"close": "Close",
+		"viewDetails": {
+			"title": "View details",
+			"desc": "View variant details"
+		},
+		"updateVariant": {
+			"title": "Update variant",
+			"desc": "Update variant details"
+		},
+		"deleteVariant": {
+			"title": "Delete variant",
+			"desc": "Delete variant from the system"
+		}
+	},
+	"stock": {
+		"title": "Stock",
+		"total": "{count} entries",
+		"searchPlaceholder": "Search by variant name…",
+		"refresh": "Refresh",
+		"loading": "Loading stock…",
+		"errorLoad": "Failed to load stock",
+		"emptyTitle": "No stock entries found",
+		"emptySubtitle": "Stock will appear here once batches are added",
+		"emptySearchSubtitle": "No results for \"{query}\"",
+		"pageInfo": "Page {page} of {pages}",
+		"col": {
+			"variant": "Variant",
+			"quantity": "Qty",
+			"purchasePrice": "Purchase",
+			"sellingPriceTTC": "Price TTC",
+			"vatRate": "VAT",
+			"supplier": "Supplier",
+			"fabricationDate": "Fab. date",
+			"expirationDate": "Exp. date",
+			"alert": "Alert",
+			"profit": "Profit",
+			"profitRate": "Profit %",
+			"promotion": "Promo",
+			"barcode": "Barcode",
+			"lot": "Lot #"
 		}
 	}
 }
