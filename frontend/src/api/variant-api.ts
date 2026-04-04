@@ -83,10 +83,10 @@ export async function deleteVariantById(id: number) {
 		return { response: error.response.data.message, status: 0 };
 	}
 }
-export async function getAllBatchesOfVariant(id: number) {
+export async function getAllBatchesOfVariant(id: number, search?: string) {
 	try {
 		const response = await api
-			.get(`/batch/variant/${id}`)
+			.get(`/batch/variant/${id}?search=${search}`)
 			.then((res) => res.data);
 		return { response, status: 1 };
 	} catch (error: any) {

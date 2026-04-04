@@ -7,6 +7,7 @@ import { Batch } from './entities/batch.entity';
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { Stock } from 'src/stock/entities/stock.entity';
 import { ProductVariant } from 'src/product_variant/entities/product_variant.entity';
+import { Supplier } from 'src/supplier/entities/supplier.entity';
 
 @Injectable()
 export class BatchService {
@@ -19,10 +20,34 @@ export class BatchService {
     return this.dataSource.transaction(async (manager) => {
       const batchRepo = manager.getRepository(Batch);
       const stockRepo = manager.getRepository(Stock);
-      const batch = batchRepo.create(createBatchDto);
+      const variantRepo = manager.getRepository(ProductVariant);
+      let supplier: Supplier | null = null;
+      if (createBatchDto.supplierId) {
+        supplier = await manager.findOne(Supplier, {
+          where: { id: createBatchDto.supplierId },
+        });
+        if (!supplier) {
+          throw new NotFoundException('Supplier not found');
+        }
+      }
+      const variant = await variantRepo.findOne({
+        where: { id: createBatchDto.variantId },
+      });
+      if (!variant) {
+        throw new NotFoundException('Variant not found');
+      }
+      const batch = batchRepo.create({
+        ...createBatchDto,
+        supplier: supplier ?? undefined,
+        variant,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
       const savedBatch = await batchRepo.save(batch);
       const stock = stockRepo.create({
         quantity: createBatchDto.quantity,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         batch: savedBatch,
       });
       await stockRepo.save(stock);
@@ -185,14 +210,17 @@ export class BatchService {
       meta: { total, page, limit, pages: Math.ceil(total / limit) },
     };
   }
-  async getAllBatchesOfVariant(id: number) {
+  async getAllBatchesOfVariant(id: number, search?: string) {
     const variantRepo = this.dataSource.getRepository(ProductVariant);
     const variant = await variantRepo.findOne({ where: { id } });
     if (!variant) {
       throw new NotFoundException('Variant not found');
     }
     const batches = await this.batchRepository.find({
-      where: { variant: { id } },
+      where: {
+        variant: { id },
+        ...(search ? { variant: { name: ILike(`%${search}%`) } } : {}),
+      },
       relations: ['stock'],
     });
     return { variant, batches };

@@ -1,4 +1,5 @@
 import api from "@/utils/api";
+import { Batch, PostBatch } from "@/utils/types";
 
 export async function getAllBatches(page: number, search?: string) {
 	try {
@@ -88,6 +89,17 @@ export async function getNormalBatches() {
 		console.log(response);
 		return { response, status: 1 };
 	} catch (error: any) {
+		return { error: error.response.data.message, status: 0 };
+	}
+}
+export async function createBatch(dto: PostBatch) {
+	try {
+		const response = await api.post(`/batch`, dto).then((res) => res.data);
+		console.log(response);
+		return { response, status: 1 };
+	} catch (error: any) {
+		console.log(error.response.data.message);
+
 		return { error: error.response.data.message, status: 0 };
 	}
 }

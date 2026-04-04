@@ -417,5 +417,33 @@
 			"low": "قليل",
 			"empty": "فارغ"
 		}
+	},
+	"addBatch": {
+		"title": "إضافة دفعة",
+		"subtitle": "إنشاء دفعة جديدة لهذا المتغير",
+		"updateTitle": "تحديث الدفعة",
+		"updateSubtitle": "تعديل معلومات الدفعة",
+		"btnClose": "إلغاء",
+		"btnCreate": "إنشاء",
+		"updateBtn": "تحديث",
+		"successCreate": "تم إنشاء الدفعة بنجاح!",
+		"errorCreate": "فشل في إنشاء الدفعة.",
+		"successUpdate": "تم تحديث الدفعة بنجاح!",
+		"errorUpdate": "فشل في تحديث الدفعة.",
+		"quantityRequired": "الكمية مطلوبة و يجب أن تكون أكبر من 0.",
+		"variantRequired": "المتغير غير صالح.",
+		"dateOrderError": "تاريخ التصنيع لا يمكن أن يكون بعد تاريخ الانتهاء.",
+		"batchInfo": "معلومات الدفعة",
+		"nLotLabel": "رقم الدفعة",
+		"nLotPlaceholder": "مثال: BATCH-001",
+		"quantityLabel": "الكمية *",
+		"fabricationDateLabel": "تاريخ التصنيع",
+		"expirationDateLabel": "تاريخ الانتهاء",
+		"supplierIdLabel": "المورد",
+		"alertPeriodPerDayLabel": "التنبيه (أيام قبل الانتهاء)",
+		"alertPeriodPerStockLabel": "حد تنبيه المخزون",
+		"alertPeriodPerDayPlaceholder": "أيام قبل الانتهاء",
+		"alertPeriodPerStockPlaceholder": "حد تنبيه المخزون",
+		"supplierSection": "المورد & التنبيهات"
 	}
 }

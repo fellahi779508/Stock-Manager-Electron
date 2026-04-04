@@ -119,3 +119,13 @@ export type PostSupplier = {
 	phone?: string | null;
 	email?: string | null;
 };
+export type PostBatch = {
+	nLot?: string;
+	fabricationDate?: string;
+	expirationDate?: string;
+	supplierId?: number;
+	quantity: number;
+	alertPeriodPerDay?: number;
+	alertPeriodPerStock?: number;
+	variantId: number;
+};

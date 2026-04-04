@@ -416,5 +416,33 @@
 			"low": "Low",
 			"empty": "Empty"
 		}
+	},
+	"addBatch": {
+		"title": "Add Batch",
+		"subtitle": "Create a new batch for this variant",
+		"updateTitle": "Update Batch",
+		"updateSubtitle": "Modify batch information",
+		"btnClose": "Cancel",
+		"btnCreate": "Create",
+		"updateBtn": "Update",
+		"successCreate": "Batch created successfully!",
+		"errorCreate": "Failed to create batch.",
+		"successUpdate": "Batch updated successfully!",
+		"errorUpdate": "Failed to update batch.",
+		"quantityRequired": "Quantity is required and must be greater than 0.",
+		"variantRequired": "Invalid variant.",
+		"dateOrderError": "Fabrication date cannot be after expiration date.",
+		"batchInfo": "Batch Information",
+		"nLotLabel": "Batch Number",
+		"nLotPlaceholder": "e.g., BATCH-001",
+		"quantityLabel": "Quantity *",
+		"fabricationDateLabel": "Fabrication Date",
+		"expirationDateLabel": "Expiration Date",
+		"supplierIdLabel": "Supplier ",
+		"alertPeriodPerDayLabel": "Alert (days before expiry)",
+		"alertPeriodPerStockLabel": "Stock Alert Threshold",
+		"alertPeriodPerDayPlaceholder": "Days before expiry",
+		"alertPeriodPerStockPlaceholder": "Stock threshold",
+		"supplierSection": "Supplier & Alerts"
 	}
 }

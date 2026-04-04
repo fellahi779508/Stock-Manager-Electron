@@ -6,6 +6,7 @@ import {
   Delete,
   Put,
   Query,
+  Post,
 } from '@nestjs/common';
 import { BatchService } from './batch.service';
 import { CreateBatchDto } from './dto/create-batch.dto';
@@ -57,6 +58,10 @@ export class BatchController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.batchService.findOne(+id);
+  }
+  @Post()
+  create(@Body() createBatchDto: CreateBatchDto) {
+    return this.batchService.create(createBatchDto);
   }
 
   @Put('verify-expiry')

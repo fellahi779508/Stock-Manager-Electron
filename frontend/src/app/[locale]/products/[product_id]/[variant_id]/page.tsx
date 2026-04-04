@@ -27,6 +27,7 @@ import {
 	ChevronRight,
 	TrendingUp,
 } from "lucide-react";
+import AddBatchModal from "@/components/batches/add-batch";
 
 /* ── types ───────────────────────────────────────────────────────────────── */
 
@@ -102,10 +103,13 @@ export default function VariantDetails() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [page, setPage] = useState(1);
+	const [openModal, setOpenModal] = useState(false);
+	const [successToast, setSuccessToast] = useState(false);
 	const PER_PAGE = 8;
 
 	/* ── fetch ── */
 	const getBatches = useCallback(async () => {
+		setSuccessToast(false);
 		setLoading(true);
 		setError(null);
 		const response = await getAllBatchesOfVariant(
@@ -124,19 +128,13 @@ export default function VariantDetails() {
 
 	useEffect(() => {
 		getBatches();
-	}, []);
+	}, [successToast]);
 
 	/* ── search filter (client-side since batches are already loaded) ── */
 	useEffect(() => {
 		const q = search.toLowerCase();
 		setFiltered(
-			q
-				? batches.filter(
-						(b) =>
-							b.nLot.toLowerCase().includes(q) ||
-							b.status.toLowerCase().includes(q),
-					)
-				: batches,
+			q ? batches.filter((b) => b.nLot.toLowerCase().includes(q)) : batches,
 		);
 		setPage(1);
 	}, [search, batches]);
@@ -302,6 +300,7 @@ export default function VariantDetails() {
 								className={styles.addBtn}
 								onClick={() => {
 									/* TODO: open add batch modal */
+									setOpenModal(true);
 								}}
 							>
 								<Plus size={15} strokeWidth={2.5} />
@@ -484,6 +483,14 @@ export default function VariantDetails() {
 			)}
 
 			<ToastContainer />
+			{openModal && (
+				<AddBatchModal
+					isUpdate={false}
+					setModalOpen={setOpenModal}
+					variantId={Number(param?.variant_id)}
+					setSuccessToast={() => {}}
+				/>
+			)}
 		</div>
 	);
 }

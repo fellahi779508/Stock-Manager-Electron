@@ -1,35 +1,25 @@
 import { Transform } from 'class-transformer';
-import { IsDateString, IsNumber, IsOptional } from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateBatchDto {
-  @IsDateString()
-  createdAt: string;
-  @IsDateString()
-  updatedAt: string;
+  @IsString()
+  @IsOptional()
+  nLot?: string;
 
   @IsDateString()
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
   fabricationDate?: string;
   @IsDateString()
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
   expirationDate?: string;
 
   @IsNumber()
   quantity: number;
 
   @IsNumber()
-  @IsOptional()
-  purchasePrice: number;
-  @IsNumber()
-  @IsOptional()
-  sellingPriceHT?: number;
-
-  @IsNumber()
-  sellingPriceTTC: number;
-
-  @IsNumber()
-  @IsOptional()
-  vatRate?: number;
+  variantId: number;
 
   @IsNumber()
   @IsOptional()
@@ -40,11 +30,6 @@ export class CreateBatchDto {
   @IsOptional()
   @Transform(({ value }) => (value === 0 ? undefined : value))
   alertPeriodPerStock?: number;
-
-  @IsNumber()
-  @IsOptional()
-  @Transform(({ value }) => (value === 0 ? undefined : value))
-  promotionPrice?: number;
 
   @IsNumber()
   @IsOptional()
