@@ -96,7 +96,7 @@ export default function ProductSelectOptions({
 							<Delete
 								size={20}
 								strokeWidth={1.8}
-								style={{ color: "rgb(219, 20, 20)" }}
+								className={styles.cardIconRed}
 							/>
 						</div>
 						<div className={styles.cardBody}>

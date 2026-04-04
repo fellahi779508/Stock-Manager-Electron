@@ -396,96 +396,122 @@ function recalculate(
 	changedKey: string,
 	rawValue: string,
 ): Primary {
-	// Store the raw string for the changed field so the input shows what the user typed.
-	// All OTHER numeric fields are stored as numbers so typeof checks stay reliable.
 	const next: Primary = { ...prev };
-
-	// Apply the changed field as raw string first
 	(next as any)[changedKey] = rawValue;
 
 	const pp = num(next.purchasePrice);
 	const spHT = num(next.sellingPriceHT);
+	const spTTC = num(next.sellingPriceTTC);
 	const pft = num(next.profit);
 	const pftR = num(next.profitRate);
 	const vat = num(next.vatRate);
 
 	switch (changedKey) {
 		case "purchasePrice": {
-			if (spHT > 0) {
-				next.profit = round2(spHT - pp);
-				next.profitRate = pp > 0 ? round2(((spHT - pp) / pp) * 100) : 0;
+			if (spTTC > 0) {
+				// TTC already set → derive profit & profitRate from TTC
+				next.profit = round2(spTTC - pp);
+				next.profitRate = pp > 0 ? round2(((spTTC - pp) / pp) * 100) : 0;
 			} else if (pft > 0) {
+				// profit already set → derive profitRate & sellingPriceHT/TTC
 				next.profitRate = pp > 0 ? round2((pft / pp) * 100) : 0;
-				next.sellingPriceHT = round2(pp + pft);
+				next.sellingPriceTTC = round2(pp + pft);
+				next.sellingPriceHT =
+					vat > 0
+						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
+						: num(next.sellingPriceTTC);
 			} else if (pftR > 0) {
+				// profitRate already set → derive profit & sellingPriceHT/TTC
 				next.profit = round2((pftR / 100) * pp);
-				next.sellingPriceHT = round2(pp + num(next.profit));
+				next.sellingPriceTTC = round2(pp + num(next.profit));
+				next.sellingPriceHT =
+					vat > 0
+						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
+						: num(next.sellingPriceTTC);
 			}
-			next.sellingPriceTTC = round2(num(next.sellingPriceHT) * (1 + vat / 100));
 			break;
 		}
+
 		case "sellingPriceHT": {
+			// TTC = HT * (1 + vat)
+			const newTTC = round2(num(rawValue) * (1 + vat / 100));
+			next.sellingPriceTTC = newTTC;
 			if (pp > 0) {
-				next.profit = round2(num(rawValue) - pp);
-				next.profitRate = round2(((num(rawValue) - pp) / pp) * 100);
+				next.profit = round2(newTTC - pp);
+				next.profitRate = round2(((newTTC - pp) / pp) * 100);
 			}
-			next.sellingPriceTTC = round2(num(rawValue) * (1 + vat / 100));
 			break;
 		}
+
+		case "sellingPriceTTC": {
+			const newTTC = num(rawValue);
+			// Derive HT from TTC
+			next.sellingPriceHT = vat > 0 ? round2(newTTC / (1 + vat / 100)) : newTTC;
+			if (pp > 0) {
+				next.profit = round2(newTTC - pp);
+				next.profitRate = round2(((newTTC - pp) / pp) * 100);
+			}
+			break;
+		}
+
 		case "profit": {
 			if (pp > 0) {
 				next.profitRate = round2((pft / pp) * 100);
-				next.sellingPriceHT = round2(pp + pft);
-				next.sellingPriceTTC = round2(
-					num(next.sellingPriceHT) * (1 + vat / 100),
-				);
+				next.sellingPriceTTC = round2(pp + pft);
+				next.sellingPriceHT =
+					vat > 0
+						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
+						: num(next.sellingPriceTTC);
 			}
 			break;
 		}
+
 		case "profitRate": {
 			if (pp > 0) {
 				next.profit = round2((pftR / 100) * pp);
-				next.sellingPriceHT = round2(pp + num(next.profit));
-				next.sellingPriceTTC = round2(
-					num(next.sellingPriceHT) * (1 + vat / 100),
-				);
+				next.sellingPriceTTC = round2(pp + num(next.profit));
+				next.sellingPriceHT =
+					vat > 0
+						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
+						: num(next.sellingPriceTTC);
 			}
 			break;
 		}
+
 		case "vatRate": {
-			next.sellingPriceTTC = round2(spHT * (1 + num(rawValue) / 100));
-			break;
-		}
-		case "sellingPriceTTC": {
-			if (spHT > 0) {
-				next.vatRate = round2((num(rawValue) / spHT - 1) * 100);
+			// VAT changed → recalc TTC from HT, then update profit from TTC
+			const newTTC = round2(spHT * (1 + num(rawValue) / 100));
+			next.sellingPriceTTC = newTTC;
+			if (pp > 0) {
+				next.profit = round2(newTTC - pp);
+				next.profitRate = round2(((newTTC - pp) / pp) * 100);
 			}
 			break;
 		}
-		// Discount fields — isolated, only affect each other
+
+		// Discount — isolated, based on TTC
 		case "discount": {
-			const sp = num(next.sellingPriceTTC);
-			if (sp > 0) {
-				next.discountRate = round2((num(rawValue) * 100) / sp);
+			const base = num(next.sellingPriceTTC);
+			if (base > 0) {
+				next.discountRate = round2((num(rawValue) * 100) / base);
 			}
 			break;
 		}
+
 		case "discountRate": {
-			const sp = num(next.sellingPriceTTC);
-			let disRate = 0;
-			if (sp > 0) {
-				disRate = round2((num(rawValue) * sp) / 100);
-				next.discount = round2(sp - disRate);
+			const base = num(next.sellingPriceTTC);
+			if (base > 0) {
+				next.discount = round2((num(rawValue) * base) / 100);
 			}
 			break;
 		}
+
 		default:
 			break;
 	}
 
 	return next;
 }
-
 /* ── component ───────────────────────────────────────────────────────────── */
 
 export function Step2Form({
@@ -960,6 +986,16 @@ export function Step2Form({
 							<Plus
 								className={styles.addSupplierButton}
 								onClick={() => setShowAddSupplierModal(true)}
+							/>
+							<Trash2
+								className={styles.addSupplierButton}
+								onClick={() => {
+									setSelectedSupplier(undefined);
+									setPostVariant({
+										...postVar,
+										supplierId: undefined,
+									} as PostVarinat);
+								}}
 							/>
 						</div>
 					</>

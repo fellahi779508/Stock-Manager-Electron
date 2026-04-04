@@ -100,11 +100,7 @@ export default function VariantSelectOptions({
 						}}
 					>
 						<div className={styles.cardIcon}>
-							<Delete
-								size={20}
-								strokeWidth={1.8}
-								style={{ color: "rgb(219, 20, 20)" }}
-							/>
+							<Delete size={20} strokeWidth={1.8} />
 						</div>
 						<div className={styles.cardBody}>
 							<span className={styles.cardTitle}>

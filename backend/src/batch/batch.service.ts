@@ -6,6 +6,7 @@ import { DataSource, ILike, LessThanOrEqual, Repository } from 'typeorm';
 import { Batch } from './entities/batch.entity';
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { Stock } from 'src/stock/entities/stock.entity';
+import { ProductVariant } from 'src/product_variant/entities/product_variant.entity';
 
 @Injectable()
 export class BatchService {
@@ -183,5 +184,17 @@ export class BatchService {
       data: items,
       meta: { total, page, limit, pages: Math.ceil(total / limit) },
     };
+  }
+  async getAllBatchesOfVariant(id: number) {
+    const variantRepo = this.dataSource.getRepository(ProductVariant);
+    const variant = await variantRepo.findOne({ where: { id } });
+    if (!variant) {
+      throw new NotFoundException('Variant not found');
+    }
+    const batches = await this.batchRepository.find({
+      where: { variant: { id } },
+      relations: ['stock'],
+    });
+    return { variant, batches };
   }
 }

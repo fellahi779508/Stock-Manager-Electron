@@ -366,5 +366,55 @@
 			"lot": "Lot #",
 			"alertStock": "Alert Stock"
 		}
+	},
+	"variantDetails": {
+		"loading": "Loading variant…",
+		"errorLoad": "Failed to load variant",
+		"pageInfo": "Page {page} of {pages}",
+		"breadcrumb": {
+			"products": "Products",
+			"product": "Product"
+		},
+		"hero": {
+			"eyebrow": "Variant details",
+			"size": "Size:",
+			"color": "Color:",
+			"flavor": "Flavor:",
+			"purchasePrice": "Purchase",
+			"sellingHT": "Selling HT",
+			"sellingTTC": "Selling TTC",
+			"vat": "VAT",
+			"profit": "Profit",
+			"profitRate": "Profit rate",
+			"promotion": "Promo price",
+			"promotionRate": "Promo rate"
+		},
+		"batches": {
+			"title": "Batches",
+			"add": "Add batch",
+			"searchPlaceholder": "Search by lot number…",
+			"empty": "No batches found",
+			"emptySearch": "No batches match your search"
+		},
+		"col": {
+			"nLot": "Lot #",
+			"status": "Status",
+			"quantity": "Qty",
+			"qtyStatus": "Qty status",
+			"fabricationDate": "Fab. date",
+			"expirationDate": "Exp. date",
+			"alertDay": "Alert (days)",
+			"alertStock": "Alert (stock)"
+		},
+		"status": {
+			"ok": "OK",
+			"expiring": "Expiring",
+			"expired": "Expired"
+		},
+		"qtyStatus": {
+			"ok": "OK",
+			"low": "Low",
+			"empty": "Empty"
+		}
 	}
 }

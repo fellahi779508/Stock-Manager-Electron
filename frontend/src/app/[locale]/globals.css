@@ -12,10 +12,30 @@
 	--accent-foreground: #ffffff;
 	--surface: #ffffff;
 	--surface-hover: #f4f4f2;
+
+	/* ── Status: success / ok ── */
+	--success: #16a34a;
+	--success-bg: #f0fdf4;
+	--success-border: #bbf7d0;
+
+	/* ── Status: warning / expiring ── */
+	--warning: #d97706;
+	--warning-bg: #f8f1d3;
+	--warning-border: #fde68a;
+
+	/* ── Status: danger / expired / error ── */
+	--danger: #dc2626;
+	--danger-bg: #eed5d5;
+	--danger-border: #fecaca;
+
+	/* ── Status: info ── */
+	--info: #0284c7;
+	--info-bg: #f0f9ff;
+	--info-border: #bae6fd;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DIM — Slate blue-grey mid tone (the "in between")
+   DIM — Slate blue-grey mid tone
    ═══════════════════════════════════════════════════════════════════════════ */
 [data-theme="dim"] {
 	--background: #1e2130;
@@ -27,6 +47,26 @@
 	--accent-foreground: #0f172a;
 	--surface: #252839;
 	--surface-hover: #2e3247;
+
+	/* ── Status: success / ok ── */
+	--success: #4ade80;
+	--success-bg: #052e16;
+	--success-border: #166534;
+
+	/* ── Status: warning / expiring ── */
+	--warning: #fbbf24;
+	--warning-bg: #24201c;
+	--warning-border: #854d0e;
+
+	/* ── Status: danger / expired / error ── */
+	--danger: #f87171;
+	--danger-bg: #1f0505;
+	--danger-border: #991b1b;
+
+	/* ── Status: info ── */
+	--info: #38bdf8;
+	--info-bg: #0c1a2e;
+	--info-border: #075985;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -42,6 +82,26 @@
 	--accent-foreground: #ffffff;
 	--surface: #111113;
 	--surface-hover: #1c1c1f;
+
+	/* ── Status: success / ok ── */
+	--success: #4ade80;
+	--success-bg: #052e16;
+	--success-border: #166534;
+
+	/* ── Status: warning / expiring ── */
+	--warning: #fbbf24;
+	--warning-bg: #1c1200;
+	--warning-border: #854d0e;
+
+	/* ── Status: danger / expired / error ── */
+	--danger: #f87171;
+	--danger-bg: #1f0505;
+	--danger-border: #991b1b;
+
+	/* ── Status: info ── */
+	--info: #38bdf8;
+	--info-bg: #0c1a2e;
+	--info-border: #075985;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

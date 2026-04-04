@@ -83,3 +83,14 @@ export async function deleteVariantById(id: number) {
 		return { response: error.response.data.message, status: 0 };
 	}
 }
+export async function getAllBatchesOfVariant(id: number) {
+	try {
+		const response = await api
+			.get(`/batch/variant/${id}`)
+			.then((res) => res.data);
+		return { response, status: 1 };
+	} catch (error: any) {
+		console.log(error.response.data.message);
+		return { response: error.response.data.message, status: 0 };
+	}
+}

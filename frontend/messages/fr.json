@@ -365,5 +365,55 @@
 			"lot": "N° Lot",
 			"alertStock": "Alerte Stock"
 		}
+	},
+	"variantDetails": {
+		"loading": "Chargement de la variante…",
+		"errorLoad": "Échec du chargement de la variante",
+		"pageInfo": "Page {page} sur {pages}",
+		"breadcrumb": {
+			"products": "Produits",
+			"product": "Produit"
+		},
+		"hero": {
+			"eyebrow": "Détails de la variante",
+			"size": "Taille :",
+			"color": "Couleur :",
+			"flavor": "Saveur :",
+			"purchasePrice": "Achat",
+			"sellingHT": "Vente HT",
+			"sellingTTC": "Vente TTC",
+			"vat": "TVA",
+			"profit": "Bénéfice",
+			"profitRate": "Taux de bénéfice",
+			"promotion": "Prix promo",
+			"promotionRate": "Taux promo"
+		},
+		"batches": {
+			"title": "Batches",
+			"add": "Ajouter un batch",
+			"searchPlaceholder": "Rechercher par numéro de lot…",
+			"empty": "Aucun batch trouvé",
+			"emptySearch": "Aucun batch ne correspond à votre recherche"
+		},
+		"col": {
+			"nLot": "N° Lot",
+			"status": "Statut",
+			"quantity": "Qté",
+			"qtyStatus": "Statut qté",
+			"fabricationDate": "Date fab.",
+			"expirationDate": "Date exp.",
+			"alertDay": "Alerte (jours)",
+			"alertStock": "Alerte (stock)"
+		},
+		"status": {
+			"ok": "OK",
+			"expiring": "Expire bientôt",
+			"expired": "Expiré"
+		},
+		"qtyStatus": {
+			"ok": "OK",
+			"low": "Faible",
+			"empty": "Vide"
+		}
 	}
 }

@@ -113,7 +113,7 @@
 	padding: 16px 18px;
 	border-radius: 12px;
 	border: 1.5px solid var(--border);
-	background: var(--background);
+	background: var(--surface);
 	text-decoration: none;
 	cursor: pointer;
 	width: 100%;
@@ -139,12 +139,22 @@
 
 /* Accent variant (Update) */
 .cardAccent {
-	background: color-mix(in srgb, var(--accent) 6%, var(--background));
+	background: var(--background);
 	border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
 }
 
 .cardAccent:hover {
-	background: color-mix(in srgb, var(--accent) 12%, var(--background));
+	background: var(--background-secondary);
+}
+.cardAccentRed {
+	background: var(--danger-bg);
+	border-color: var(--danger-border);
+	color: var(--danger);
+}
+
+.cardAccentRed:hover {
+	background: color-mix(in srgb, rgb(219, 20, 20) 12%, var(--background));
+	border-color: color-mix(in srgb, rgb(219, 20, 20) 40%, var(--border));
 }
 
 /* ── Card icon ──────────────────────────────────────────────────────────── */

@@ -157,7 +157,7 @@ export class ProductVariantService {
         take: limit,
         skip: (page - 1) * limit,
         relations: ['batches'],
-        select: { batches: { id: true } },
+        select: { batches: { id: true, nLot: true } },
       });
 
       return {
@@ -172,7 +172,7 @@ export class ProductVariantService {
       take: limit,
       skip: (page - 1) * limit,
       relations: ['batches'],
-      select: { batches: { id: true } },
+      select: { batches: { id: true, nLot: true } },
     });
     return {
       product,

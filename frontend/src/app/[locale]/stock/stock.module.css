@@ -119,10 +119,10 @@
 	align-items: center;
 	gap: 8px;
 	padding: 14px 16px;
-	background: color-mix(in srgb, #ef4444 8%, var(--surface));
-	border: 1px solid color-mix(in srgb, #ef4444 25%, var(--border));
+	background: var(--danger-bg);
+	border: 1px solid var(--danger-border);
 	border-radius: 12px;
-	color: #ef4444;
+	color: var(--danger);
 	font-size: 13.5px;
 	margin-bottom: 20px;
 }
@@ -236,19 +236,19 @@
 }
 
 .rowExpired {
-	background: color-mix(in srgb, #ef4444 5%, var(--surface));
+	background: var(--danger-bg);
 }
 
 .rowExpired:hover {
-	background: color-mix(in srgb, #ef4444 9%, var(--surface));
+	background: var(--danger-bg);
 }
 
 .rowExpiring {
-	background: color-mix(in srgb, #f59e0b 5%, var(--surface));
+	background: var(--warning-bg);
 }
 
 .rowExpiring:hover {
-	background: color-mix(in srgb, #f59e0b 9%, var(--surface));
+	background: var(--warning-bg);
 }
 
 .td {
@@ -297,21 +297,21 @@
 }
 
 .qtyOk {
-	background: color-mix(in srgb, #22c55e 12%, var(--surface));
-	color: #16a34a;
-	border: 1px solid color-mix(in srgb, #22c55e 25%, var(--border));
+	background: var(--success-bg);
+	color: var(--success);
+	border: 1px solid var(--success-border);
 }
 
 .qtyLow {
-	background: color-mix(in srgb, #f59e0b 12%, var(--surface));
-	color: #d97706;
-	border: 1px solid color-mix(in srgb, #f59e0b 25%, var(--border));
+	background: var(--warning-bg);
+	color: var(--warning);
+	border: 1px solid var(--warning-border);
 }
 
 .qtyEmpty {
-	background: color-mix(in srgb, #ef4444 12%, var(--surface));
-	color: #dc2626;
-	border: 1px solid color-mix(in srgb, #ef4444 25%, var(--border));
+	background: var(--danger-bg);
+	color: var(--danger);
+	border: 1px solid var(--danger-border);
 }
 
 /* Price */
@@ -346,7 +346,7 @@
 }
 
 .dateExpired {
-	color: #ef4444;
+	color: var(--danger);
 	font-weight: 600;
 }
 

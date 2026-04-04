@@ -367,5 +367,55 @@
 			"lot": "رقم اللوت",
 			"alertStock": "تنبيه المخزون"
 		}
+	},
+	"variantDetails": {
+		"loading": "جارٍ تحميل المتغير…",
+		"errorLoad": "فشل تحميل المتغير",
+		"pageInfo": "الصفحة {page} من {pages}",
+		"breadcrumb": {
+			"products": "المنتجات",
+			"product": "المنتج"
+		},
+		"hero": {
+			"eyebrow": "تفاصيل المتغير",
+			"size": "الحجم:",
+			"color": "اللون:",
+			"flavor": "النكهة:",
+			"purchasePrice": "الشراء",
+			"sellingHT": "البيع بدون ضريبة",
+			"sellingTTC": "البيع مع الضريبة",
+			"vat": "الضريبة",
+			"profit": "الربح",
+			"profitRate": "نسبة الربح",
+			"promotion": "العرض",
+			"promotionRate": "نسبة العرض"
+		},
+		"batches": {
+			"title": "الدفعة",
+			"add": "إضافة دفعة",
+			"searchPlaceholder": "البحث برقم الدفعة…",
+			"empty": "لا توجد دفعات",
+			"emptySearch": "لا توجد دفعات تطابق بحثك"
+		},
+		"col": {
+			"nLot": "رقم الدفعة",
+			"status": "الحالة",
+			"quantity": "الكمية",
+			"qtyStatus": "حالة الكمية",
+			"fabricationDate": "تاريخ التصنيع",
+			"expirationDate": "تاريخ الانتهاء",
+			"alertDay": "التنبيه (أيام)",
+			"alertStock": "التنبيه (المخزون)"
+		},
+		"status": {
+			"ok": "موافق",
+			"expiring": "قريب من الانتهاء",
+			"expired": "انتهت الصلاحية"
+		},
+		"qtyStatus": {
+			"ok": "موافق",
+			"low": "قليل",
+			"empty": "فارغ"
+		}
 	}
 }

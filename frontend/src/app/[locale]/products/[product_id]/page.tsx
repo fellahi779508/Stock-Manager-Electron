@@ -357,7 +357,9 @@ function VariantCard({
 			)}
 
 			<div className={styles.variantFooter}>
-				<span className={styles.variantId}>ID {variant.id}</span>
+				<span className={styles.variantId}>
+					{t("productDetails.variants.batches")}: {variant.batches.length}
+				</span>
 			</div>
 		</Link>
 	);
