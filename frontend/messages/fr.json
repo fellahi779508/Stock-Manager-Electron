@@ -361,7 +361,8 @@
 			"profitRate": "Bénéfice %",
 			"promotion": "Promo",
 			"barcode": "Code-barres",
-			"lot": "N° Lot"
+			"lot": "N° Lot",
+			"alertStock": "Alerte Stock"
 		}
 	}
 }

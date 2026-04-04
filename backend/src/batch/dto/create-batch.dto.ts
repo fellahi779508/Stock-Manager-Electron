@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsDateString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateBatchDto {
@@ -32,13 +33,21 @@ export class CreateBatchDto {
 
   @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => (value === 0 ? undefined : value))
   alertPeriodPerDay?: number;
 
   @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => (value === 0 ? undefined : value))
+  alertPeriodPerStock?: number;
+
+  @IsNumber()
+  @IsOptional()
+  @Transform(({ value }) => (value === 0 ? undefined : value))
   promotionPrice?: number;
 
   @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => (value === 0 ? undefined : value))
   supplierId?: number;
 }

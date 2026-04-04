@@ -9,6 +9,7 @@ import {
 	ChevronLeft,
 	ChevronRight,
 	Bell,
+	AlertTriangle,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useCallback } from "react";
@@ -25,17 +26,6 @@ function formatDate(iso?: string) {
 		month: "short",
 		day: "numeric",
 	});
-}
-
-function isExpiringSoon(iso?: string, alertDays?: number) {
-	if (!iso || !alertDays) return false;
-	const diff = (new Date(iso).getTime() - Date.now()) / (1000 * 60 * 60 * 24);
-	return diff <= alertDays && diff >= 0;
-}
-
-function isExpired(iso?: string) {
-	if (!iso) return false;
-	return new Date(iso).getTime() < Date.now();
 }
 
 export default function StockPage() {
@@ -169,6 +159,7 @@ export default function StockPage() {
 									<th className={styles.th}>{t("col.fabricationDate")}</th>
 									<th className={styles.th}>{t("col.expirationDate")}</th>
 									<th className={styles.th}>{t("col.alert")}</th>
+									<th className={styles.th}>{t("col.alertStock")}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -176,19 +167,19 @@ export default function StockPage() {
 									const batch = stock.batch;
 									const variant = (batch as Batch)?.variant;
 
-									const expired = isExpired(batch?.expirationDate);
-									const expiring = isExpiringSoon(
-										batch?.expirationDate,
-										batch?.alertPeriodPerDay,
-									);
+									const expired = batch.status === "expired";
+									const expiring = batch.status === "expiring";
+									const normal = batch.stockQTYStatus === "ok";
+									const lowStock = batch.stockQTYStatus === "low";
+									const empty = batch.stockQTYStatus === "empty";
 
 									return (
 										<tr
 											key={stock.id}
 											className={`${styles.row} ${
-												expired
+												expired || empty
 													? styles.rowExpired
-													: expiring
+													: expiring || lowStock
 														? styles.rowExpiring
 														: ""
 											}`}
@@ -211,9 +202,9 @@ export default function StockPage() {
 											<td className={styles.td}>
 												<span
 													className={`${styles.qtyBadge} ${
-														stock.quantity === 0
+														empty
 															? styles.qtyEmpty
-															: stock.quantity < 5
+															: lowStock
 																? styles.qtyLow
 																: styles.qtyOk
 													}`}
@@ -277,6 +268,16 @@ export default function StockPage() {
 													<span className={styles.alertBadge}>
 														<Bell size={11} />
 														{batch.alertPeriodPerDay}d
+													</span>
+												) : (
+													"—"
+												)}
+											</td>
+											<td className={styles.td}>
+												{batch?.alertPeriodPerStock ? (
+													<span className={styles.alertBadge}>
+														<AlertTriangle size={11} />
+														{batch.alertPeriodPerStock}
 													</span>
 												) : (
 													"—"

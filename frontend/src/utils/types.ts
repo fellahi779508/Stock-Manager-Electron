@@ -88,6 +88,9 @@ export type Batch = {
 	expirationDate?: string;
 	supplier: Supplier | null;
 	alertPeriodPerDay?: number;
+	alertPeriodPerStock?: number;
+	stockQTYStatus: string;
+	status: string;
 	stock: Stock;
 	createdAt: string;
 	updatedAt: string;

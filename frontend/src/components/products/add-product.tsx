@@ -629,11 +629,6 @@ export function Step2Form({
 				condition: !num(variantPrimary.sellingPriceHT),
 				message: t("addProduct.toast.fieldsRequired.variantSellingPriceHT"),
 			},
-
-			{
-				condition: !variantSecondary.quantity,
-				message: t("addProduct.toast.fieldsRequired.variantQuantity"),
-			},
 		];
 		const failed = checks.find(({ condition }) => condition);
 		if (failed) {

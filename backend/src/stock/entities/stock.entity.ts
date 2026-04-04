@@ -1,6 +1,8 @@
 import { Batch } from 'src/batch/entities/batch.entity';
 import { Log } from 'src/logs/entities/log.entity';
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   JoinColumn,
@@ -29,4 +31,15 @@ export class Stock {
 
   @OneToMany(() => Log, (log) => log.stock)
   logs: Log[];
+  @BeforeInsert()
+  @BeforeUpdate()
+  updateStock() {
+    if (!this.quantity) {
+      this.quantity = 0;
+    }
+    if (this.quantity <= 0) {
+      this.quantity = 0;
+    }
+    return;
+  }
 }

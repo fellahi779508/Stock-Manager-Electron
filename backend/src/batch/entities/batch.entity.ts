@@ -43,8 +43,11 @@ export class Batch {
   @Column({ nullable: true })
   nLot: string;
 
-  @Column({ default: 'ok' })
+  @Column({ nullable: true })
   status: string;
+
+  @Column({ nullable: true })
+  stockQTYStatus: string;
 
   @ManyToOne(() => ProductVariant, (variant) => variant.batches, {
     onDelete: 'CASCADE',
@@ -109,5 +112,26 @@ export class Batch {
     } else {
       this.status = 'ok';
     }
+  }
+  @BeforeInsert()
+  @BeforeUpdate()
+  verifyStockQTYStatus() {
+    if (
+      this.alertPeriodPerStock === null ||
+      this.alertPeriodPerStock === undefined
+    ) {
+      this.stockQTYStatus = 'ok';
+      return;
+    }
+    const currentStockQTY = this.stock?.quantity;
+    if (currentStockQTY <= this.alertPeriodPerStock && currentStockQTY > 0) {
+      this.stockQTYStatus = 'low';
+      return;
+    }
+    if (currentStockQTY === 0) {
+      this.stockQTYStatus = 'empty';
+      return;
+    }
+    this.stockQTYStatus = 'ok';
   }
 }

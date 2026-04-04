@@ -362,7 +362,8 @@
 			"profitRate": "Profit %",
 			"promotion": "Promo",
 			"barcode": "Barcode",
-			"lot": "Lot #"
+			"lot": "Lot #",
+			"alertStock": "Alert Stock"
 		}
 	}
 }
