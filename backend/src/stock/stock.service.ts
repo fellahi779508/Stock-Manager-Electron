@@ -4,7 +4,7 @@ import { UpdateStockDto } from './dto/update-stock.dto';
 import { Batch } from 'src/batch/entities/batch.entity';
 import { Stock } from './entities/stock.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, Like, Repository } from 'typeorm';
+import { DataSource, ILike, LessThan, Like, Repository } from 'typeorm';
 import { Log } from 'src/logs/entities/log.entity';
 import { Types, Actions, Reasons } from 'utils/actions';
 
@@ -128,5 +128,14 @@ export class StockService {
     await this.logRepo.save(log);
 
     return this.stockRepository.save(stock);
+  }
+  async getExpiredStock() {
+    const stocks = await this.stockRepository.find({
+      where: {
+        batch: { expirationDate: LessThan(new Date().toISOString()) },
+      },
+      relations: ['batch'],
+    });
+    return stocks;
   }
 }

@@ -65,7 +65,7 @@ export default function ProductModal({
 }) {
 	const [currentStep, setCurrentStep] = useState(step || 1);
 	// this state stores the id of the created product
-	const [productId, setProductId] = useState<number | null>(null);
+	const [productId, setProductId] = useState<number | null>(product_id || null);
 	return (
 		currentStep != 0 && (
 			<div className={styles.overlay}>
@@ -690,6 +690,7 @@ export function Step2Form({
 		const response = await postVariant(variant);
 		if (response.status === 1) {
 			toast.success(t("addProduct.toast.variantCreated"));
+			setSuccessToastMain(true);
 			setModalOpen(false);
 		} else {
 			toast.error(response.response ?? t("addProduct.toast.unknownError"));
@@ -779,8 +780,8 @@ export function Step2Form({
 		const res = await putVariant(variantId, variant);
 		if (res.status === 1) {
 			toast.success(t("addProduct.toast.variantUpdated"));
-			setModalOpen(false);
 			setSuccessToastMain(true);
+			setModalOpen(false);
 		} else {
 			toast.error(res.response ?? t("addProduct.toast.unknownError"));
 		}

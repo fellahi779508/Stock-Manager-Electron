@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UpdateBatchDto } from './dto/update-batch.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, Repository } from 'typeorm';
+import { DataSource, ILike, LessThanOrEqual, Repository } from 'typeorm';
 import { Batch } from './entities/batch.entity';
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { Stock } from 'src/stock/entities/stock.entity';
@@ -147,5 +147,41 @@ export class BatchService {
       throw new NotFoundException('Batch not found');
     }
     return batch;
+  }
+  async getLowStockBatches(page: number, limit: number) {
+    const [items, total] = await this.batchRepository.findAndCount({
+      where: { stockQTYStatus: 'low' },
+      relations: ['stock', 'variant'],
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return {
+      data: items,
+      meta: { total, page, limit, pages: Math.ceil(total / limit) },
+    };
+  }
+  async getEmptyBatches(page: number, limit: number) {
+    const [items, total] = await this.batchRepository.findAndCount({
+      where: { stockQTYStatus: 'empty' },
+      relations: ['stock', 'variant'],
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return {
+      data: items,
+      meta: { total, page, limit, pages: Math.ceil(total / limit) },
+    };
+  }
+  async getNormalBatches(page: number, limit: number) {
+    const [items, total] = await this.batchRepository.findAndCount({
+      where: { stockQTYStatus: 'ok' },
+      relations: ['stock', 'variant'],
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return {
+      data: items,
+      meta: { total, page, limit, pages: Math.ceil(total / limit) },
+    };
   }
 }

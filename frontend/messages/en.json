@@ -108,7 +108,8 @@
 			"height": "Height"
 		},
 		"refresh": "Refresh",
-		"searchPlaceholder": "Search by name or barcode..."
+		"searchPlaceholder": "Search by name or barcode...",
+		"addButton": "Add Variant"
 	},
 	"categoryOptions": {
 		"eyebrow": "Category actions",
@@ -357,7 +358,7 @@
 			"supplier": "Supplier",
 			"fabricationDate": "Fab. date",
 			"expirationDate": "Exp. date",
-			"alert": "Alert",
+			"alert": "Alert Expiration",
 			"profit": "Profit",
 			"profitRate": "Profit %",
 			"promotion": "Promo",

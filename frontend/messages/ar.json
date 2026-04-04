@@ -86,7 +86,8 @@
 			"height": "الارتفاع"
 		},
 		"refresh": "تحديث",
-		"searchPlaceholder": "البحث بالاسم أو الرمز الشريطي..."
+		"searchPlaceholder": "البحث بالاسم أو الرمز الشريطي...",
+		"addButton": "إضافة متغير"
 	},
 	"categories": {
 		"title": "الفئات",
@@ -358,7 +359,7 @@
 			"supplier": "المورد",
 			"fabricationDate": "تاريخ التصنيع",
 			"expirationDate": "تاريخ الانتهاء",
-			"alert": "التنبيه",
+			"alert": "التنبيه انتهاء الصلاحية",
 			"profit": "الربح",
 			"profitRate": "نسبة الربح",
 			"promotion": "العروض",

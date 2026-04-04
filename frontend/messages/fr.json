@@ -77,7 +77,8 @@
 			"height": "Hauteur"
 		},
 		"refresh": "Actualiser",
-		"searchPlaceholder": "Rechercher par nom ou code-barre..."
+		"searchPlaceholder": "Rechercher par nom ou code-barre...",
+		"addButton": "Ajouter une variante"
 	},
 	"categories": {
 		"title": "Catégories",
@@ -356,7 +357,7 @@
 			"supplier": "Fournisseur",
 			"fabricationDate": "Date fab.",
 			"expirationDate": "Date exp.",
-			"alert": "Alerte",
+			"alert": "Alerte expiration",
 			"profit": "Bénéfice",
 			"profitRate": "Bénéfice %",
 			"promotion": "Promo",

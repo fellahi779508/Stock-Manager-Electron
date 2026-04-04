@@ -34,6 +34,7 @@ export default function ProductDetails() {
 	const [product, setProduct] = useState<Product>();
 	const [variants, setVariants] = useState<Variant[]>([]);
 	const [openSelectOptions, setOpenSelectoptions] = useState(false);
+	const [isUpdate, setIsUpdate] = useState(false);
 	const [meta, setMeta] = useState<{
 		total: number;
 		page: number;
@@ -160,6 +161,15 @@ export default function ProductDetails() {
 								<RefreshCcw size={16} />
 							</div>
 						</div>
+						<button
+							className={styles.addButton}
+							onClick={() => {
+								setIsUpdate(false);
+								setOpenModal(true);
+							}}
+						>
+							{t("productDetails.addButton")}
+						</button>
 					</div>
 					{/* ── Variants ─────────────────────────────────────────── */}
 					<div className={styles.section}>
@@ -247,18 +257,19 @@ export default function ProductDetails() {
 			{openSelectOptions && (
 				<VariantSelectOptions
 					productId={product?.id || 0}
-					setUpdateVariant={setOpenModal}
+					setUpdateVariant={setIsUpdate}
 					variantId={selectedvariant}
 					setVariantSelectOptionsOpen={setOpenSelectoptions}
 					setSuccessToast={setSuccessToast}
+					setOpenModal={setOpenModal}
 				/>
 			)}
 			{openModal && (
 				<ProductModal
 					step={2}
-					isUpdate={true}
+					isUpdate={isUpdate}
 					product_id={product?.id}
-					setSuccessToast={() => {}}
+					setSuccessToast={setSuccessToast}
 					setModalOpen={setOpenModal}
 					variant_id={selectedvariant}
 				/>

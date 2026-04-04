@@ -37,6 +37,18 @@ export class BatchController {
   getExpired(@Query('page') page: number, @Query('limit') limit: number) {
     return this.batchService.getExpiredBatches(page, limit);
   }
+  @Get('normal')
+  getNormal(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.batchService.getNormalBatches(page, limit);
+  }
+  @Get('empty')
+  getEmpty(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.batchService.getEmptyBatches(page, limit);
+  }
+  @Get('low')
+  getLow(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.batchService.getLowStockBatches(page, limit);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

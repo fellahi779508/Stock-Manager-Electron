@@ -165,6 +165,7 @@ export default function StockPage() {
 							<tbody>
 								{stocks.map((stock) => {
 									const batch = stock.batch;
+									if (batch.status === null) return null;
 									const variant = (batch as Batch)?.variant;
 
 									const expired = batch.status === "expired";

@@ -11,12 +11,14 @@ export default function VariantSelectOptions({
 	setVariantSelectOptionsOpen,
 	setSuccessToast,
 	productId,
+	setOpenModal,
 }: {
 	setUpdateVariant: (value: boolean) => void;
 	variantId: number;
 	setVariantSelectOptionsOpen: (value: boolean) => void;
 	setSuccessToast: (successToast: boolean) => void;
 	productId: number;
+	setOpenModal: (value: boolean) => void;
 }) {
 	const t = useTranslations();
 
@@ -75,6 +77,7 @@ export default function VariantSelectOptions({
 						onClick={() => {
 							setUpdateVariant(true);
 							setVariantSelectOptionsOpen(false);
+							setOpenModal(true);
 						}}
 					>
 						<div className={styles.cardIcon}>

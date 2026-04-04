@@ -40,9 +40,34 @@
 	color: var(--accent);
 	margin: 0 0 8px;
 }
+.addButton {
+	margin-left: auto;
+	display: flex;
+	width: 120px;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	color: var(--accent-foreground);
+	background-color: var(--accent);
+	border-radius: 6px;
+	padding: 4px 8px;
+	border-color: var(--border);
+	border-width: 1px;
+	box-shadow: none;
+}
+
+.addButton:hover {
+	opacity: 0.88;
+	color: var(--foreground);
+}
 
 .searchRow {
 	margin-bottom: 28px;
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 }
 
 .searchBox {
