@@ -33,7 +33,12 @@ export class StockService {
         ],
         take: limit,
         skip: (page - 1) * limit,
-        relations: ['batch', 'batch.variant'],
+        relations: [
+          'batch',
+          'batch.variant',
+          'batch.supplier',
+          'batch.variant.product',
+        ],
       });
       return {
         data: items,
@@ -43,7 +48,12 @@ export class StockService {
     const [items, total] = await this.stockRepository.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
-      relations: ['batch', 'batch.variant', 'batch.supplier'],
+      relations: [
+        'batch',
+        'batch.variant',
+        'batch.variant.product',
+        'batch.supplier',
+      ],
     });
     return {
       data: items,

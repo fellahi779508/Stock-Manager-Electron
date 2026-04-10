@@ -225,6 +225,7 @@
 .row {
 	border-bottom: 1px solid var(--border);
 	transition: background 0.12s;
+	cursor: pointer;
 }
 
 .row:last-child {
@@ -240,7 +241,7 @@
 }
 
 .rowExpired:hover {
-	background: var(--danger-bg);
+	background: var(--surface-hover);
 }
 
 .rowExpiring {
@@ -248,7 +249,7 @@
 }
 
 .rowExpiring:hover {
-	background: var(--warning-bg);
+	background: var(--surface-hover);
 }
 
 .td {

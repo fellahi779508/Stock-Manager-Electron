@@ -11,7 +11,7 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	padding: 80px 0;
+	padding: 60px 0;
 	color: var(--foreground-muted);
 	font-size: 14px;
 }
@@ -40,7 +40,7 @@
 	border-radius: 12px;
 	color: var(--danger);
 	font-size: 13.5px;
-	margin-top: 16px;
+	margin-bottom: 16px;
 }
 
 /* ══ Hero ════════════════════════════════════════════════════════════════════ */
@@ -48,7 +48,7 @@
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: 18px;
-	padding: 24px;
+	padding: 22px;
 	margin-top: 16px;
 	margin-bottom: 24px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -69,14 +69,14 @@
 .heroTop {
 	display: flex;
 	align-items: flex-start;
-	gap: 16px;
-	margin-bottom: 20px;
+	gap: 14px;
+	margin-bottom: 18px;
 }
 
 .heroIcon {
-	width: 52px;
-	height: 52px;
-	border-radius: 14px;
+	width: 48px;
+	height: 48px;
+	border-radius: 13px;
 	background: color-mix(in srgb, var(--accent) 10%, var(--background));
 	border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
 	display: flex;
@@ -91,86 +91,97 @@
 }
 
 .eyebrow {
-	font-size: 11px;
+	font-size: 10.5px;
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.7px;
 	color: var(--accent);
-	margin: 0 0 5px;
+	margin: 0 0 4px;
 }
 
 .heroName {
 	font-family: "Georgia", "Times New Roman", serif;
-	font-size: 22px;
+	font-size: 21px;
 	font-weight: 700;
 	color: var(--foreground);
-	margin: 0 0 10px;
+	margin: 0 0 9px;
 	letter-spacing: -0.3px;
 }
 
 .heroBadges {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 6px;
+	gap: 5px;
 }
 
 .badge {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
-	font-size: 11.5px;
+	font-size: 11px;
 	font-weight: 500;
 	color: var(--foreground-muted);
 	background: var(--background-secondary);
 	border: 1px solid var(--border);
 	border-radius: 6px;
-	padding: 3px 8px;
+	padding: 2px 8px;
 }
 
 .heroId {
-	font-size: 13px;
+	font-size: 12.5px;
 	font-weight: 700;
 	color: var(--foreground-muted);
 	background: var(--background-secondary);
 	border: 1px solid var(--border);
-	border-radius: 10px;
-	padding: 6px 14px;
+	border-radius: 9px;
+	padding: 5px 12px;
 	flex-shrink: 0;
 }
 
-/* Pricing grid */
+/* ── Pricing grid ────────────────────────────────────────────────────────── */
 .pricingGrid {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	width: 100%;
+	flex-grow: 1;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
 	.pricingGrid {
-		grid-template-columns: repeat(2, 1fr);
+		flex-wrap: wrap;
+	}
+}
+@media (max-width: 560px) {
+	.pricingGrid {
+		flex-wrap: wrap;
 	}
 }
 
 .priceCard {
 	background: var(--background);
 	border: 1px solid var(--border);
-	border-radius: 12px;
-	padding: 12px 14px;
+	border-radius: 11px;
+	padding: 10px 12px;
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 3px;
+	flex: 1;
 }
 
 .priceLabel {
-	font-size: 10.5px;
+	font-size: 9.5px;
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	color: var(--foreground-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .priceValue {
-	font-size: 17px;
+	font-size: 15px;
 	font-weight: 700;
 	color: var(--foreground);
 	font-variant-numeric: tabular-nums;
@@ -179,47 +190,47 @@
 .priceAccent {
 	color: var(--accent);
 }
-
 .priceGreen {
 	color: var(--success);
 }
 
 /* ══ Batches section ═════════════════════════════════════════════════════════ */
 .section {
-	animation: fadeUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+	animation: fadeUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
 }
 
-.sectionHeader {
+/* ── Header — matches categories exactly ── */
+.header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 14px;
+	margin-bottom: 16px;
 }
 
-.sectionLeft {
+.headerLeft {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 10px;
 	color: var(--foreground-muted);
 }
 
-.sectionTitle {
-	font-size: 13px;
+.title {
+	font-family: "Georgia", "Times New Roman", serif;
+	font-size: 20px;
 	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.7px;
-	color: var(--foreground-muted);
+	color: var(--foreground);
 	margin: 0;
+	letter-spacing: -0.2px;
 }
 
-.countBadge {
-	font-size: 11px;
-	font-weight: 700;
+.totalBadge {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--foreground-muted);
 	background: var(--background-secondary);
 	border: 1px solid var(--border);
 	border-radius: 20px;
-	padding: 2px 8px;
-	color: var(--foreground-muted);
+	padding: 3px 10px;
 }
 
 .addBtn {
@@ -245,9 +256,9 @@
 	box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-/* ── Search ── */
+/* ── Search — matches categories exactly ── */
 .searchRow {
-	margin-bottom: 14px;
+	margin-bottom: 16px;
 }
 
 .searchBox {
@@ -256,9 +267,9 @@
 	gap: 8px;
 	background: var(--surface);
 	border: 1.5px solid var(--border);
-	border-radius: 11px;
-	padding: 0 10px;
-	max-width: 360px;
+	border-radius: 12px;
+	padding: 0 12px;
+	max-width: 480px;
 	transition: border-color 0.15s;
 }
 
@@ -276,8 +287,8 @@
 	flex: 1;
 	border: none;
 	background: transparent;
-	padding: 9px 0;
-	font-size: 13px;
+	padding: 10px 0;
+	font-size: 13.5px;
 	color: var(--foreground);
 	outline: none;
 	font-family: inherit;
@@ -292,7 +303,7 @@
 	background: none;
 	border: none;
 	cursor: pointer;
-	font-size: 17px;
+	font-size: 18px;
 	color: var(--foreground-muted);
 	padding: 0 2px;
 	line-height: 1;
@@ -301,14 +312,18 @@
 .refreshBtn {
 	display: flex;
 	align-items: center;
-	padding: 6px;
-	border-radius: 7px;
-	border-left: 1px solid var(--border);
+	gap: 5px;
+	font-size: 12px;
+	font-weight: 500;
 	color: var(--foreground-muted);
 	cursor: pointer;
+	padding: 6px 8px;
+	border-radius: 8px;
+	border-left: 1px solid var(--border);
 	transition:
 		background 0.15s,
 		color 0.15s;
+	flex-shrink: 0;
 }
 
 .refreshBtn:hover {
@@ -321,13 +336,30 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 8px;
-	padding: 48px 24px;
-	border: 1.5px dashed var(--border);
-	border-radius: 14px;
+	gap: 10px;
+	padding: 64px 24px;
 	color: var(--foreground-muted);
-	font-size: 13.5px;
 	text-align: center;
+}
+
+.emptyIcon {
+	width: 56px;
+	height: 56px;
+	border-radius: 14px;
+	background: var(--background-secondary);
+	border: 1px solid var(--border);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--foreground-muted);
+	margin-bottom: 4px;
+}
+
+.emptyTitle {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--foreground);
+	margin: 0;
 }
 
 /* ── Table ── */
@@ -397,7 +429,6 @@
 	white-space: nowrap;
 }
 
-/* Cell contents */
 .nLot {
 	font-weight: 600;
 	font-family: monospace;
@@ -405,7 +436,6 @@
 	color: var(--foreground);
 }
 
-/* Status badge */
 .statusBadge {
 	display: inline-flex;
 	align-items: center;
@@ -422,20 +452,17 @@
 	background: var(--success-bg);
 	border-color: var(--success-border);
 }
-
 .status_expiring {
 	color: var(--warning);
 	background: var(--warning-bg);
 	border-color: var(--warning-border);
 }
-
 .status_expired {
 	color: var(--danger);
 	background: var(--danger-bg);
 	border-color: var(--danger-border);
 }
 
-/* Qty badge */
 .qty {
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
@@ -479,8 +506,11 @@
 	font-weight: 600;
 }
 .dateExpiring {
-	color: #f59e0b;
+	color: var(--warning);
 	font-weight: 600;
+}
+.supplier {
+	color: var(--foreground-muted);
 }
 
 .alertBadge {
@@ -495,6 +525,43 @@
 	border-radius: 6px;
 	padding: 2px 7px;
 }
+.actions {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+}
+.removeBtn {
+	cursor: pointer;
+	transition: opacity 0.15s;
+	background-color: var(--danger);
+	color: var(--accent-foreground);
+	width: 100px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+}
+.removeBtn:hover {
+	opacity: 0.7;
+}
+.editBtn {
+	cursor: pointer;
+	transition: opacity 0.15s;
+	background-color: var(--accent);
+	color: var(--accent-foreground);
+	width: 100px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+}
+.editBtn:hover {
+	opacity: 0.7;
+}
 
 /* ── Pagination ── */
 .pagination {
@@ -505,8 +572,8 @@
 }
 
 .pageBtn {
-	width: 32px;
-	height: 32px;
+	width: 34px;
+	height: 34px;
 	border-radius: 9px;
 	border: 1.5px solid var(--border);
 	background: var(--surface);
@@ -524,6 +591,7 @@
 .pageBtn:hover:not(:disabled) {
 	border-color: var(--accent);
 	color: var(--accent);
+	background: var(--surface-hover);
 }
 .pageBtn:disabled {
 	opacity: 0.35;
@@ -537,8 +605,8 @@
 }
 
 .pageNumber {
-	min-width: 32px;
-	height: 32px;
+	min-width: 34px;
+	height: 34px;
 	padding: 0 6px;
 	border-radius: 9px;
 	border: 1.5px solid var(--border);
@@ -570,5 +638,5 @@
 .pageInfo {
 	font-size: 12.5px;
 	color: var(--foreground-muted);
-	margin-left: 4px;
+	margin-left: 6px;
 }

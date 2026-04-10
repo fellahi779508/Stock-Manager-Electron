@@ -30,8 +30,13 @@ export class BatchController {
     return this.batchService.getBatchByProductId(+id);
   }
   @Get('variant/:id')
-  getAllBatchesOfVariant(@Param('id') id: string) {
-    return this.batchService.getAllBatchesOfVariant(+id);
+  getAllBatchesOfVariant(
+    @Param('id') id: string,
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Query('search') search?: string,
+  ) {
+    return this.batchService.getAllBatchesOfVariant(+id, page, limit, search);
   }
 
   @Get('alert')

@@ -81,6 +81,7 @@ export type Variant = {
 	profit: number;
 	profitRate: number;
 	PPA?: number;
+	product: Product;
 };
 export type Batch = {
 	nLot?: string;

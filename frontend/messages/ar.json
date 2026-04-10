@@ -374,8 +374,10 @@
 		"pageInfo": "الصفحة {page} من {pages}",
 		"breadcrumb": {
 			"products": "المنتجات",
-			"product": "المنتج"
+			"product": "المنتج",
+			"stock": "المخزون"
 		},
+		"refresh": "تحديث",
 		"hero": {
 			"eyebrow": "تفاصيل المتغير",
 			"size": "الحجم:",
@@ -388,14 +390,19 @@
 			"profit": "الربح",
 			"profitRate": "نسبة الربح",
 			"promotion": "العرض",
-			"promotionRate": "نسبة العرض"
+			"promotionRate": "نسبة العرض",
+			"PPA": "PPA"
 		},
 		"batches": {
 			"title": "الدفعة",
 			"add": "إضافة دفعة",
 			"searchPlaceholder": "البحث برقم الدفعة…",
 			"empty": "لا توجد دفعات",
-			"emptySearch": "لا توجد دفعات تطابق بحثك"
+			"emptySearch": "لا توجد دفعات تطابق بحثك",
+			"actions": {
+				"remove": "حذف",
+				"edit": "تعديل"
+			}
 		},
 		"col": {
 			"nLot": "رقم الدفعة",
@@ -405,7 +412,9 @@
 			"fabricationDate": "تاريخ التصنيع",
 			"expirationDate": "تاريخ الانتهاء",
 			"alertDay": "التنبيه (أيام)",
-			"alertStock": "التنبيه (المخزون)"
+			"alertStock": "التنبيه (المخزون)",
+			"supplier": "المورد",
+			"actions": "الإجراءات"
 		},
 		"status": {
 			"ok": "موافق",

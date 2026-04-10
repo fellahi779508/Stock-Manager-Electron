@@ -372,8 +372,10 @@
 		"pageInfo": "Page {page} sur {pages}",
 		"breadcrumb": {
 			"products": "Produits",
-			"product": "Produit"
+			"product": "Produit",
+			"stock": "Stock"
 		},
+		"refresh": "Actualiser",
 		"hero": {
 			"eyebrow": "Détails de la variante",
 			"size": "Taille :",
@@ -386,14 +388,19 @@
 			"profit": "Bénéfice",
 			"profitRate": "Taux de bénéfice",
 			"promotion": "Prix promo",
-			"promotionRate": "Taux promo"
+			"promotionRate": "Taux promo",
+			"PPA": "PPA"
 		},
 		"batches": {
-			"title": "Batches",
-			"add": "Ajouter un batch",
+			"title": "Lots",
+			"add": "Ajouter un lot",
 			"searchPlaceholder": "Rechercher par numéro de lot…",
-			"empty": "Aucun batch trouvé",
-			"emptySearch": "Aucun batch ne correspond à votre recherche"
+			"empty": "Aucun lot trouvé",
+			"emptySearch": "Aucun lot ne correspond à votre recherche",
+			"actions": {
+				"remove": "Supprimer",
+				"edit": "Modifier"
+			}
 		},
 		"col": {
 			"nLot": "N° Lot",
@@ -403,7 +410,9 @@
 			"fabricationDate": "Date fab.",
 			"expirationDate": "Date exp.",
 			"alertDay": "Alerte (jours)",
-			"alertStock": "Alerte (stock)"
+			"alertStock": "Alerte (stock)",
+			"supplier": "Fournisseur",
+			"actions": "Actions"
 		},
 		"status": {
 			"ok": "OK",

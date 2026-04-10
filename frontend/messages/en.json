@@ -373,8 +373,10 @@
 		"pageInfo": "Page {page} of {pages}",
 		"breadcrumb": {
 			"products": "Products",
-			"product": "Product"
+			"product": "Product",
+			"stock": "Stock"
 		},
+		"refresh": "Refresh",
 		"hero": {
 			"eyebrow": "Variant details",
 			"size": "Size:",
@@ -387,14 +389,19 @@
 			"profit": "Profit",
 			"profitRate": "Profit rate",
 			"promotion": "Promo price",
-			"promotionRate": "Promo rate"
+			"promotionRate": "Promo rate",
+			"PPA": "PPA"
 		},
 		"batches": {
 			"title": "Batches",
 			"add": "Add batch",
 			"searchPlaceholder": "Search by lot number…",
 			"empty": "No batches found",
-			"emptySearch": "No batches match your search"
+			"emptySearch": "No batches match your search",
+			"actions": {
+				"remove": "Remove",
+				"edit": "Edit"
+			}
 		},
 		"col": {
 			"nLot": "Lot #",
@@ -404,7 +411,9 @@
 			"fabricationDate": "Fab. date",
 			"expirationDate": "Exp. date",
 			"alertDay": "Alert (days)",
-			"alertStock": "Alert (stock)"
+			"alertStock": "Alert (stock)",
+			"supplier": "Supplier",
+			"actions": "Actions"
 		},
 		"status": {
 			"ok": "OK",

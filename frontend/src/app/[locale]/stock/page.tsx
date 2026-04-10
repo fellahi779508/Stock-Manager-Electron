@@ -16,6 +16,7 @@ import { useState, useEffect, useCallback } from "react";
 import { ToastContainer } from "react-toastify";
 import styles from "./stock.module.css";
 import { getAllStocks } from "@/api/stock-api";
+import { useRouter } from "next/navigation";
 
 /* helpers */
 
@@ -71,6 +72,17 @@ export default function StockPage() {
 	useEffect(() => {
 		fetchStocks();
 	}, [fetchStocks, successToast]);
+	const router = useRouter();
+	function handleProductClick(
+		productId: string,
+		variantId: string,
+		lot: string,
+	) {
+		// TODO: Navigate to product page
+		router.push(
+			`/products/${productId}/${variantId}?fromStock=true&lot=${lot}`,
+		);
+	}
 
 	return (
 		<div className={styles.page}>
@@ -184,6 +196,14 @@ export default function StockPage() {
 														? styles.rowExpiring
 														: ""
 											}`}
+											onClick={() => {
+												// TODO: Navigate to product page
+												handleProductClick(
+													batch.variant.product.id.toString(),
+													batch.variant.id.toString(),
+													batch.nLot ?? "",
+												);
+											}}
 										>
 											<td className={styles.td}>
 												<div className={styles.variantCell}>

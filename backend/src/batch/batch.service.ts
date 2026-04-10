@@ -210,19 +210,35 @@ export class BatchService {
       meta: { total, page, limit, pages: Math.ceil(total / limit) },
     };
   }
-  async getAllBatchesOfVariant(id: number, search?: string) {
+  async getAllBatchesOfVariant(
+    id: number,
+    page: string,
+    limit: string,
+    search?: string,
+  ) {
     const variantRepo = this.dataSource.getRepository(ProductVariant);
     const variant = await variantRepo.findOne({ where: { id } });
     if (!variant) {
       throw new NotFoundException('Variant not found');
     }
-    const batches = await this.batchRepository.find({
+    const [items, total] = await this.batchRepository.findAndCount({
       where: {
         variant: { id },
-        ...(search ? { variant: { name: ILike(`%${search}%`) } } : {}),
+        ...(search ? { nLot: ILike(`%${search}%`) } : {}),
       },
-      relations: ['stock'],
+      take: +limit,
+      skip: (+page - 1) * +limit,
+      relations: ['stock', 'supplier'],
     });
-    return { variant, batches };
+    return {
+      variant,
+      data: items,
+      meta: {
+        total,
+        page: +page,
+        limit: +limit,
+        pages: Math.ceil(total / +limit),
+      },
+    };
   }
 }

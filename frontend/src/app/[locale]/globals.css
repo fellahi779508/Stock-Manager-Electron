@@ -1,107 +1,107 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   LIGHT — Clean warm white
+   LIGHT — Crisp, modern cool-white (Vercel/Stripe inspired)
    ═══════════════════════════════════════════════════════════════════════════ */
 :root,
 [data-theme="light"] {
-	--background: #f9f9f7;
-	--foreground: #18181b;
-	--background-secondary: #f0f0ec;
-	--foreground-muted: #71717a;
-	--border: #e4e4e0;
-	--accent: #2563eb;
+	--background: #ffffff;
+	--foreground: #0f172a;
+	--background-secondary: #f8fafc;
+	--foreground-muted: #64748b;
+	--border: #e2e8f0;
+	--accent: #6366f1;
 	--accent-foreground: #ffffff;
 	--surface: #ffffff;
-	--surface-hover: #f4f4f2;
+	--surface-hover: #f1f5f9;
 
 	/* ── Status: success / ok ── */
-	--success: #16a34a;
-	--success-bg: #f0fdf4;
-	--success-border: #bbf7d0;
+	--success: #10b981;
+	--success-bg: #ecfdf5;
+	--success-border: #a7f3d0;
 
 	/* ── Status: warning / expiring ── */
-	--warning: #d97706;
-	--warning-bg: #f8f1d3;
+	--warning: #f59e0b;
+	--warning-bg: #fffbeb;
 	--warning-border: #fde68a;
 
 	/* ── Status: danger / expired / error ── */
-	--danger: #dc2626;
-	--danger-bg: #eed5d5;
+	--danger: #ef4444;
+	--danger-bg: #fef2f2;
 	--danger-border: #fecaca;
 
 	/* ── Status: info ── */
-	--info: #0284c7;
-	--info-bg: #f0f9ff;
-	--info-border: #bae6fd;
+	--info: #3b82f6;
+	--info-bg: #eff6ff;
+	--info-border: #bfdbfe;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DIM — Slate blue-grey mid tone
+   DIM — Sleek slate blue-gray (GitHub Dimmed inspired)
    ═══════════════════════════════════════════════════════════════════════════ */
 [data-theme="dim"] {
-	--background: #1e2130;
-	--foreground: #e2e4ed;
-	--background-secondary: #252839;
-	--foreground-muted: #8b90a8;
-	--border: #2e3247;
-	--accent: #60a5fa;
-	--accent-foreground: #0f172a;
-	--surface: #252839;
-	--surface-hover: #2e3247;
+	--background: #161b22;
+	--foreground: #c9d1d9;
+	--background-secondary: #0d1117;
+	--foreground-muted: #8b949e;
+	--border: #30363d;
+	--accent: #58a6ff;
+	--accent-foreground: #ffffff;
+	--surface: #21262d;
+	--surface-hover: #30363d;
 
 	/* ── Status: success / ok ── */
-	--success: #4ade80;
-	--success-bg: #052e16;
-	--success-border: #166534;
+	--success: #34d399;
+	--success-bg: #064e3b;
+	--success-border: #047857;
 
 	/* ── Status: warning / expiring ── */
 	--warning: #fbbf24;
-	--warning-bg: #24201c;
-	--warning-border: #854d0e;
+	--warning-bg: #451a03;
+	--warning-border: #78350f;
 
 	/* ── Status: danger / expired / error ── */
 	--danger: #f87171;
-	--danger-bg: #1f0505;
-	--danger-border: #991b1b;
+	--danger-bg: #450a0a;
+	--danger-border: #7f1d1d;
 
 	/* ── Status: info ── */
-	--info: #38bdf8;
-	--info-bg: #0c1a2e;
-	--info-border: #075985;
+	--info: #60a5fa;
+	--info-bg: #172554;
+	--info-border: #1e3a8a;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DARK — Deep zinc black
+   DARK — Deep obsidian black (Linear / OLED inspired)
    ═══════════════════════════════════════════════════════════════════════════ */
 [data-theme="dark"] {
-	--background: #09090b;
-	--foreground: #fafafa;
-	--background-secondary: #111113;
-	--foreground-muted: #71717a;
-	--border: #27272a;
-	--accent: #3b82f6;
+	--background: #0a0a0a;
+	--foreground: #ededed;
+	--background-secondary: #121212;
+	--foreground-muted: #a3a3a3;
+	--border: #262626;
+	--accent: #818cf8;
 	--accent-foreground: #ffffff;
-	--surface: #111113;
-	--surface-hover: #1c1c1f;
+	--surface: #171717;
+	--surface-hover: #262626;
 
 	/* ── Status: success / ok ── */
 	--success: #4ade80;
-	--success-bg: #052e16;
-	--success-border: #166534;
+	--success-bg: #022c22;
+	--success-border: #065f46;
 
 	/* ── Status: warning / expiring ── */
-	--warning: #fbbf24;
-	--warning-bg: #1c1200;
-	--warning-border: #854d0e;
+	--warning: #fcd34d;
+	--warning-bg: #422006;
+	--warning-border: #92400e;
 
 	/* ── Status: danger / expired / error ── */
-	--danger: #f87171;
-	--danger-bg: #1f0505;
-	--danger-border: #991b1b;
+	--danger: #fca5a5;
+	--danger-bg: #4c0519;
+	--danger-border: #9f1239;
 
 	/* ── Status: info ── */
-	--info: #38bdf8;
-	--info-bg: #0c1a2e;
-	--info-border: #075985;
+	--info: #7dd3fc;
+	--info-bg: #082f49;
+	--info-border: #0369a1;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
