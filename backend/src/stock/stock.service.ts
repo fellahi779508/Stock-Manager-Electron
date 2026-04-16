@@ -105,22 +105,38 @@ export class StockService {
   }
 
   async removeFromStock(id: number, dto: UpdateStockDto) {
+    // 1. Fetch stock and batch together
+    // Assuming 'id' is the Batch ID based on your query { batch: { id } }
     const stock = await this.stockRepository.findOne({
       where: { batch: { id } },
       relations: ['batch'],
     });
-    const batchRepo = this.datasource.getRepository(Batch);
+
     if (!stock) {
-      throw new NotFoundException('Stock not found');
+      throw new NotFoundException('Stock not found for this batch');
     }
-    const batch = await batchRepo.findOne({ where: { id: stock.batch.id } });
-    if (!batch) {
-      throw new NotFoundException('Batch not found');
+
+    // 2. Calculate new quantity (ensure it doesn't go below 0)
+    const newQuantity = Math.max(0, stock.quantity - dto.quantity);
+    stock.quantity = newQuantity;
+
+    // 3. Update Batch Status based on the NEW quantity
+    const batch = stock.batch;
+    const threshold = batch.alertPeriodPerStock;
+
+    if (newQuantity === 0) {
+      batch.stockQTYStatus = 'empty';
+    } else if (
+      threshold !== null &&
+      threshold !== undefined &&
+      newQuantity <= threshold
+    ) {
+      batch.stockQTYStatus = 'low';
+    } else {
+      batch.stockQTYStatus = 'ok';
     }
-    stock.quantity -= dto.quantity;
-    if (stock.quantity < 0) {
-      stock.quantity = 0;
-    }
+
+    // 4. Create the Log
     const log = this.logRepo.create({
       entityType: Types.STOCK,
       action: Actions.REMOVE,
@@ -129,42 +145,49 @@ export class StockService {
       stock: stock,
       timestamp: new Date().toISOString(),
     });
-    await this.logRepo.save(log);
-    console.log(log);
-    if (
-      batch.alertPeriodPerStock === null ||
-      batch.alertPeriodPerStock === undefined ||
-      !stock
-    ) {
-      batch.stockQTYStatus = 'ok';
-    } else {
-      const qty = stock.quantity;
 
-      if (qty === 0) {
-        batch.stockQTYStatus = 'empty';
-      } else if (qty <= stock.batch.alertPeriodPerStock) {
-        batch.stockQTYStatus = 'low';
-      } else {
-        batch.stockQTYStatus = 'ok';
-      }
-    }
+    // 5. Execute saves
+    // We save the batch specifically to ensure the 'stockQTYStatus' persists
+    const batchRepo = this.datasource.getRepository(Batch);
+
+    await this.logRepo.save(log);
     await batchRepo.save(batch);
-    return await this.stockRepository.save(stock);
+    const savedStock = await this.stockRepository.save(stock);
+
+    return savedStock;
   }
   async addToStock(id: number, dto: UpdateStockDto) {
+    // 1. Fetch stock with batch relation in one go
     const stock = await this.stockRepository.findOne({
       where: { batch: { id } },
       relations: ['batch'],
     });
-    const batchRepo = this.datasource.getRepository(Batch);
+
     if (!stock) {
       throw new NotFoundException('Stock not found');
     }
-    const batch = await batchRepo.findOne({ where: { id: stock.batch.id } });
-    if (!batch) {
-      throw new NotFoundException('Batch not found');
-    }
+
+    // 2. Update quantity
     stock.quantity += dto.quantity;
+
+    // 3. Update the Batch status based on the NEW quantity
+    // We use the batch attached to the stock object to ensure consistency
+    const batch = stock.batch;
+    const alertThreshold = batch.alertPeriodPerStock;
+
+    if (stock.quantity === 0) {
+      batch.stockQTYStatus = 'empty';
+    } else if (
+      alertThreshold !== null &&
+      alertThreshold !== undefined &&
+      stock.quantity <= alertThreshold
+    ) {
+      batch.stockQTYStatus = 'low';
+    } else {
+      batch.stockQTYStatus = 'ok';
+    }
+
+    // 4. Create the log entry
     const log = this.logRepo.create({
       entityType: Types.STOCK,
       action: Actions.ADD,
@@ -173,26 +196,18 @@ export class StockService {
       stock: stock,
       timestamp: new Date().toISOString(),
     });
-    await this.logRepo.save(log);
-    if (
-      batch.alertPeriodPerStock === null ||
-      batch.alertPeriodPerStock === undefined ||
-      !stock
-    ) {
-      batch.stockQTYStatus = 'ok';
-    } else {
-      const qty = stock.quantity;
 
-      if (qty === 0) {
-        batch.stockQTYStatus = 'empty';
-      } else if (qty <= stock.batch.alertPeriodPerStock) {
-        batch.stockQTYStatus = 'low';
-      } else {
-        batch.stockQTYStatus = 'ok';
-      }
-    }
-    await batchRepo.save(batch);
-    return this.stockRepository.save(stock);
+    // 5. Save everything
+    // Using the batch repository to save the updated status
+    const batchRepo = this.datasource.getRepository(Batch);
+
+    await Promise.all([
+      this.logRepo.save(log),
+      batchRepo.save(batch),
+      this.stockRepository.save(stock),
+    ]);
+
+    return stock;
   }
   async getExpiredStock() {
     const stocks = await this.stockRepository.find({

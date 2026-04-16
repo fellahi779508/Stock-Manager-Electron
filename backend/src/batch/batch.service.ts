@@ -52,30 +52,31 @@ export class BatchService {
         createdAt: nowISO,
         updatedAt: nowISO,
       });
+      const savedBatch = await batchRepo.save(batch);
 
       // 🔹 Create stock
       const stock = stockRepo.create({
         quantity: createBatchDto.quantity,
         createdAt: nowISO,
         updatedAt: nowISO,
-        batch: batch,
+        batch: savedBatch,
       });
 
-      await stockRepo.save(stock);
+      const savedStock = await stockRepo.save(stock);
 
       // 🔹 Attach stock to batch
-      batch.stock = stock;
+      savedBatch.stock = savedStock;
 
       // =========================================================
       // ✅ Compute EXPIRATION STATUS (was verifyStatus hook)
       // =========================================================
-      if (!batch.expirationDate) {
-        batch.status = 'ok';
+      if (!savedBatch.expirationDate) {
+        savedBatch.status = 'ok';
       } else {
-        const expiration = new Date(batch.expirationDate);
+        const expiration = new Date(savedBatch.expirationDate);
 
         if (nowDate > expiration) {
-          batch.status = 'expired';
+          savedBatch.status = 'expired';
         } else {
           const msPerDay = 1000 * 60 * 60 * 24;
           const daysLeft = Math.floor(
@@ -83,15 +84,15 @@ export class BatchService {
           );
 
           if (daysLeft <= 0) {
-            batch.status = 'expired';
+            savedBatch.status = 'expired';
           } else if (
-            batch.alertPeriodPerDay !== null &&
-            batch.alertPeriodPerDay !== undefined &&
-            daysLeft <= batch.alertPeriodPerDay
+            savedBatch.alertPeriodPerDay !== null &&
+            savedBatch.alertPeriodPerDay !== undefined &&
+            daysLeft <= savedBatch.alertPeriodPerDay
           ) {
-            batch.status = 'expiring';
+            savedBatch.status = 'expiring';
           } else {
-            batch.status = 'ok';
+            savedBatch.status = 'ok';
           }
         }
       }
@@ -100,24 +101,25 @@ export class BatchService {
       // ✅ Compute STOCK STATUS (FIXED)
       // =========================================================
       if (
-        batch.alertPeriodPerStock === null ||
-        batch.alertPeriodPerStock === undefined
+        savedBatch.alertPeriodPerStock === null ||
+        savedBatch.alertPeriodPerStock === undefined
       ) {
-        batch.stockQTYStatus = 'ok';
+        savedBatch.stockQTYStatus = 'ok';
       } else {
-        const qty = stock.quantity;
+        const qty = savedStock.quantity;
 
         if (qty === 0) {
-          batch.stockQTYStatus = 'empty';
-        } else if (qty <= batch.alertPeriodPerStock) {
-          batch.stockQTYStatus = 'low';
+          savedBatch.stockQTYStatus = 'empty';
+        } else if (qty <= savedBatch.alertPeriodPerStock) {
+          savedBatch.stockQTYStatus = 'low';
         } else {
-          batch.stockQTYStatus = 'ok';
+          savedBatch.stockQTYStatus = 'ok';
         }
       }
 
       // 🔹 Final save
-      return await batchRepo.save(batch);
+
+      return await batchRepo.save(savedBatch);
     });
   }
 

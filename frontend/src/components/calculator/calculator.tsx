@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Delete, X } from "lucide-react";
 import styles from "./calculator.module.css";
@@ -17,7 +17,6 @@ type CalcButton = {
 
 function calculate(expression: string): string {
 	try {
-		// Replace × and ÷ with JS operators
 		const sanitized = expression
 			.replace(/×/g, "*")
 			.replace(/÷/g, "/")
@@ -27,15 +26,39 @@ function calculate(expression: string): string {
 		const result = Function(`"use strict"; return (${sanitized})`)();
 
 		if (!isFinite(result)) return "Error";
-
-		// Return clean number — strip unnecessary decimals
 		return parseFloat(result.toFixed(10)).toString();
 	} catch {
 		return "Error";
 	}
 }
 
-/* ── Component ──────────────────────────────────────────────────────────── */
+/* ── Keyboard → calc button mapping ─────────────────────────────────────── */
+
+const KEY_MAP: Record<string, string> = {
+	"0": "0",
+	"1": "1",
+	"2": "2",
+	"3": "3",
+	"4": "4",
+	"5": "5",
+	"6": "6",
+	"7": "7",
+	"8": "8",
+	"9": "9",
+	".": ".",
+	",": ".",
+	"+": "+",
+	"-": "-",
+	"*": "×",
+	"/": "÷",
+	x: "×",
+	"=": "=",
+	Backspace: "⌫",
+	Escape: "close",
+	"%": "%",
+};
+
+/* ── Component ───────────────────────────────────────────────────────────── */
 
 export default function CalculatorModal({
 	setOpenCalculator,
@@ -47,6 +70,12 @@ export default function CalculatorModal({
 	const t = useTranslations("calculator");
 	const [expression, setExpression] = useState("0");
 	const [justEvaluated, setJustEvaluated] = useState(false);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	/* ── Focus the modal on mount so keyboard events fire immediately ── */
+	useEffect(() => {
+		containerRef.current?.focus();
+	}, []);
 
 	function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
 		if (e.target === e.currentTarget) setOpenCalculator(false);
@@ -54,6 +83,11 @@ export default function CalculatorModal({
 
 	const press = useCallback(
 		(value: string) => {
+			if (value === "close") {
+				setOpenCalculator(false);
+				return;
+			}
+
 			setExpression((prev) => {
 				const isError = prev === "Error";
 
@@ -85,7 +119,6 @@ export default function CalculatorModal({
 					}
 
 					default: {
-						// After an evaluation, a number starts fresh; an operator continues
 						const isOperator = ["+", "-", "×", "÷", "."].includes(value);
 						if (justEvaluated && !isOperator) {
 							setJustEvaluated(false);
@@ -99,13 +132,35 @@ export default function CalculatorModal({
 				}
 			});
 		},
-		[justEvaluated],
+		[justEvaluated, setOpenCalculator],
 	);
 
 	function handleDone() {
-		const result = expression === "Error" ? 0 : Number(expression);
-		setValue(result);
+		let finalResult = 0;
+
+		if (expression !== "Error") {
+			// Calculate the expression in case they hit Enter without hitting '=' first
+			const evaluated = calculate(expression);
+			finalResult = evaluated === "Error" ? 0 : Number(evaluated);
+		}
+
+		setValue(finalResult);
 		setOpenCalculator(false);
+	}
+
+	/* ── Keyboard handler ── */
+	function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+		// Intercept Enter key to confirm and close
+		if (e.key === "Enter") {
+			e.preventDefault();
+			handleDone();
+			return;
+		}
+
+		const mapped = KEY_MAP[e.key];
+		if (!mapped) return;
+		e.preventDefault();
+		press(mapped);
 	}
 
 	const BUTTONS: CalcButton[] = [
@@ -137,8 +192,14 @@ export default function CalculatorModal({
 
 	return (
 		<div className={styles.overlay} onClick={handleOverlayClick}>
-			<div className={styles.container}>
-				{/* ── Close ── */}
+			{/* tabIndex + onKeyDown so the div captures keyboard events */}
+			<div
+				className={styles.container}
+				ref={containerRef}
+				tabIndex={0}
+				onKeyDown={handleKeyDown}
+				style={{ outline: "none" }}
+			>
 				<button
 					className={styles.closeBtn}
 					onClick={() => setOpenCalculator(false)}
@@ -147,13 +208,11 @@ export default function CalculatorModal({
 					<X size={14} strokeWidth={2.5} />
 				</button>
 
-				{/* ── Header ── */}
 				<div className={styles.header}>
 					<h2 className={styles.title}>{t("title")}</h2>
 					<p className={styles.subtitle}>{t("subtitle")}</p>
 				</div>
 
-				{/* ── Display ── */}
 				<div className={styles.display}>
 					<span
 						className={`${styles.displayText} ${expression.length > 12 ? styles.displaySmall : ""}`}
@@ -162,20 +221,20 @@ export default function CalculatorModal({
 					</span>
 				</div>
 
-				{/* ── Buttons ── */}
 				<div className={styles.grid}>
 					{BUTTONS.map((btn, i) => (
 						<button
 							key={i}
 							className={`${styles.btn} ${styles[`btn_${btn.type}`]} ${btn.value === "=" ? styles.btn_equals : ""}`}
 							onClick={() => press(btn.value)}
+							// Prevent the button click from stealing focus away from the container
+							onMouseDown={(e) => e.preventDefault()}
 						>
 							{btn.label}
 						</button>
 					))}
 				</div>
 
-				{/* ── Footer ── */}
 				<div className={styles.footer}>
 					<button
 						className={styles.btnSecondary}

@@ -392,7 +392,9 @@ export default function VariantDetails() {
 											className={`${styles.row} ${batch.status === "expired" ? styles.rowExpired : ""} ${batch.status === "expiring" ? styles.rowExpiring : ""}`}
 										>
 											<td className={styles.td}>
-												<span className={styles.nLot}>{batch.nLot}</span>
+												<span className={styles.nLot}>
+													{batch.nLot ? batch.nLot : "—"}
+												</span>
 											</td>
 											<td className={styles.td}>
 												<span

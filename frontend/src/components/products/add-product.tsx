@@ -408,101 +408,95 @@ function recalculate(
 
 	switch (changedKey) {
 		case "purchasePrice": {
-			if (spTTC > 0) {
-				// TTC already set → derive profit & profitRate from TTC
-				next.profit = round2(spTTC - pp);
-				next.profitRate = pp > 0 ? round2(((spTTC - pp) / pp) * 100) : 0;
+			if (spHT > 0) {
+				// Keep HT, update profit based on new Purchase Price
+				next.profit = round2(spHT - pp);
+				next.profitRate = pp > 0 ? round2(((spHT - pp) / pp) * 100) : 0;
 			} else if (pft > 0) {
-				// profit already set → derive profitRate & sellingPriceHT/TTC
+				// Derive HT from PP + Profit
+				next.sellingPriceHT = round2(pp + pft);
 				next.profitRate = pp > 0 ? round2((pft / pp) * 100) : 0;
-				next.sellingPriceTTC = round2(pp + pft);
-				next.sellingPriceHT =
-					vat > 0
-						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
-						: num(next.sellingPriceTTC);
-			} else if (pftR > 0) {
-				// profitRate already set → derive profit & sellingPriceHT/TTC
-				next.profit = round2((pftR / 100) * pp);
-				next.sellingPriceTTC = round2(pp + num(next.profit));
-				next.sellingPriceHT =
-					vat > 0
-						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
-						: num(next.sellingPriceTTC);
+				next.sellingPriceTTC = round2(
+					num(next.sellingPriceHT) * (1 + vat / 100),
+				);
 			}
 			break;
 		}
 
 		case "sellingPriceHT": {
-			// TTC = HT * (1 + vat)
-			const newTTC = round2(num(rawValue) * (1 + vat / 100));
-			next.sellingPriceTTC = newTTC;
-			if (pp > 0) {
-				next.profit = round2(newTTC - pp);
-				next.profitRate = round2(((newTTC - pp) / pp) * 100);
-			}
+			const newHT = num(rawValue);
+			// TTC always follows HT
+			next.sellingPriceTTC = round2(newHT * (1 + vat / 100));
+			// Profit is derived from HT - PP
+			next.profit = round2(newHT - pp);
+			next.profitRate = pp > 0 ? round2(((newHT - pp) / pp) * 100) : 0;
 			break;
 		}
 
 		case "sellingPriceTTC": {
 			const newTTC = num(rawValue);
-			// Derive HT from TTC
-			next.sellingPriceHT = vat > 0 ? round2(newTTC / (1 + vat / 100)) : newTTC;
-			if (pp > 0) {
-				next.profit = round2(newTTC - pp);
-				next.profitRate = round2(((newTTC - pp) / pp) * 100);
-			}
+			// Derive HT first
+			const derivedHT = vat > 0 ? round2(newTTC / (1 + vat / 100)) : newTTC;
+			next.sellingPriceHT = derivedHT;
+			// Profit is derived from HT
+			next.profit = round2(derivedHT - pp);
+			next.profitRate = pp > 0 ? round2(((derivedHT - pp) / pp) * 100) : 0;
 			break;
 		}
 
 		case "profit": {
-			if (pp > 0) {
-				next.profitRate = round2((pft / pp) * 100);
-				next.sellingPriceTTC = round2(pp + pft);
-				next.sellingPriceHT =
-					vat > 0
-						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
-						: num(next.sellingPriceTTC);
+			const newPft = num(rawValue);
+			if (pp >= 0) {
+				next.sellingPriceHT = round2(pp + newPft);
+				next.profitRate = pp > 0 ? round2((newPft / pp) * 100) : 0;
+				next.sellingPriceTTC = round2(
+					num(next.sellingPriceHT) * (1 + vat / 100),
+				);
 			}
 			break;
 		}
 
 		case "profitRate": {
-			if (pp > 0) {
-				next.profit = round2((pftR / 100) * pp);
-				next.sellingPriceTTC = round2(pp + num(next.profit));
-				next.sellingPriceHT =
-					vat > 0
-						? round2(num(next.sellingPriceTTC) / (1 + vat / 100))
-						: num(next.sellingPriceTTC);
+			const newPftR = num(rawValue);
+			if (pp >= 0) {
+				const calculatedPft = round2((newPftR / 100) * pp);
+				next.profit = calculatedPft;
+				next.sellingPriceHT = round2(pp + calculatedPft);
+				next.sellingPriceTTC = round2(
+					num(next.sellingPriceHT) * (1 + vat / 100),
+				);
 			}
 			break;
 		}
 
 		case "vatRate": {
-			// VAT changed → recalc TTC from HT, then update profit from TTC
-			const newTTC = round2(spHT * (1 + num(rawValue) / 100));
-			next.sellingPriceTTC = newTTC;
-			if (pp > 0) {
-				next.profit = round2(newTTC - pp);
-				next.profitRate = round2(((newTTC - pp) / pp) * 100);
-			}
+			// Changing VAT should not change your Profit HT
+			// It only changes the Selling Price TTC
+			next.sellingPriceTTC = round2(spHT * (1 + num(rawValue) / 100));
 			break;
 		}
 
-		// Discount — isolated, based on TTC
-		case "discount": {
-			const base = num(next.sellingPriceTTC);
-			if (base > 0) {
-				next.discountRate = round2((num(rawValue) * 100) / base);
-			}
-			break;
-		}
+		/* ── Discount Logic ────────────────────────────────────────── */
 
 		case "discountRate": {
-			const base = num(next.sellingPriceTTC);
-			if (base > 0) {
-				next.discount = round2((num(rawValue) * base) / 100);
-			}
+			const rate = num(rawValue);
+			const baseTTC = num(next.sellingPriceTTC);
+			// Calculate absolute discount amount from rate
+			const sub = round2((rate * baseTTC) / 100);
+			next.discount = baseTTC - sub;
+			// Show the price after discount
+
+			break;
+		}
+
+		case "discount": {
+			const discAmount = num(rawValue);
+			const baseTTC = num(next.sellingPriceTTC);
+			// Calculate rate from absolute discount amount
+			next.discountRate =
+				baseTTC > 0 ? round2((discAmount * 100) / baseTTC) : 0;
+			// Show the price after discount
+
 			break;
 		}
 
@@ -734,6 +728,8 @@ export function Step2Form({
 	}, [search, successToast]);
 
 	/* ── shared input renderer ── */
+	// Drop-in replacement for the numInput function in Step2Form
+
 	function numInput(
 		key: keyof Primary,
 		value: number | string,
@@ -746,10 +742,12 @@ export function Step2Form({
 					type="text"
 					inputMode="decimal"
 					value={value}
+					// Allow direct keyboard typing via handlePrimaryChange
 					onChange={(e) => handlePrimaryChange(key, e.target.value)}
+					// Also open the calculator on click for convenience
 					onClick={() => openCalc(key)}
 					className={styles.input}
-					readOnly
+					// ← readOnly removed: user can now type freely with the keyboard
 					style={key === "sellingPriceTTC" ? { gridColumn: "span 3" } : {}}
 				/>
 			</div>
