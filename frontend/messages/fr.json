@@ -452,5 +452,56 @@
 		"alertPeriodPerDayPlaceholder": "Jours avant expiration",
 		"alertPeriodPerStockPlaceholder": "Seuil d'alerte stock",
 		"supplierSection": "Fournisseur & Alerts"
+	},
+	"batchOptions": {
+		"eyebrow": "Actions de lot",
+		"title": "Gérer le lot",
+		"edit": {
+			"title": "Modifier les informations",
+			"desc": "Mettre à jour les détails et les métadonnées du lot"
+		},
+		"add": {
+			"title": "Ajouter au stock",
+			"desc": "Augmenter la quantité du lot"
+		},
+		"remove": {
+			"title": "Retirer du stock",
+			"desc": "Diminuer la quantité du lot"
+		},
+		"delete": {
+			"title": "Supprimer le lot",
+			"desc": "Supprimer définitivement ce lot"
+		},
+		"confirmDelete": "Êtes-vous sûr de vouloir supprimer ce lot ?"
+	},
+	"stockAdjustment": {
+		"title": "Ajuster le stock",
+		"subtitle": "Mettre à jour la quantité et spécifier une raison",
+		"close": "Fermer",
+		"cancel": "Annuler",
+		"confirm": "Confirmer",
+		"confirming": "Enregistrement…",
+		"fields": {
+			"quantity": "Quantité",
+			"quantityPlaceholder": "ex: 10 ",
+			"reason": "Raison",
+			"reasonPlaceholder": "Sélectionner une raison…"
+		},
+		"validation": {
+			"quantity": "Veuillez entrer une quantité valide",
+			"reason": "Veuillez sélectionner une raison"
+		},
+		"reasons": {
+			"refill": "Recommande",
+			"return": "Retour client",
+			"damage": "Produits endommagés",
+			"loss": "Perte / Déchet",
+			"correction": "Correction d'inventaire",
+			"transfer": "Transfert"
+		},
+		"toast": {
+			"success": "Stock ajusté avec succès !",
+			"error": "Échec de l'ajustement du stock."
+		}
 	}
 }

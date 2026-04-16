@@ -453,5 +453,56 @@
 		"alertPeriodPerDayPlaceholder": "Days before expiry",
 		"alertPeriodPerStockPlaceholder": "Stock threshold",
 		"supplierSection": "Supplier & Alerts"
+	},
+	"batchOptions": {
+		"eyebrow": "Batch Actions",
+		"title": "Manage Batch",
+		"edit": {
+			"title": "Edit Informations",
+			"desc": "Update batch details and metadata"
+		},
+		"add": {
+			"title": "Add to Stock",
+			"desc": "Increase batch quantity"
+		},
+		"remove": {
+			"title": "Remove from Stock",
+			"desc": "Decrease batch quantity"
+		},
+		"delete": {
+			"title": "Delete Batch",
+			"desc": "Permanently remove this batch"
+		},
+		"confirmDelete": "Are you sure you want to delete this batch?"
+	},
+	"stockAdjustment": {
+		"title": "Adjust Stock",
+		"subtitle": "Update the quantity and specify a reason",
+		"close": "Close",
+		"cancel": "Cancel",
+		"confirm": "Confirm",
+		"confirming": "Saving…",
+		"fields": {
+			"quantity": "Quantity",
+			"quantityPlaceholder": "e.g. 10 ",
+			"reason": "Reason",
+			"reasonPlaceholder": "Select a reason…"
+		},
+		"validation": {
+			"quantity": "Please enter a valid quantity",
+			"reason": "Please select a reason"
+		},
+		"reasons": {
+			"refill": "Refill",
+			"return": "Customer return",
+			"damage": "Damaged goods",
+			"loss": "Loss / Shrinkage",
+			"correction": "Inventory correction",
+			"transfer": "Transfer"
+		},
+		"toast": {
+			"success": "Stock adjusted successfully!",
+			"error": "Failed to adjust stock."
+		}
 	}
 }

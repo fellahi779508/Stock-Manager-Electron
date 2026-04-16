@@ -21,6 +21,11 @@ export class BatchService {
       const batchRepo = manager.getRepository(Batch);
       const stockRepo = manager.getRepository(Stock);
       const variantRepo = manager.getRepository(ProductVariant);
+
+      const nowDate = new Date();
+      const nowISO = nowDate.toISOString();
+
+      // 🔹 Supplier (optional)
       let supplier: Supplier | null = null;
       if (createBatchDto.supplierId) {
         supplier = await manager.findOne(Supplier, {
@@ -30,30 +35,89 @@ export class BatchService {
           throw new NotFoundException('Supplier not found');
         }
       }
+
+      // 🔹 Variant (required)
       const variant = await variantRepo.findOne({
         where: { id: createBatchDto.variantId },
       });
       if (!variant) {
         throw new NotFoundException('Variant not found');
       }
+
+      // 🔹 Create batch (without stock first)
       const batch = batchRepo.create({
         ...createBatchDto,
         supplier: supplier ?? undefined,
         variant,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: nowISO,
+        updatedAt: nowISO,
       });
-      const savedBatch = await batchRepo.save(batch);
+
+      // 🔹 Create stock
       const stock = stockRepo.create({
         quantity: createBatchDto.quantity,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        batch: savedBatch,
+        createdAt: nowISO,
+        updatedAt: nowISO,
+        batch: batch,
       });
+
       await stockRepo.save(stock);
-      savedBatch.stock = stock;
-      await batchRepo.save(savedBatch);
-      return savedBatch;
+
+      // 🔹 Attach stock to batch
+      batch.stock = stock;
+
+      // =========================================================
+      // ✅ Compute EXPIRATION STATUS (was verifyStatus hook)
+      // =========================================================
+      if (!batch.expirationDate) {
+        batch.status = 'ok';
+      } else {
+        const expiration = new Date(batch.expirationDate);
+
+        if (nowDate > expiration) {
+          batch.status = 'expired';
+        } else {
+          const msPerDay = 1000 * 60 * 60 * 24;
+          const daysLeft = Math.floor(
+            (expiration.getTime() - nowDate.getTime()) / msPerDay,
+          );
+
+          if (daysLeft <= 0) {
+            batch.status = 'expired';
+          } else if (
+            batch.alertPeriodPerDay !== null &&
+            batch.alertPeriodPerDay !== undefined &&
+            daysLeft <= batch.alertPeriodPerDay
+          ) {
+            batch.status = 'expiring';
+          } else {
+            batch.status = 'ok';
+          }
+        }
+      }
+
+      // =========================================================
+      // ✅ Compute STOCK STATUS (FIXED)
+      // =========================================================
+      if (
+        batch.alertPeriodPerStock === null ||
+        batch.alertPeriodPerStock === undefined
+      ) {
+        batch.stockQTYStatus = 'ok';
+      } else {
+        const qty = stock.quantity;
+
+        if (qty === 0) {
+          batch.stockQTYStatus = 'empty';
+        } else if (qty <= batch.alertPeriodPerStock) {
+          batch.stockQTYStatus = 'low';
+        } else {
+          batch.stockQTYStatus = 'ok';
+        }
+      }
+
+      // 🔹 Final save
+      return await batchRepo.save(batch);
     });
   }
 
@@ -149,14 +213,96 @@ export class BatchService {
   }
 
   async update(id: number, updateBatchDto: UpdateBatchDto) {
-    const batch = await this.batchRepository.preload({
-      id,
-      ...updateBatchDto,
+    return this.dataSource.transaction(async (manager) => {
+      const batchRepo = manager.getRepository(Batch);
+      const supplierRepo = manager.getRepository(Supplier);
+      const stockRepo = manager.getRepository(Stock);
+
+      const existingBatch = await batchRepo.findOne({
+        where: { id },
+        relations: ['stock'], // ✅ IMPORTANT
+      });
+
+      if (!existingBatch) {
+        throw new NotFoundException('Batch not found');
+      }
+
+      // 🔹 Merge updates
+      const batch = batchRepo.merge(existingBatch, updateBatchDto);
+
+      // 🔹 Supplier update (optional)
+      if (updateBatchDto.supplierId) {
+        const supplier = await supplierRepo.findOne({
+          where: { id: updateBatchDto.supplierId },
+        });
+
+        if (!supplier) {
+          throw new NotFoundException('Supplier not found');
+        }
+
+        batch.supplier = supplier;
+      }
+
+      const nowDate = new Date();
+      const nowISO = nowDate.toISOString();
+
+      batch.updatedAt = nowISO;
+
+      // =========================================================
+      // ✅ Recompute EXPIRATION STATUS
+      // =========================================================
+      if (!batch.expirationDate) {
+        batch.status = 'ok';
+      } else {
+        const expiration = new Date(batch.expirationDate);
+
+        if (nowDate > expiration) {
+          batch.status = 'expired';
+        } else {
+          const msPerDay = 1000 * 60 * 60 * 24;
+          const daysLeft = Math.floor(
+            (expiration.getTime() - nowDate.getTime()) / msPerDay,
+          );
+
+          if (daysLeft <= 0) {
+            batch.status = 'expired';
+          } else if (
+            batch.alertPeriodPerDay !== null &&
+            batch.alertPeriodPerDay !== undefined &&
+            daysLeft <= batch.alertPeriodPerDay
+          ) {
+            batch.status = 'expiring';
+          } else {
+            batch.status = 'ok';
+          }
+        }
+      }
+
+      // =========================================================
+      // ✅ Recompute STOCK STATUS
+      // =========================================================
+      const stock = batch.stock;
+
+      if (
+        batch.alertPeriodPerStock === null ||
+        batch.alertPeriodPerStock === undefined ||
+        !stock
+      ) {
+        batch.stockQTYStatus = 'ok';
+      } else {
+        const qty = stock.quantity;
+
+        if (qty === 0) {
+          batch.stockQTYStatus = 'empty';
+        } else if (qty <= batch.alertPeriodPerStock) {
+          batch.stockQTYStatus = 'low';
+        } else {
+          batch.stockQTYStatus = 'ok';
+        }
+      }
+
+      return await batchRepo.save(batch);
     });
-    if (!batch) {
-      throw new NotFoundException('Batch not found');
-    }
-    return this.batchRepository.save(batch);
   }
 
   async remove(id: number) {

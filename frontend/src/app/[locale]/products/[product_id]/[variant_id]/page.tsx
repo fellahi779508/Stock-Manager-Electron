@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import AddBatchModal from "@/components/batches/add-batch";
 import { Meta, Supplier } from "@/utils/types";
+import BatchSelectOptions from "@/components/batches/batch-select-options";
 
 /* ── types ───────────────────────────────────────────────────────────────── */
 
@@ -107,8 +108,9 @@ export default function VariantDetails() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [openModal, setOpenModal] = useState(false);
-	const [successToast, setSuccessToast] = useState(true);
+	const [successToast, setSuccessToast] = useState(false);
 	const [selectedBatch, setSelectedBatch] = useState(0);
+	const [openOptions, setOpenOptions] = useState(false);
 
 	/* ── debounce search — same as categories ── */
 	useEffect(() => {
@@ -444,10 +446,13 @@ export default function VariantDetails() {
 											</td>
 											<td className={styles.td}>
 												<span className={styles.actions}>
-													<button className={styles.removeBtn}>
-														{t("batches.actions.remove")}
-													</button>
-													<button className={styles.editBtn}>
+													<button
+														className={styles.editBtn}
+														onClick={() => {
+															setSelectedBatch(batch.id);
+															setOpenOptions(true);
+														}}
+													>
 														{t("batches.actions.edit")}
 													</button>
 												</span>
@@ -520,6 +525,13 @@ export default function VariantDetails() {
 					isUpdate={false}
 					setModalOpen={setOpenModal}
 					variantId={Number(param?.variant_id)}
+					setSuccessToast={setSuccessToast}
+				/>
+			)}
+			{openOptions && (
+				<BatchSelectOptions
+					batchId={selectedBatch.toString()}
+					handleOverlayClick={() => setOpenOptions(false)}
 					setSuccessToast={setSuccessToast}
 				/>
 			)}

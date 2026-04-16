@@ -93,6 +93,7 @@ export async function getAllBatchesOfVariant(
 		const response = await api
 			.get(`/batch/variant/${id}?search=${search}&page=${page}&limit=${limit}`)
 			.then((res) => res.data);
+		console.log(response);
 
 		return { response, status: 1 };
 	} catch (error: any) {

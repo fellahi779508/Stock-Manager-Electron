@@ -105,7 +105,18 @@ export class StockService {
   }
 
   async removeFromStock(id: number, dto: UpdateStockDto) {
-    const stock = await this.findOne(id);
+    const stock = await this.stockRepository.findOne({
+      where: { batch: { id } },
+      relations: ['batch'],
+    });
+    const batchRepo = this.datasource.getRepository(Batch);
+    if (!stock) {
+      throw new NotFoundException('Stock not found');
+    }
+    const batch = await batchRepo.findOne({ where: { id: stock.batch.id } });
+    if (!batch) {
+      throw new NotFoundException('Batch not found');
+    }
     stock.quantity -= dto.quantity;
     if (stock.quantity < 0) {
       stock.quantity = 0;
@@ -120,13 +131,40 @@ export class StockService {
     });
     await this.logRepo.save(log);
     console.log(log);
-    console.log(stock);
+    if (
+      batch.alertPeriodPerStock === null ||
+      batch.alertPeriodPerStock === undefined ||
+      !stock
+    ) {
+      batch.stockQTYStatus = 'ok';
+    } else {
+      const qty = stock.quantity;
+
+      if (qty === 0) {
+        batch.stockQTYStatus = 'empty';
+      } else if (qty <= stock.batch.alertPeriodPerStock) {
+        batch.stockQTYStatus = 'low';
+      } else {
+        batch.stockQTYStatus = 'ok';
+      }
+    }
+    await batchRepo.save(batch);
     return await this.stockRepository.save(stock);
   }
   async addToStock(id: number, dto: UpdateStockDto) {
-    const stock = await this.findOne(id);
+    const stock = await this.stockRepository.findOne({
+      where: { batch: { id } },
+      relations: ['batch'],
+    });
+    const batchRepo = this.datasource.getRepository(Batch);
+    if (!stock) {
+      throw new NotFoundException('Stock not found');
+    }
+    const batch = await batchRepo.findOne({ where: { id: stock.batch.id } });
+    if (!batch) {
+      throw new NotFoundException('Batch not found');
+    }
     stock.quantity += dto.quantity;
-
     const log = this.logRepo.create({
       entityType: Types.STOCK,
       action: Actions.ADD,
@@ -136,7 +174,24 @@ export class StockService {
       timestamp: new Date().toISOString(),
     });
     await this.logRepo.save(log);
+    if (
+      batch.alertPeriodPerStock === null ||
+      batch.alertPeriodPerStock === undefined ||
+      !stock
+    ) {
+      batch.stockQTYStatus = 'ok';
+    } else {
+      const qty = stock.quantity;
 
+      if (qty === 0) {
+        batch.stockQTYStatus = 'empty';
+      } else if (qty <= stock.batch.alertPeriodPerStock) {
+        batch.stockQTYStatus = 'low';
+      } else {
+        batch.stockQTYStatus = 'ok';
+      }
+    }
+    await batchRepo.save(batch);
     return this.stockRepository.save(stock);
   }
   async getExpiredStock() {

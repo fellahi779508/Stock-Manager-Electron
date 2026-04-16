@@ -454,5 +454,56 @@
 		"alertPeriodPerDayPlaceholder": "أيام قبل الانتهاء",
 		"alertPeriodPerStockPlaceholder": "حد تنبيه المخزون",
 		"supplierSection": "المورد & التنبيهات"
+	},
+	"batchOptions": {
+		"eyebrow": "إجراءات الدفعة",
+		"title": "إدارة الدفعة",
+		"edit": {
+			"title": "تعديل المعلومات",
+			"desc": "تحديث تفاصيل وبيانات الدفعة"
+		},
+		"add": {
+			"title": "إضافة إلى المخزون",
+			"desc": "زيادة كمية الدفعة"
+		},
+		"remove": {
+			"title": "إزالة من المخزون",
+			"desc": "تقليل كمية الدفعة"
+		},
+		"delete": {
+			"title": "حذف الدفعة",
+			"desc": "إزالة هذه الدفعة نهائيًا"
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذه الدفعة؟"
+	},
+	"stockAdjustment": {
+		"title": "تعديل المخزون",
+		"subtitle": "تحديث الكمية وتحديد سبب",
+		"close": "إغلاق",
+		"cancel": "إلغاء",
+		"confirm": "تأكيد",
+		"confirming": "جاري الحفظ…",
+		"fields": {
+			"quantity": "الكمية",
+			"quantityPlaceholder": "مثال: 10",
+			"reason": "السبب",
+			"reasonPlaceholder": "اختر سبب…"
+		},
+		"validation": {
+			"quantity": "يرجى إدخال كمية صالحة",
+			"reason": "يرجى اختيار سبب"
+		},
+		"reasons": {
+			"refill": "إعادة التعبئة",
+			"return": "إرجاع العميل",
+			"damage": "منتجات تالفة",
+			"loss": "خسائر / تلف",
+			"correction": "تصحيح المخزون",
+			"transfer": "نقل"
+		},
+		"toast": {
+			"success": "تم تعديل المخزون بنجاح!",
+			"error": "فشل في تعديل المخزون."
+		}
 	}
 }

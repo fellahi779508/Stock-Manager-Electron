@@ -63,11 +63,15 @@ export class Batch {
   })
   supplier: Supplier;
 
-  @OneToMany(() => Log, (log) => log.batch, { nullable: true })
+  @OneToMany(() => Log, (log) => log.batch, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
   logs: Log[];
 
   @OneToMany(() => SoldItem, (soldItem) => soldItem.batch, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   soldItems: SoldItem[];
   @OneToMany(() => StockPayment, (stockPayment) => stockPayment.batch, {
@@ -76,7 +80,10 @@ export class Batch {
   })
   stockPayments: StockPayment[];
 
-  @OneToOne(() => Package, (pack) => pack.batch, { nullable: true })
+  @OneToOne(() => Package, (pack) => pack.batch, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
   pack: Package;
 
   @BeforeInsert()
@@ -112,6 +119,7 @@ export class Batch {
     } else {
       this.status = 'ok';
     }
+    this.updatedAt = new Date().toISOString();
   }
   @BeforeInsert()
   @BeforeUpdate()
@@ -123,9 +131,19 @@ export class Batch {
       this.stockQTYStatus = 'ok';
       return;
     }
-    const currentStockQTY = this.stock?.quantity;
+
+    // If stock relation is not loaded, we can't verify quantity status
+    if (!this.stock) {
+      this.stockQTYStatus = 'ok';
+      return;
+    }
+
+    const currentStockQTY = this.stock.quantity;
+    console.log(currentStockQTY);
+
     if (currentStockQTY <= this.alertPeriodPerStock && currentStockQTY > 0) {
       this.stockQTYStatus = 'low';
+      console.log('triggered verifyStockQTYStatus');
       return;
     }
     if (currentStockQTY === 0) {
@@ -133,5 +151,6 @@ export class Batch {
       return;
     }
     this.stockQTYStatus = 'ok';
+    this.updatedAt = new Date().toISOString();
   }
 }

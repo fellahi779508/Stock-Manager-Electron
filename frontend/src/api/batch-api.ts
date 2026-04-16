@@ -54,7 +54,9 @@ export async function getExpiringBatches(page: number, limit: number) {
 		return { error: error.response.data.message, status: 0 };
 	}
 }
-export async function updateBatchById(id: number, data: any) {
+export async function updateBatchById(id: number, data: PostBatch) {
+	console.log(data);
+
 	try {
 		const response = await api
 			.put(`/batch/${id}`, data)
@@ -62,6 +64,8 @@ export async function updateBatchById(id: number, data: any) {
 		console.log(response);
 		return { response, status: 1 };
 	} catch (error: any) {
+		console.log(error.res.data.message);
+
 		return { error: error.response.data.message, status: 0 };
 	}
 }
@@ -95,6 +99,17 @@ export async function getNormalBatches() {
 export async function createBatch(dto: PostBatch) {
 	try {
 		const response = await api.post(`/batch`, dto).then((res) => res.data);
+		console.log(response);
+		return { response, status: 1 };
+	} catch (error: any) {
+		console.log(error.response.data.message);
+
+		return { error: error.response.data.message, status: 0 };
+	}
+}
+export async function deleteBatch(id: number) {
+	try {
+		const response = await api.delete(`/batch/${id}`).then((res) => res.data);
 		console.log(response);
 		return { response, status: 1 };
 	} catch (error: any) {

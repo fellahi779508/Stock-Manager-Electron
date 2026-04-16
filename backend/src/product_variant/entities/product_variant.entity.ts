@@ -76,6 +76,8 @@ export class ProductVariant {
   })
   product: Product;
 
-  @OneToMany(() => Batch, (batches) => batches.variant)
+  @OneToMany(() => Batch, (batches) => batches.variant, {
+    nullable: true,
+  })
   batches: Batch[];
 }

@@ -71,7 +71,6 @@ export default function AddBatchModal({
 	async function handleSubmit() {
 		console.log(batch);
 
-		if (!fieldsVerifier()) return;
 		if (isUpdate) {
 			const result = await updateBatchById(batchId!, batch!);
 			if (result.status === 1) {
@@ -82,6 +81,7 @@ export default function AddBatchModal({
 				toast.error(t("errorUpdate"));
 			}
 		} else {
+			if (!fieldsVerifier()) return;
 			const result = await createBatch(batch!);
 			if (result.status === 1) {
 				toast.success(t("successCreate"));
@@ -98,7 +98,17 @@ export default function AddBatchModal({
 		if (!batchId) return;
 		const result = await getBatchById(batchId);
 		if (result.status === 1) {
-			setBatch(result.response);
+			setBatch({
+				nLot: result.response.nLot || "",
+				fabricationDate: result.response.fabricationDate || "",
+				expirationDate: result.response.expirationDate || "",
+				supplierId: result.response.supplier?.id,
+				quantity: result.response.quantity || 0,
+				alertPeriodPerDay: result.response.alertPeriodPerDay || undefined,
+				alertPeriodPerStock: result.response.alertPeriodPerStock || undefined,
+				variantId: result.response.variantId || 0,
+			});
+			setSelectedSupplier(result.response.supplier?.id);
 		}
 	}, [batchId]);
 
@@ -163,7 +173,10 @@ export default function AddBatchModal({
 					</div>
 
 					<div className={styles.grid2}>
-						<div className={styles.field}>
+						<div
+							className={styles.field}
+							style={isUpdate ? { gridColumn: "1 / -1" } : {}}
+						>
 							<label className={styles.label}>
 								{t("nLotLabel") || "Lot Number"}
 							</label>
@@ -176,24 +189,26 @@ export default function AddBatchModal({
 							/>
 						</div>
 
-						<div className={styles.field}>
-							<label className={styles.label}>
-								{t("quantityLabel") || "Quantity *"}
-							</label>
-							<input
-								type="number"
-								className={styles.input}
-								placeholder="0"
-								min="1"
-								value={batch.quantity || ""}
-								onChange={(e) =>
-									setBatch({
-										...batch,
-										quantity: parseInt(e.target.value) || 0,
-									})
-								}
-							/>
-						</div>
+						{!isUpdate && (
+							<div className={styles.field}>
+								<label className={styles.label}>
+									{t("quantityLabel") || "Quantity *"}
+								</label>
+								<input
+									type="number"
+									className={styles.input}
+									placeholder="0"
+									min="1"
+									value={batch.quantity || ""}
+									onChange={(e) =>
+										setBatch({
+											...batch,
+											quantity: parseInt(e.target.value) || 0,
+										})
+									}
+								/>
+							</div>
+						)}
 					</div>
 
 					<div className={styles.grid2}>
@@ -310,9 +325,6 @@ export default function AddBatchModal({
 							}
 						/>
 					</div>
-
-					{/* Hidden variantId display (optional, for debugging) */}
-					<input type="hidden" value={batch.variantId} />
 				</div>
 
 				<div className={styles.footer}>

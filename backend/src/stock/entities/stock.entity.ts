@@ -25,7 +25,10 @@ export class Stock {
   @Column()
   updatedAt: string;
 
-  @OneToOne(() => Batch, (batch) => batch.stock, { onDelete: 'CASCADE' })
+  @OneToOne(() => Batch, (batch) => batch.stock, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'batch_id' })
   batch: Batch;
 
@@ -40,6 +43,11 @@ export class Stock {
     if (this.quantity <= 0) {
       this.quantity = 0;
     }
+    return;
+  }
+  @BeforeUpdate()
+  updateStockUpdatedAt() {
+    this.updatedAt = new Date().toISOString();
     return;
   }
 }
