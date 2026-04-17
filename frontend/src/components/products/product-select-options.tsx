@@ -23,6 +23,9 @@ export default function ProductSelectOptions({
 		if (e.target === e.currentTarget) setProductSelectOptionsOpen(false);
 	}
 	async function deleteProduct() {
+		if (!window.confirm(t("productOptions.confirmDelete"))) {
+			return;
+		}
 		const res = await deleteProductById(productId);
 		if (res.status === 1) {
 			setSuccessToast(true);

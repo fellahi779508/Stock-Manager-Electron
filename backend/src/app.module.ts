@@ -15,6 +15,8 @@ import { StockPaymentModule } from './stock-payment/stock-payment.module';
 import { getDatabasePath } from './dataPath';
 import { BackupModule } from './backup/backup.module';
 import { PackageModule } from './package/package.module';
+import { OwnerModule } from './owner/owner.module';
+import { PurchasedItemModule } from './purchased-item/purchased-item.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { PackageModule } from './package/package.module';
     StockPaymentModule,
     BackupModule,
     PackageModule,
+    OwnerModule,
+    PurchasedItemModule,
   ],
 })
 export class AppModule {}

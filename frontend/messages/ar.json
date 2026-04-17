@@ -48,7 +48,8 @@
 			"title": "حذف المنتج",
 			"desc": "حذف المنتج من النظام",
 			"error": "فشل في حذف المنتج"
-		}
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء."
 	},
 	"calculator": {
 		"title": "الآلة الحاسبة",
@@ -134,7 +135,8 @@
 		"deleteCategory": {
 			"title": "حذف الفئة",
 			"desc": "حذف هذه الفئة نهائياً وجميع منتجاتها"
-		}
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذه الفئة؟ لا يمكن التراجع عن هذا الإجراء."
 	},
 	"addProduct": {
 		"step1": {
@@ -320,7 +322,8 @@
 		"deleteSupplier": {
 			"title": "حذف المورد",
 			"desc": "حذف هذا المورد من النظام"
-		}
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذا المورد؟ لا يمكن التراجع عن هذا الإجراء."
 	},
 	"variantOptions": {
 		"eyebrow": "البديل",
@@ -337,12 +340,13 @@
 		"deleteVariant": {
 			"title": "حذف البديل",
 			"desc": "حذف هذا البديل من النظام"
-		}
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذا البديل؟ لا يمكن التراجع عن هذا الإجراء."
 	},
 	"stock": {
 		"title": "المخزون",
 		"total": "{count} إدخال",
-		"searchPlaceholder": "البحث باسم المتغير…",
+		"searchPlaceholder": "البحث باسم المتغير أو الرمز الشريطي…",
 		"refresh": "تحديث",
 		"loading": "جارٍ تحميل المخزون…",
 		"errorLoad": "فشل تحميل المخزون",
@@ -505,5 +509,34 @@
 			"success": "تم تعديل المخزون بنجاح!",
 			"error": "فشل في تعديل المخزون."
 		}
+	},
+	"Dashboard": {
+		"title": "مدير المخزون POS",
+		"quickSale": "بيع سريع",
+		"quickPurchase": "شراء سريع",
+		"todaySales": "المبيعات اليومية",
+		"todayPurchases": "المشتريات اليومية",
+		"profit": "الربح",
+		"costs": "التكلفة",
+		"salesCount": "المبيعات",
+		"purchaseCount": "المشتريات",
+		"lowStockAlert": "تنبيه المخزون المنخفض",
+		"expiringAlert": "البضائع المنتهية الصلاحية",
+		"recentTransactions": "العمليات الأخيرة",
+		"transactionId": "المعرف",
+		"type": "النوع",
+		"customerOrSupplier": "العميل / المورد",
+		"amount": "المبلغ",
+		"time": "الوقت",
+		"sale": "بيع",
+		"purchase": "شراء",
+		"searchProduct": "البحث عن منتج...",
+		"cart": "السلة",
+		"emptyCart": "السلة فارغة",
+		"total": "الإجمالي",
+		"completeSale": "إتمام البيع",
+		"completePurchase": "إتمام الشراء",
+		"cancel": "إلغاء",
+		"purchaseMockMessage": "سيتم إضافة اختيار المورد وخطوط المنتجات هنا."
 	}
 }

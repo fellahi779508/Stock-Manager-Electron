@@ -34,7 +34,7 @@ export default function BatchSelectOptions({
 			return;
 		}
 		const res = await deleteBatch(Number(batchId));
-		if (res.status === 200) {
+		if (res.status === 1) {
 			setSuccessToast(true);
 			handleOverlayClick();
 		} else {

@@ -47,7 +47,8 @@
 			"title": "Delete Product",
 			"desc": "Delete product from the system",
 			"error": "Failed to delete product"
-		}
+		},
+		"confirmDelete": "Are you sure you want to delete this product? This action cannot be undone."
 	},
 	"categories": {
 		"title": "Categories",
@@ -126,7 +127,8 @@
 		"deleteCategory": {
 			"title": "Delete Category",
 			"desc": "Permanently remove this category and all its products"
-		}
+		},
+		"confirmDelete": "Are you sure you want to delete this category? This action cannot be undone."
 	},
 	"addProduct": {
 		"step1": {
@@ -319,7 +321,8 @@
 		"deleteSupplier": {
 			"title": "Delete supplier",
 			"desc": "Delete supplier from the system"
-		}
+		},
+		"confirmDelete": "Are you sure you want to delete this supplier? This action cannot be undone."
 	},
 	"variantOptions": {
 		"eyebrow": "Variant",
@@ -336,12 +339,13 @@
 		"deleteVariant": {
 			"title": "Delete variant",
 			"desc": "Delete variant from the system"
-		}
+		},
+		"confirmDelete": "Are you sure you want to delete this variant? This action cannot be undone."
 	},
 	"stock": {
 		"title": "Stock",
 		"total": "{count} entries",
-		"searchPlaceholder": "Search by variant name…",
+		"searchPlaceholder": "Search by variant name or barcode…",
 		"refresh": "Refresh",
 		"loading": "Loading stock…",
 		"errorLoad": "Failed to load stock",
@@ -504,5 +508,34 @@
 			"success": "Stock adjusted successfully!",
 			"error": "Failed to adjust stock."
 		}
+	},
+	"Dashboard": {
+		"title": "Stock Manager POS",
+		"quickSale": "Quick Sale",
+		"quickPurchase": "Quick Purchase",
+		"todaySales": "Today's Sales",
+		"todayPurchases": "Today's Purchases",
+		"profit": "Profit",
+		"costs": "Costs",
+		"salesCount": "Sales",
+		"purchaseCount": "Purchases",
+		"lowStockAlert": "Low stock alert",
+		"expiringAlert": "Expiring batches",
+		"recentTransactions": "Recent transactions",
+		"transactionId": "ID",
+		"type": "Type",
+		"customerOrSupplier": "Customer / Supplier",
+		"amount": "Amount",
+		"time": "Time",
+		"sale": "Sale",
+		"purchase": "Purchase",
+		"searchProduct": "Search product...",
+		"cart": "Shopping cart",
+		"emptyCart": "Cart is empty",
+		"total": "Total",
+		"completeSale": "Complete sale",
+		"completePurchase": "Complete purchase",
+		"cancel": "Cancel",
+		"purchaseMockMessage": "Supplier selection and product lines will be added here."
 	}
 }

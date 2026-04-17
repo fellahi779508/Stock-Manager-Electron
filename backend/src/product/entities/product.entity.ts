@@ -32,6 +32,7 @@ export class Product {
 
   @OneToMany(() => ProductVariant, (variant) => variant.product, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   variants: ProductVariant[];
 }

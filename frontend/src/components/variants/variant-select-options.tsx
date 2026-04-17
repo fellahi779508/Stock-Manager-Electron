@@ -26,6 +26,9 @@ export default function VariantSelectOptions({
 		if (e.target === e.currentTarget) setVariantSelectOptionsOpen(false);
 	}
 	async function deleteVriant() {
+		if (!window.confirm(t("variantOptions.confirmDelete"))) {
+			return;
+		}
 		const res = await deleteVariantById(variantId);
 		if (res.status === 1) {
 			setSuccessToast(true);

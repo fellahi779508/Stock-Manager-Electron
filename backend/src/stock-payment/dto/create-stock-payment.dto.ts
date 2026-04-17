@@ -1,4 +1,10 @@
-import { IsDateString, IsNumber } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateStockPaymentDto {
   @IsNumber()
@@ -11,6 +17,14 @@ export class CreateStockPaymentDto {
   date: string;
   @IsNumber()
   supplierId: number;
+  @IsString()
+  paymentMethod: string;
   @IsNumber()
-  batchId: number;
+  @IsOptional()
+  timbre?: number;
+  @IsArray()
+  purchasedItems: {
+    batchId: number;
+    quantity: number;
+  }[];
 }

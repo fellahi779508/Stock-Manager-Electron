@@ -22,6 +22,9 @@ export default function SupplierSelectOptions({
 		if (e.target === e.currentTarget) setSupplierSelectOptionsOpen(false);
 	}
 	async function HandleDeleteSuppleir() {
+		if (!window.confirm(t("supplierOptions.confirmDelete"))) {
+			return;
+		}
 		const result = await deleteSupplier(SupplierID);
 		if (result.status === 1) {
 			setSuccessToast(true);

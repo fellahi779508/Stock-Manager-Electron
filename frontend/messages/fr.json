@@ -47,7 +47,8 @@
 			"title": "Supprimer le produit",
 			"desc": "Supprimer le produit du système",
 			"error": "Échec de la suppression du produit"
-		}
+		},
+		"confirmDelete": "Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible."
 	},
 	"updateProduct": {
 		"title": "Mettre à jour le produit",
@@ -133,7 +134,8 @@
 		"deleteCategory": {
 			"title": "Supprimer la catégorie",
 			"desc": "Supprimer définitivement cette catégorie et tous ses produits"
-		}
+		},
+		"confirmDelete": "Êtes-vous sûr de vouloir supprimer cette catégorie ? Cette action est irréversible."
 	},
 	"addProduct": {
 		"step1": {
@@ -318,7 +320,8 @@
 		"deleteSupplier": {
 			"title": "Supprimer le fournisseur",
 			"desc": "Supprimer ce fournisseur du système"
-		}
+		},
+		"confirmDelete": "Êtes-vous sûr de vouloir supprimer ce fournisseur ? Cette action est irréversible."
 	},
 	"variantOptions": {
 		"eyebrow": "Variante",
@@ -335,12 +338,13 @@
 		"deleteVariant": {
 			"title": "Supprimer la variante",
 			"desc": "Supprimer cette variante du système"
-		}
+		},
+		"confirmDelete": "Êtes-vous sûr de vouloir supprimer cette variante ? Cette action est irréversible."
 	},
 	"stock": {
 		"title": "Stock",
 		"total": "{count} entrées",
-		"searchPlaceholder": "Rechercher par variante…",
+		"searchPlaceholder": "Rechercher par variante ou code-barre…",
 		"refresh": "Actualiser",
 		"loading": "Chargement du stock…",
 		"errorLoad": "Échec du chargement du stock",
@@ -503,5 +507,34 @@
 			"success": "Stock ajusté avec succès !",
 			"error": "Échec de l'ajustement du stock."
 		}
+	},
+	"Dashboard": {
+		"title": "Stock Manager POS",
+		"quickSale": "Vente rapide",
+		"quickPurchase": "Achat rapide",
+		"todaySales": "Ventes d'aujourd'hui",
+		"todayPurchases": "Achats d'aujourd'hui",
+		"profit": "Profit",
+		"costs": "Coûts",
+		"salesCount": "Ventes",
+		"purchaseCount": "Achats",
+		"lowStockAlert": "Alerte stock faible",
+		"expiringAlert": "Lots expirant",
+		"recentTransactions": "Transactions récentes",
+		"transactionId": "ID",
+		"type": "Type",
+		"customerOrSupplier": "Client / Fournisseur",
+		"amount": "Montant",
+		"time": "Heure",
+		"sale": "Vente",
+		"purchase": "Achat",
+		"searchProduct": "Rechercher un produit...",
+		"cart": "Panier",
+		"emptyCart": "Le panier est vide",
+		"total": "Total",
+		"completeSale": "Finaliser la vente",
+		"completePurchase": "Finaliser l'achat",
+		"cancel": "Annuler",
+		"purchaseMockMessage": "La sélection du fournisseur et les lignes de produits seront ajoutées ici."
 	}
 }

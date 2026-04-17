@@ -1,6 +1,7 @@
 import { Log } from 'src/logs/entities/log.entity';
 import { Package } from 'src/package/entities/package.entity';
 import { ProductVariant } from 'src/product_variant/entities/product_variant.entity';
+import { PurchasedItem } from 'src/purchased-item/entities/purchased-item.entity';
 import { SoldItem } from 'src/sold-item/entities/sold-item.entity';
 import { StockPayment } from 'src/stock-payment/entities/stock-payment.entity';
 import { Stock } from 'src/stock/entities/stock.entity';
@@ -74,11 +75,11 @@ export class Batch {
     onDelete: 'SET NULL',
   })
   soldItems: SoldItem[];
-  @OneToMany(() => StockPayment, (stockPayment) => stockPayment.batch, {
+  @OneToMany(() => PurchasedItem, (purchasedItem) => purchasedItem.batch, {
     nullable: true,
     onDelete: 'SET NULL',
   })
-  stockPayments: StockPayment[];
+  purchasedItems: PurchasedItem[];
 
   @OneToOne(() => Package, (pack) => pack.batch, {
     nullable: true,

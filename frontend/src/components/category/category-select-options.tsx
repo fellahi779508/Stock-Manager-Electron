@@ -32,6 +32,9 @@ export default function CategorySelectOptions({
 	}
 
 	async function HandleDeleteCategory() {
+		if (!window.confirm(t("categoryOptions.confirmDelete"))) {
+			return;
+		}
 		const res = await deleteCategoryById(categoryId);
 		if (res.status === 1) {
 			setSuccessToast(true);

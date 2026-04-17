@@ -40,6 +40,8 @@ export class ProductVariant {
 
   @Column({ default: 0 })
   profitRate: number;
+  @Column({ default: 0 })
+  profitTTC: number;
 
   @Column({ default: 0, nullable: true })
   promotionPrice: number;
@@ -78,6 +80,12 @@ export class ProductVariant {
 
   @OneToMany(() => Batch, (batches) => batches.variant, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   batches: Batch[];
+  @BeforeInsert()
+  @BeforeUpdate()
+  updateProfit() {
+    this.profitTTC = this.sellingPriceTTC - this.purchasePrice;
+  }
 }

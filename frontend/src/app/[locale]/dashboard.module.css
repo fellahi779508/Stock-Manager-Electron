@@ -1,0 +1,339 @@
+.dashboard {
+	min-height: 100vh;
+	background: var(--background);
+	color: var(--foreground);
+	padding: 1.5rem;
+	font-family:
+		system-ui,
+		-apple-system,
+		"Segoe UI",
+		Roboto,
+		sans-serif;
+	transition:
+		background 0.2s,
+		color 0.2s;
+}
+
+.themeSwitcher button {
+	background: transparent;
+	border: none;
+	border-radius: 2rem;
+	padding: 0.4rem 0.8rem;
+	font-size: 0.8rem;
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	cursor: pointer;
+	color: var(--foreground-muted);
+	transition: all 0.2s;
+}
+
+.themeSwitcher button.active {
+	background: var(--accent);
+	color: var(--accent-foreground);
+}
+
+/* Header */
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2rem;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.header h1 {
+	font-size: 1.8rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.headerActions {
+	display: flex;
+	gap: 1rem;
+}
+
+.primaryBtn,
+.secondaryBtn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.6rem 1.2rem;
+	border-radius: 0.5rem;
+	font-weight: 500;
+	cursor: pointer;
+	border: none;
+	transition: all 0.2s;
+}
+
+.primaryBtn {
+	background: var(--accent);
+	color: var(--accent-foreground);
+}
+
+.primaryBtn:hover {
+	filter: brightness(0.9);
+}
+
+.secondaryBtn {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	color: var(--foreground);
+}
+
+.secondaryBtn:hover {
+	background: var(--surface-hover);
+}
+
+/* Card grid */
+.cardGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	padding: 1.2rem;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	transition: transform 0.1s ease;
+}
+
+.cardIcon {
+	width: 48px;
+	height: 48px;
+	border-radius: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cardContent {
+	display: flex;
+	flex-direction: column;
+}
+
+.cardLabel {
+	font-size: 0.85rem;
+	color: var(--foreground-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.cardValue {
+	font-size: 1.8rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.cardSub {
+	font-size: 0.75rem;
+	color: var(--foreground-muted);
+}
+
+/* Alerts */
+.alertsRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.alertCard {
+	flex: 1;
+	background: var(--surface);
+	border-left: 4px solid;
+	border-radius: 0.75rem;
+	padding: 1rem;
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+}
+
+.alertCard ul {
+	margin: 0.5rem 0 0 1rem;
+	padding: 0;
+}
+
+.alertCard li {
+	margin-bottom: 0.2rem;
+}
+
+/* Transactions */
+.transactionsSection {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	padding: 1.2rem;
+	margin-bottom: 2rem;
+}
+
+.transactionsSection h2 {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	font-size: 1.3rem;
+}
+
+.transactionTable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.transactionTable th,
+.transactionTable td {
+	text-align: left;
+	padding: 0.75rem 0.5rem;
+	border-bottom: 1px solid var(--border);
+}
+
+.transactionTable th {
+	font-weight: 600;
+	color: var(--foreground-muted);
+}
+
+.saleBadge,
+.purchaseBadge {
+	display: inline-block;
+	padding: 0.2rem 0.6rem;
+	border-radius: 1rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+}
+
+.saleBadge {
+	background: var(--success-bg);
+	color: var(--success);
+}
+
+.purchaseBadge {
+	background: var(--warning-bg);
+	color: var(--warning);
+}
+
+/* Modals */
+.modalOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	backdrop-filter: blur(4px);
+}
+
+.modal {
+	background: var(--background-secondary);
+	border: 1px solid var(--border);
+	border-radius: 1.2rem;
+	width: 90%;
+	max-width: 800px;
+	max-height: 85vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.modalHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid var(--border);
+}
+
+.modalBody {
+	padding: 1.5rem;
+	overflow-y: auto;
+	flex: 1;
+}
+
+.modalFooter {
+	padding: 1rem 1.5rem;
+	border-top: 1px solid var(--border);
+	display: flex;
+	justify-content: flex-end;
+	gap: 1rem;
+}
+
+.searchBar {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 2rem;
+	padding: 0.4rem 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.searchBar input {
+	background: transparent;
+	border: none;
+	flex: 1;
+	outline: none;
+	color: var(--foreground);
+}
+
+.productGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 0.8rem;
+	margin-bottom: 2rem;
+}
+
+.productCard {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 0.75rem;
+	padding: 0.6rem;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.1s;
+}
+
+.productCard:hover {
+	background: var(--surface-hover);
+	transform: scale(0.98);
+}
+
+.cartSection {
+	border-top: 1px solid var(--border);
+	padding-top: 1rem;
+}
+
+.cartItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--border);
+}
+
+.cartItemControls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.cartItemControls button {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--foreground-muted);
+}
+
+.cartTotal {
+	text-align: right;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+}

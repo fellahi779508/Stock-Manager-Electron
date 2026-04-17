@@ -41,7 +41,7 @@ export class SaleService {
       for (const item of createSaleDto.soldItems) {
         const batch = await bacthRepo.findOne({
           where: { id: item.batchId },
-          relations: ['stock'],
+          relations: ['stock', 'variant'],
         });
         if (!batch) throw new NotFoundException('Batch not found');
         const soldItem = soldItemRepo.create({
