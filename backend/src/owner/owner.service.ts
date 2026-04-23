@@ -3,8 +3,12 @@ import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Owner } from './entities/owner.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Batch, DataSource, ILike, Repository } from 'typeorm';
 import { Sale } from 'src/sale/entities/sale.entity';
+import { Log } from 'src/logs/entities/log.entity';
+import { Reasons, Types } from 'utils/actions';
+import { PurchasedItem } from 'src/purchased-item/entities/purchased-item.entity';
+import { StockPayment } from 'src/stock-payment/entities/stock-payment.entity';
 
 @Injectable()
 export class OwnerService {
@@ -53,7 +57,7 @@ export class OwnerService {
     const saleRepo = this.dataSource.getRepository(Sale);
     const sales = await saleRepo.find({
       where: {
-        date: today,
+        date: ILike(`%${today}%`),
       },
       relations: ['soldItems', 'soldItems.batch', 'soldItems.batch.variant'],
     });
@@ -61,12 +65,44 @@ export class OwnerService {
   }
   async getLossesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];
-    const saleRepo = this.dataSource.getRepository(Sale);
-    const sales = await saleRepo.find({
-      where: {
-        date: today,
-      },
-      relations: ['soldItems', 'soldItems.batch', 'soldItems.batch.variant'],
+    const logRepo = this.dataSource.getRepository(Log);
+    const bacthRepo = this.dataSource.getRepository(Batch);
+    let logs = await logRepo.find({
+      where: [
+        {
+          entityType: Types.STOCK,
+          reason: Reasons.EXPIRED,
+          timestamp: ILike(`%${today}%`),
+        },
+        {
+          entityType: Types.STOCK,
+          reason: Reasons.DAMAGED,
+          timestamp: ILike(`%${today}%`),
+        },
+      ],
+      relations: ['stock', 'stock.batch', 'stock.batch.variant'],
     });
+
+    let sum = 0;
+    for (const log of logs) {
+      sum += log.quantity * log.stock.batch.variant.purchasePrice;
+    }
+    return sum;
+  }
+  async getCostesOfTheDay() {
+    const today = new Date().toISOString().split('T')[0];
+    const purchaseRepo = this.dataSource.getRepository(StockPayment);
+    const purchases = await purchaseRepo.find({
+      where: {
+        date: ILike(`%${today}%`),
+      },
+    });
+    let totalCost = 0;
+    let totalCredit = 0;
+    for (const purchase of purchases) {
+      totalCost += purchase.amount;
+      totalCredit += purchase.remaining;
+    }
+    return { totalCost, totalCredit };
   }
 }

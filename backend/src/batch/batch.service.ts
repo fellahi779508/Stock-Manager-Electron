@@ -389,4 +389,54 @@ export class BatchService {
       },
     };
   }
+  async updateBatchStatus(id: number) {
+    const batch = await this.findOne(id);
+    const nowDate = new Date();
+    if (!batch.expirationDate) {
+      batch.status = 'ok';
+    } else {
+      const expiration = new Date(batch.expirationDate);
+
+      if (nowDate > expiration) {
+        batch.status = 'expired';
+      } else {
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const daysLeft = Math.floor(
+          (expiration.getTime() - nowDate.getTime()) / msPerDay,
+        );
+
+        if (daysLeft <= 0) {
+          batch.status = 'expired';
+        } else if (
+          batch.alertPeriodPerDay !== null &&
+          batch.alertPeriodPerDay !== undefined &&
+          daysLeft <= batch.alertPeriodPerDay
+        ) {
+          batch.status = 'expiring';
+        } else {
+          batch.status = 'ok';
+        }
+      }
+    }
+
+    const stock = batch.stock;
+
+    if (
+      batch.alertPeriodPerStock === null ||
+      batch.alertPeriodPerStock === undefined
+    ) {
+      batch.stockQTYStatus = 'ok';
+    } else {
+      const qty = stock.quantity;
+
+      if (qty === 0) {
+        batch.stockQTYStatus = 'empty';
+      } else if (qty <= batch.alertPeriodPerStock) {
+        batch.stockQTYStatus = 'low';
+      } else {
+        batch.stockQTYStatus = 'ok';
+      }
+    }
+    await this.batchRepository.save(batch);
+  }
 }

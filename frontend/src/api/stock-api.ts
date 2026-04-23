@@ -16,7 +16,6 @@ export async function addToStock(id: number, quantity: number, reason: string) {
 		const response = await api
 			.put(`/stock/add/${id}`, { quantity, reason })
 			.then((res) => res.data);
-		console.log(response);
 		return { response, status: 1 };
 	} catch (error: any) {
 		return { error: error.response.data.message, status: 0 };

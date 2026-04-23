@@ -12,6 +12,7 @@ import { Actions, Reasons, Types } from 'utils/actions';
 import { Stock } from 'src/stock/entities/stock.entity';
 import { Batch } from 'src/batch/entities/batch.entity';
 import { SoldItem } from 'src/sold-item/entities/sold-item.entity';
+import { BatchService } from 'src/batch/batch.service';
 
 @Injectable()
 export class SaleService {
@@ -19,6 +20,7 @@ export class SaleService {
     @InjectRepository(Sale) private saleRepository: Repository<Sale>,
     private readonly datasource: DataSource,
     private readonly stockService: StockService,
+    private readonly batchService: BatchService,
   ) {}
   async create(createSaleDto: CreateSaleDto) {
     return this.datasource.transaction(async (manager) => {
@@ -64,6 +66,7 @@ export class SaleService {
           timestamp: new Date().toISOString(),
         });
         await logRepo.save(stockLog);
+        await this.batchService.updateBatchStatus(batch.id);
       }
       if (createSaleDto.total !== createSaleDto.paid) {
         const client = await clientRepo.findOne({
@@ -92,6 +95,7 @@ export class SaleService {
         entityType: Types.SALE,
         timestamp: new Date().toISOString(),
       });
+
       await logRepo.save(saleLog);
       return savedSale;
     });

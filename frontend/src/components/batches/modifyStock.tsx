@@ -11,9 +11,9 @@ import { addToStock, removeFromStock } from "@/api/stock-api";
 /* ── types ───────────────────────────────────────────────────────────────── */
 
 type Reason =
-	| "refill"
-	| "return"
-	| "damage"
+	| "refilled"
+	| "returned"
+	| "damaged"
 	| "loss"
 	| "correction"
 	| "transfer";
@@ -40,9 +40,9 @@ export default function StockAdjustmentModal({
 	const [loading, setLoading] = useState(false);
 
 	const reasonOptions: Option[] = [
-		{ value: "refill", label: t("reasons.refill") },
-		{ value: "return", label: t("reasons.return") },
-		{ value: "damage", label: t("reasons.damage") },
+		{ value: "refilled", label: t("reasons.refill") },
+		{ value: "returned", label: t("reasons.return") },
+		{ value: "damaged", label: t("reasons.damage") },
 		{ value: "loss", label: t("reasons.loss") },
 		{ value: "correction", label: t("reasons.correction") },
 		{ value: "transfer", label: t("reasons.transfer") },

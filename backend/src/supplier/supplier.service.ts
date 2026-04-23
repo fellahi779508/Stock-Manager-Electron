@@ -25,6 +25,7 @@ export class SupplierService {
         },
         skip: (page - 1) * limit,
         take: limit,
+        relations: ['stockPayments', 'stockPayments.credit'],
       });
       return {
         data: items,
@@ -39,6 +40,7 @@ export class SupplierService {
     const [items, total] = await this.supplierRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
+      relations: ['stockPayments', 'stockPayments.credit'],
     });
     return {
       data: items,

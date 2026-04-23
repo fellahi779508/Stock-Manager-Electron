@@ -18,7 +18,10 @@ export class Credit {
   @Column()
   amount: number;
 
-  @OneToMany(() => Log, (log) => log.credit)
+  @OneToMany(() => Log, (log) => log.credit, {
+    cascade: true,
+    nullable: true,
+  })
   logs: Log[];
 
   @OneToOne(() => Sale, (sale) => sale.credit, {
@@ -32,5 +35,6 @@ export class Credit {
     nullable: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'purchase_id' })
   stockPayment: StockPayment;
 }

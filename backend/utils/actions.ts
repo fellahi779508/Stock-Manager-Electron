@@ -12,6 +12,7 @@ export enum Reasons {
   REFILL = 'refilled',
   NEW = 'new',
   PAID = 'paid',
+  DAMAGED = 'damaged',
 }
 export enum Types {
   STOCK = 'stock',

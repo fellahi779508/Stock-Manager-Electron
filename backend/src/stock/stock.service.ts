@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { Batch } from 'src/batch/entities/batch.entity';
@@ -7,13 +12,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, ILike, LessThan, Like, Repository } from 'typeorm';
 import { Log } from 'src/logs/entities/log.entity';
 import { Types, Actions, Reasons } from 'utils/actions';
+import { BatchService } from 'src/batch/batch.service';
 
 @Injectable()
 export class StockService {
   logRepo: Repository<Log>;
   constructor(
     @InjectRepository(Stock) private stockRepository: Repository<Stock>,
+
     private readonly datasource: DataSource,
+    @Inject(forwardRef(() => BatchService))
+    private readonly batchService: BatchService,
   ) {
     this.logRepo = this.datasource.getRepository(Log);
   }
@@ -120,22 +129,6 @@ export class StockService {
     const newQuantity = Math.max(0, stock.quantity - dto.quantity);
     stock.quantity = newQuantity;
 
-    // 3. Update Batch Status based on the NEW quantity
-    const batch = stock.batch;
-    const threshold = batch.alertPeriodPerStock;
-
-    if (newQuantity === 0) {
-      batch.stockQTYStatus = 'empty';
-    } else if (
-      threshold !== null &&
-      threshold !== undefined &&
-      newQuantity <= threshold
-    ) {
-      batch.stockQTYStatus = 'low';
-    } else {
-      batch.stockQTYStatus = 'ok';
-    }
-
     // 4. Create the Log
     const log = this.logRepo.create({
       entityType: Types.STOCK,
@@ -147,13 +140,9 @@ export class StockService {
     });
 
     // 5. Execute saves
-    // We save the batch specifically to ensure the 'stockQTYStatus' persists
-    const batchRepo = this.datasource.getRepository(Batch);
-
     await this.logRepo.save(log);
-    await batchRepo.save(batch);
     const savedStock = await this.stockRepository.save(stock);
-
+    await this.batchService.updateBatchStatus(stock.batch.id);
     return savedStock;
   }
   async addToStock(id: number, dto: UpdateStockDto) {
@@ -170,23 +159,6 @@ export class StockService {
     // 2. Update quantity
     stock.quantity += dto.quantity;
 
-    // 3. Update the Batch status based on the NEW quantity
-    // We use the batch attached to the stock object to ensure consistency
-    const batch = stock.batch;
-    const alertThreshold = batch.alertPeriodPerStock;
-
-    if (stock.quantity === 0) {
-      batch.stockQTYStatus = 'empty';
-    } else if (
-      alertThreshold !== null &&
-      alertThreshold !== undefined &&
-      stock.quantity <= alertThreshold
-    ) {
-      batch.stockQTYStatus = 'low';
-    } else {
-      batch.stockQTYStatus = 'ok';
-    }
-
     // 4. Create the log entry
     const log = this.logRepo.create({
       entityType: Types.STOCK,
@@ -197,15 +169,11 @@ export class StockService {
       timestamp: new Date().toISOString(),
     });
 
-    // 5. Save everything
-    // Using the batch repository to save the updated status
-    const batchRepo = this.datasource.getRepository(Batch);
-
     await Promise.all([
       this.logRepo.save(log),
-      batchRepo.save(batch),
       this.stockRepository.save(stock),
     ]);
+    await this.batchService.updateBatchStatus(stock.batch.id);
 
     return stock;
   }
