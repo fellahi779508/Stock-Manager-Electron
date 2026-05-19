@@ -1,4 +1,54 @@
 {
+	"dashboard": {
+		"title": "لوحة التحكم",
+		"subtitle": "مدير المخزون · نظرة عامة",
+		"loading": "جاري جلب البيانات…",
+		"dateBanner": {
+			"live": "مباشر"
+		},
+		"actions": {
+			"quickSale": "بيع سريع",
+			"quickPurchase": "شراء سريع"
+		},
+		"metrics": {
+			"profit": "الربح اليوم",
+			"costs": "إجمالي التكاليف",
+			"credit": "ائتمان",
+			"losses": "إجمالي الخسائر",
+			"salesVolume": "حجم المبيعات",
+			"purchases": "المشتريات"
+		},
+		"sections": {
+			"latestSales": "آخر المبيعات",
+			"latestPurchases": "آخر عمليات الشراء",
+			"damagedExpired": "تالفة وانتهت صلاحيتها"
+		},
+		"labels": {
+			"sale": "بيع",
+			"purchaseOrder": "أمر شراء",
+			"total": "الإجمالي",
+			"paid": "المدفوع",
+			"amount": "المبلغ",
+			"remaining": "المتبقي",
+			"qty": "الكمية",
+			"lost": "مفقود",
+			"batch": "دفعة",
+			"stock": "مخزون",
+			"lossReason": {
+				"damaged": "تالف",
+				"expired": "انتهت الصلاحية"
+			}
+		},
+		"empty": {
+			"noSales": "— لا توجد مبيعات اليوم —",
+			"noPurchases": "— لا توجد عمليات شراء اليوم —",
+			"noLosses": "— لا توجد خسائر اليوم —"
+		},
+		"error": {
+			"default": "فشل تحميل بيانات لوحة التحكم",
+			"retry": "إعادة محاولة"
+		}
+	},
 	"sidebar": {
 		"appName": "Nexus",
 		"appTagline": "نظام إدارة",
@@ -538,5 +588,16 @@
 		"completePurchase": "إتمام الشراء",
 		"cancel": "إلغاء",
 		"purchaseMockMessage": "سيتم إضافة اختيار المورد وخطوط المنتجات هنا."
-	}
+	},
+	"quick_sale": "بيع سريع",
+	"quick_purchase": "شراء سريع",
+	"search_placeholder": "البحث عن منتج...",
+	"quantity": "الكمية",
+	"total": "الإجمالي",
+	"print_receipt": "طباعة الإيصال",
+	"proceed": "المتابعة",
+	"cancel": "إلغاء",
+
+	"price": "السعر",
+	"no_products": "لا توجد منتجات"
 }

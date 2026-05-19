@@ -1,4 +1,54 @@
 {
+	"dashboard": {
+		"title": "Tableau de Bord",
+		"subtitle": "Gestionnaire de Stock · Aperçu",
+		"loading": "RÉCUPÉRATION DES DONNÉES…",
+		"dateBanner": {
+			"live": "EN DIRECT"
+		},
+		"actions": {
+			"quickSale": "Vente Rapide",
+			"quickPurchase": "Achat Rapide"
+		},
+		"metrics": {
+			"profit": "Bénéfice Aujourd'hui",
+			"costs": "Coûts Totaux",
+			"credit": "Crédit",
+			"losses": "Pertes Totales",
+			"salesVolume": "Volume de Ventes",
+			"purchases": "Achats"
+		},
+		"sections": {
+			"latestSales": "Dernières Ventes",
+			"latestPurchases": "Derniers Achats",
+			"damagedExpired": "Endommagés & Expirés"
+		},
+		"labels": {
+			"sale": "VENTE",
+			"purchaseOrder": "BC",
+			"total": "Total",
+			"paid": "Payé",
+			"amount": "Montant",
+			"remaining": "Restant",
+			"qty": "Qt",
+			"lost": "Perdu",
+			"batch": "Lot",
+			"stock": "Stock",
+			"lossReason": {
+				"damaged": "ENDOMMAGÉ",
+				"expired": "EXPIRÉ"
+			}
+		},
+		"empty": {
+			"noSales": "— aucune vente aujourd'hui —",
+			"noPurchases": "— aucun achat aujourd'hui —",
+			"noLosses": "— aucune perte aujourd'hui —"
+		},
+		"error": {
+			"default": "Impossible de charger les données du tableau de bord",
+			"retry": "RÉESSAYER"
+		}
+	},
 	"sidebar": {
 		"appName": "Nexus",
 		"appTagline": "Suite de gestion",
@@ -536,5 +586,16 @@
 		"completePurchase": "Finaliser l'achat",
 		"cancel": "Annuler",
 		"purchaseMockMessage": "La sélection du fournisseur et les lignes de produits seront ajoutées ici."
-	}
+	},
+	"quick_sale": "Vente rapide",
+	"quick_purchase": "Achat rapide",
+	"search_placeholder": "Rechercher un produit...",
+	"quantity": "Quantité",
+	"total": "Total",
+	"print_receipt": "Imprimer le reçu",
+	"proceed": "Procéder",
+	"cancel": "Annuler",
+
+	"price": "Prix",
+	"no_products": "Aucun produit trouvé"
 }

@@ -50,18 +50,70 @@ export class OwnerService {
         return acc + item.batch.variant.profitTTC * item.quantity;
       }, 0);
     });
-    return profits.reduce((acc, profit) => acc + profit, 0);
+    return {
+      total: profits.reduce((acc, profit) => acc + profit, 0),
+      data: sales,
+    };
   }
   async getSalesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];
     const saleRepo = this.dataSource.getRepository(Sale);
+
     const sales = await saleRepo.find({
       where: {
         date: ILike(`%${today}%`),
       },
       relations: ['soldItems', 'soldItems.batch', 'soldItems.batch.variant'],
+      take: 3,
+      order: {
+        id: 'DESC',
+      },
     });
+
     return sales;
+  }
+  async getPurchasesOfTheDay() {
+    const today = new Date().toISOString().split('T')[0];
+    const purchaseRepo = this.dataSource.getRepository(StockPayment);
+
+    const purchases = await purchaseRepo.find({
+      where: {
+        date: ILike(`%${today}%`),
+      },
+      relations: [
+        'purchasedItems',
+        'purchasedItems.batch',
+        'purchasedItems.batch.variant',
+        'supplier',
+      ],
+      select: {
+        supplier: {
+          id: true,
+          name: true,
+          phone: true,
+          email: true,
+        },
+        purchasedItems: {
+          id: true,
+          quantity: true,
+          total: true,
+          batch: {
+            id: true,
+            variant: {
+              id: true,
+              name: true,
+              purchasePrice: true,
+            },
+          },
+        },
+      },
+      take: 3,
+      order: {
+        id: 'DESC',
+      },
+    });
+
+    return purchases;
   }
   async getLossesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];
@@ -81,13 +133,20 @@ export class OwnerService {
         },
       ],
       relations: ['stock', 'stock.batch', 'stock.batch.variant'],
+      select: {
+        stock: {
+          id: true,
+          quantity: true,
+          batch: { id: true, variant: { purchasePrice: true } },
+        },
+      },
     });
 
     let sum = 0;
     for (const log of logs) {
       sum += log.quantity * log.stock.batch.variant.purchasePrice;
     }
-    return sum;
+    return { totalLoss: sum, data: logs };
   }
   async getCostesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];
@@ -96,6 +155,7 @@ export class OwnerService {
       where: {
         date: ILike(`%${today}%`),
       },
+      relations: ['supplier'],
     });
     let totalCost = 0;
     let totalCredit = 0;
@@ -103,6 +163,6 @@ export class OwnerService {
       totalCost += purchase.amount;
       totalCredit += purchase.remaining;
     }
-    return { totalCost, totalCredit };
+    return { totalCost, totalCredit, data: purchases };
   }
 }

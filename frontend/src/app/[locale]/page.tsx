@@ -1,489 +1,510 @@
+// app/dashboard/page.tsx
 "use client";
 
-import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import {
+	getTodaysCosts,
+	getTodaysLosses,
+	getTodaysProfits,
+	getTodaysPurchases,
+	getTodaysSales,
+} from "@/api/owner-api";
+import {
+	LayoutDashboard,
+	TrendingUp,
+	DollarSign,
+	TrendingDown,
 	ShoppingCart,
 	Package,
-	TrendingUp,
-	TrendingDown,
-	DollarSign,
-	PlusCircle,
-	MinusCircle,
-	X,
-	Search,
-	AlertCircle,
-	Sun,
-	Moon,
-	Monitor,
+	AlertTriangle,
 } from "lucide-react";
 import styles from "./dashboard.module.css";
+import MakeSaleModal from "@/components/quickTransactions/sales";
 
-// ----------------------------------------------------------------------
-// MOCK DATA (replace with real API calls later)
-// ----------------------------------------------------------------------
-const mockTodayStats = {
-	salesTotal: 1245.8,
-	purchasesTotal: 687.3,
-	profit: 558.5,
-	costs: 687.3,
-	salesCount: 18,
-	purchaseCount: 4,
-};
-
-const mockRecentTransactions = [
-	{
-		id: "INV-001",
-		type: "sale",
-		customer: "Ahmed Benali",
-		amount: 89.9,
-		date: "2026-04-16T10:23:00",
-	},
-	{
-		id: "INV-002",
-		type: "sale",
-		customer: "Sarah K.",
-		amount: 145.5,
-		date: "2026-04-16T11:45:00",
-	},
-	{
-		id: "PUR-001",
-		type: "purchase",
-		supplier: "Dairy Farms",
-		amount: 320.0,
-		date: "2026-04-16T09:15:00",
-	},
-	{
-		id: "INV-003",
-		type: "sale",
-		customer: "Omar F.",
-		amount: 56.9,
-		date: "2026-04-16T13:20:00",
-	},
-	{
-		id: "PUR-002",
-		type: "purchase",
-		supplier: "Fresh Fruits Co.",
-		amount: 367.3,
-		date: "2026-04-16T14:30:00",
-	},
-];
-
-const mockLowStockItems = [
-	{ variantName: "Milk 1L Whole", stock: 3, threshold: 10 },
-	{ variantName: "Baguette", stock: 2, threshold: 15 },
-];
-
-const mockExpiringBatches = [
-	{ variantName: "Yogurt Strawberry", expiryDate: "2026-04-20", daysLeft: 4 },
-	{ variantName: "Fresh Chicken", expiryDate: "2026-04-18", daysLeft: 2 },
-];
-
-// Mock products for quick sale
-const mockProducts = [
-	{ id: "p1", name: "Milk 1L", price: 1.2 },
-	{ id: "p2", name: "Bread", price: 0.9 },
-	{ id: "p3", name: "Eggs (12)", price: 2.5 },
-	{ id: "p4", name: "Butter 250g", price: 1.8 },
-];
-
-// ----------------------------------------------------------------------
-// FETCH FUNCTIONS (commented – implement later)
-// ----------------------------------------------------------------------
-/*
-async function fetchTodayStats() {
-  // GET /api/stats/today
-  // returns { salesTotal, purchasesTotal, profit, costs, salesCount, purchaseCount }
-}
-
-async function fetchRecentTransactions(limit = 10) {
-  // GET /api/transactions/recent?limit=10
-}
-
-async function fetchLowStockAlerts() {
-  // GET /api/alerts/low-stock
-}
-
-async function fetchExpiringBatches() {
-  // GET /api/alerts/expiring
-}
-
-async function createSale(cartItems: CartItem[], customerName?: string) {
-  // POST /api/sales
-  // body: { items: [{ variantId, quantity, unitPrice }], customerName, paymentMethod }
-}
-
-async function createPurchase(supplierId: string, items: PurchaseItem[]) {
-  // POST /api/purchases
-}
-*/
-
-// ----------------------------------------------------------------------
-// TYPES
-// ----------------------------------------------------------------------
-interface CartItem {
-	id: string;
+/* ── Type definitions matching your backend responses ── */
+interface Variant {
+	id: number;
 	name: string;
-	price: number;
-	quantity: number;
+	purchasePrice: number;
+	sellingPriceHT: number;
+	vatRate: number;
+	sellingPriceTTC: number;
+	profit: number;
+	profitRate: number;
+	profitTTC: number;
+	promotionPrice: number | null;
+	promotionRate: number | null;
+	barcode: string;
+	size: string | null;
+	color: string | null;
+	weight: string | null;
+	height: string | null;
+	flavor: string | null;
+	PPA: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
-// ----------------------------------------------------------------------
-// DASHBOARD COMPONENT
-// ----------------------------------------------------------------------
+interface Batch {
+	id: number;
+	variant: Variant;
+	nLot: string;
+	status: string;
+	stockQTYStatus: string;
+	fabricationDate: string | null;
+	expirationDate: string | null;
+	alertPeriodPerDay: number | null;
+	alertPeriodPerStock: number | null;
+	createdAt: string;
+	updatedAt: string;
+}
+
+interface SoldItem {
+	id: number;
+	quantity: number;
+	total: number;
+	batch: Batch;
+}
+
+interface Sale {
+	id: number;
+	total: number;
+	paid: number;
+	date: string;
+	soldItems: SoldItem[];
+}
+
+interface ProfitResponse {
+	total: number;
+	data: Sale[];
+}
+
+interface PurchasedItem {
+	id: number;
+	quantity: number;
+	total: number;
+	batch: {
+		id: number;
+		variant: {
+			id: number;
+			name: string;
+			purchasePrice: number;
+		};
+	};
+}
+
+interface Supplier {
+	id: number;
+	name: string;
+	phone: string | null;
+	email: string | null;
+}
+
+interface Purchase {
+	id: number;
+	amount: number;
+	total: number;
+	remaining: number;
+	date: string;
+	paymentMethod: string;
+	timbre: string | null;
+	supplier: Supplier;
+	purchasedItems: PurchasedItem[];
+}
+
+interface CostResponse {
+	totalCost: number;
+	totalCredit: number;
+	data: Purchase[];
+}
+
+interface LossLog {
+	id: number;
+	timestamp: string;
+	entityType: string;
+	action: string;
+	reason: string;
+	quantity: number;
+	stock: {
+		id: number;
+		quantity: number;
+		batch: {
+			id: number;
+			variant: {
+				purchasePrice: number;
+			};
+		};
+	};
+}
+
+interface LossResponse {
+	totalLoss: number;
+	data: LossLog[];
+}
+
+/* ── Metric Card ── */
+function MetricCard({
+	icon,
+	label,
+	value,
+	accent,
+	subtitle,
+}: {
+	icon: React.ReactNode;
+	label: string;
+	value: number | string;
+	accent: "success" | "info" | "danger" | "warning";
+	subtitle?: string;
+}) {
+	return (
+		<div className={`${styles.card} ${styles[`card--${accent}`]}`}>
+			<div className={styles.cardTop}>
+				<span className={styles.cardLabel}>{label}</span>
+				<div className={styles.cardBadge}>{icon}</div>
+			</div>
+			<div className={styles.cardBottom}>
+				<span className={styles.cardValue}>{value}</span>
+				{subtitle && <span className={styles.cardSubtitle}>{subtitle}</span>}
+			</div>
+		</div>
+	);
+}
+
+/* ── Today's date label ── */
+function TodayLabel({ liveText }: { liveText: string }) {
+	const locale = useLocale();
+	const now = new Date();
+
+	const localeMap: Record<string, string> = {
+		ar: "ar-DZ",
+		fr: "fr-FR",
+		en: "en-GB",
+	};
+
+	const label = now.toLocaleDateString(localeMap[locale] ?? "en-GB", {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
+
+	return (
+		<div className={styles.dateBanner}>
+			<span className={styles.dateDot} />
+			{liveText} · {label.toUpperCase()}
+		</div>
+	);
+}
+
 export default function Dashboard() {
-	const t = useTranslations("Dashboard");
+	const t = useTranslations("dashboard");
+	const locale = useLocale();
 
-	// Theme state
-	const [theme, setTheme] = useState<"light" | "dim" | "dark">("light");
-
-	// UI state
-	const [quickSaleOpen, setQuickSaleOpen] = useState(false);
-	const [quickPurchaseOpen, setQuickPurchaseOpen] = useState(false);
-	const [cart, setCart] = useState<CartItem[]>([]);
-	const [searchTerm, setSearchTerm] = useState("");
-
-	// Data state (mock for now)
-	const [todayStats] = useState(mockTodayStats);
-	const [recentTransactions] = useState(mockRecentTransactions);
-	const [lowStock] = useState(mockLowStockItems);
-	const [expiring] = useState(mockExpiringBatches);
-
-	const filteredProducts = mockProducts.filter((p) =>
-		p.name.toLowerCase().includes(searchTerm.toLowerCase()),
-	);
-
-	const addToCart = (product: (typeof mockProducts)[0]) => {
-		setCart((prev) => {
-			const existing = prev.find((item) => item.id === product.id);
-			if (existing) {
-				return prev.map((item) =>
-					item.id === product.id
-						? { ...item, quantity: item.quantity + 1 }
-						: item,
-				);
-			}
-			return [...prev, { ...product, quantity: 1 }];
-		});
+	const localeMap: Record<string, string> = {
+		ar: "ar-DZ",
+		fr: "fr-FR",
+		en: "en-GB",
 	};
+	const displayLocale = localeMap[locale] ?? "en-GB";
 
-	const updateQuantity = (id: string, delta: number) => {
-		setCart((prev) =>
-			prev
-				.map((item) =>
-					item.id === id
-						? { ...item, quantity: Math.max(0, item.quantity + delta) }
-						: item,
-				)
-				.filter((item) => item.quantity > 0),
-		);
-	};
+	const [profits, setProfits] = useState<ProfitResponse | null>(null);
+	const [costs, setCosts] = useState<CostResponse | null>(null);
+	const [losses, setLosses] = useState<LossResponse | null>(null);
+	const [sales, setSales] = useState<Sale[] | null>(null);
+	const [purchases, setPurchases] = useState<Purchase[] | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-	const removeFromCart = (id: string) => {
-		setCart((prev) => prev.filter((item) => item.id !== id));
-	};
+	const getData = useCallback(async () => {
+		setLoading(true);
+		setError(null);
+		try {
+			const [profitsRes, costsRes, lossesRes, salesRes, purchasesRes] =
+				await Promise.all([
+					getTodaysProfits(),
+					getTodaysCosts(),
+					getTodaysLosses(),
+					getTodaysSales(),
+					getTodaysPurchases(),
+				]);
 
-	const cartTotal = cart.reduce(
-		(sum, item) => sum + item.price * item.quantity,
-		0,
-	);
+			setProfits(profitsRes.response);
+			setCosts(costsRes.response);
+			setLosses(lossesRes.response);
+			setSales(salesRes.response);
+			setPurchases(purchasesRes.response);
+		} catch (err: any) {
+			setError(err?.message ?? t("error.default"));
+		} finally {
+			setLoading(false);
+		}
+	}, [t]);
 
-	const handleQuickSale = () => {
-		// TODO: call createSale(cart)
-		console.log("Sale completed", cart);
-		setQuickSaleOpen(false);
-		setCart([]);
-		// Refresh dashboard data (mock refresh)
-	};
+	useEffect(() => {
+		getData();
+	}, [getData]);
 
-	const handleQuickPurchase = () => {
-		// TODO: call createPurchase
-		console.log("Purchase completed");
-		setQuickPurchaseOpen(false);
-	};
+	/* ── Derived numbers ── */
+	const totalProfit = profits?.total ?? 0;
+	const totalCost = costs?.totalCost ?? 0;
+	const totalCredit = costs?.totalCredit ?? 0;
+	const totalLoss = losses?.totalLoss ?? 0;
+
+	const salesList = sales ?? [];
+	const purchasesList = purchases ?? [];
+	const lossesList = losses?.data ?? [];
 
 	return (
 		<div className={styles.dashboard}>
-			{/* Theme switcher */}
-
-			{/* Header */}
+			{/* ── Header ── */}
 			<header className={styles.header}>
-				<h1>{t("title")}</h1>
-				<div className={styles.headerActions}>
-					<button
-						className={styles.primaryBtn}
-						onClick={() => setQuickSaleOpen(true)}
-					>
-						<ShoppingCart size={18} /> {t("quickSale")}
+				<div className={styles.titleBlock}>
+					<div className={styles.headerIconWrap}>
+						<LayoutDashboard className={styles.headerIcon} />
+					</div>
+					<div className={styles.titleGroup}>
+						<h1 className={styles.title}>{t("title")}</h1>
+						<span className={styles.titleSub}>{t("subtitle")}</span>
+					</div>
+				</div>
+
+				<div className={styles.quickActions}>
+					<button className={`${styles.actionButton} ${styles.actionSale}`}>
+						<ShoppingCart size={15} className={styles.btnIcon} />
+						{t("actions.quickSale")}
 					</button>
-					<button
-						className={styles.secondaryBtn}
-						onClick={() => setQuickPurchaseOpen(true)}
-					>
-						<Package size={18} /> {t("quickPurchase")}
+					<button className={`${styles.actionButton} ${styles.actionPurchase}`}>
+						<Package size={15} className={styles.btnIcon} />
+						{t("actions.quickPurchase")}
 					</button>
 				</div>
 			</header>
 
-			{/* Summary Cards */}
-			<div className={styles.cardGrid}>
-				<div className={styles.card}>
-					<div
-						className={styles.cardIcon}
-						style={{ background: "var(--success-bg)" }}
-					>
-						<TrendingUp color="var(--success)" size={24} />
-					</div>
-					<div className={styles.cardContent}>
-						<span className={styles.cardLabel}>{t("todaySales")}</span>
-						<span className={styles.cardValue}>
-							${todayStats.salesTotal.toFixed(2)}
-						</span>
-						<span className={styles.cardSub}>
-							{t("salesCount")}: {todayStats.salesCount}
-						</span>
-					</div>
-				</div>
-				<div className={styles.card}>
-					<div
-						className={styles.cardIcon}
-						style={{ background: "var(--warning-bg)" }}
-					>
-						<TrendingDown color="var(--warning)" size={24} />
-					</div>
-					<div className={styles.cardContent}>
-						<span className={styles.cardLabel}>{t("todayPurchases")}</span>
-						<span className={styles.cardValue}>
-							${todayStats.purchasesTotal.toFixed(2)}
-						</span>
-						<span className={styles.cardSub}>
-							{t("purchaseCount")}: {todayStats.purchaseCount}
-						</span>
-					</div>
-				</div>
-				<div className={styles.card}>
-					<div
-						className={styles.cardIcon}
-						style={{ background: "var(--info-bg)" }}
-					>
-						<DollarSign color="var(--info)" size={24} />
-					</div>
-					<div className={styles.cardContent}>
-						<span className={styles.cardLabel}>{t("profit")}</span>
-						<span className={styles.cardValue}>
-							${todayStats.profit.toFixed(2)}
-						</span>
-					</div>
-				</div>
-				<div className={styles.card}>
-					<div
-						className={styles.cardIcon}
-						style={{ background: "var(--danger-bg)" }}
-					>
-						<DollarSign color="var(--danger)" size={24} />
-					</div>
-					<div className={styles.cardContent}>
-						<span className={styles.cardLabel}>{t("costs")}</span>
-						<span className={styles.cardValue}>
-							${todayStats.costs.toFixed(2)}
-						</span>
-					</div>
-				</div>
-			</div>
-
-			{/* Alerts Row */}
-			<div className={styles.alertsRow}>
-				{lowStock.length > 0 && (
-					<div
-						className={styles.alertCard}
-						style={{ borderLeftColor: "var(--warning)" }}
-					>
-						<AlertCircle size={20} color="var(--warning)" />
-						<div>
-							<strong>{t("lowStockAlert")}</strong>
-							<ul>
-								{lowStock.map((item) => (
-									<li key={item.variantName}>
-										{item.variantName}: {item.stock} left
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
-				)}
-				{expiring.length > 0 && (
-					<div
-						className={styles.alertCard}
-						style={{ borderLeftColor: "var(--danger)" }}
-					>
-						<AlertCircle size={20} color="var(--danger)" />
-						<div>
-							<strong>{t("expiringAlert")}</strong>
-							<ul>
-								{expiring.map((item) => (
-									<li key={item.variantName}>
-										{item.variantName} – expires in {item.daysLeft} days
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
-				)}
-			</div>
-
-			{/* Recent Transactions */}
-			<div className={styles.transactionsSection}>
-				<h2>{t("recentTransactions")}</h2>
-				<table className={styles.transactionTable}>
-					<thead>
-						<tr>
-							<th>{t("transactionId")}</th>
-							<th>{t("type")}</th>
-							<th>{t("customerOrSupplier")}</th>
-							<th>{t("amount")}</th>
-							<th>{t("time")}</th>
-						</tr>
-					</thead>
-					<tbody>
-						{recentTransactions.map((tx) => (
-							<tr key={tx.id}>
-								<td>{tx.id}</td>
-								<td>
-									<span
-										className={
-											tx.type === "sale"
-												? styles.saleBadge
-												: styles.purchaseBadge
-										}
-									>
-										{tx.type === "sale" ? t("sale") : t("purchase")}
-									</span>
-								</td>
-								<td>{tx.type === "sale" ? tx.customer : tx.supplier}</td>
-								<td>${tx.amount.toFixed(2)}</td>
-								<td>{new Date(tx.date).toLocaleTimeString()}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-
-			{/* QUICK SALE MODAL */}
-			{quickSaleOpen && (
-				<div
-					className={styles.modalOverlay}
-					onClick={() => setQuickSaleOpen(false)}
-				>
-					<div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-						<div className={styles.modalHeader}>
-							<h3>{t("quickSale")}</h3>
-							<button onClick={() => setQuickSaleOpen(false)}>
-								<X size={20} />
-							</button>
-						</div>
-						<div className={styles.modalBody}>
-							<div className={styles.searchBar}>
-								<Search size={18} />
-								<input
-									type="text"
-									placeholder={t("searchProduct")}
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-								/>
-							</div>
-							<div className={styles.productGrid}>
-								{filteredProducts.map((p) => (
-									<div
-										key={p.id}
-										className={styles.productCard}
-										onClick={() => addToCart(p)}
-									>
-										<span>{p.name}</span>
-										<span>${p.price}</span>
-									</div>
-								))}
-							</div>
-							<div className={styles.cartSection}>
-								<h4>{t("cart")}</h4>
-								{cart.length === 0 && <p>{t("emptyCart")}</p>}
-								{cart.map((item) => (
-									<div key={item.id} className={styles.cartItem}>
-										<span>{item.name}</span>
-										<div className={styles.cartItemControls}>
-											<button onClick={() => updateQuantity(item.id, -1)}>
-												<MinusCircle size={16} />
-											</button>
-											<span>{item.quantity}</span>
-											<button onClick={() => updateQuantity(item.id, 1)}>
-												<PlusCircle size={16} />
-											</button>
-											<button onClick={() => removeFromCart(item.id)}>
-												<X size={16} />
-											</button>
-										</div>
-										<span>${(item.price * item.quantity).toFixed(2)}</span>
-									</div>
-								))}
-								{cart.length > 0 && (
-									<div className={styles.cartTotal}>
-										<strong>{t("total")}:</strong> ${cartTotal.toFixed(2)}
-									</div>
-								)}
-							</div>
-						</div>
-						<div className={styles.modalFooter}>
-							<button
-								className={styles.secondaryBtn}
-								onClick={() => setQuickSaleOpen(false)}
-							>
-								{t("cancel")}
-							</button>
-							<button
-								className={styles.primaryBtn}
-								onClick={handleQuickSale}
-								disabled={cart.length === 0}
-							>
-								{t("completeSale")}
-							</button>
-						</div>
-					</div>
+			{/* ── Loading ── */}
+			{loading && (
+				<div className={styles.loadingWrapper}>
+					<div className={styles.spinnerRing} />
+					<span className={styles.loadingText}>{t("loading")}</span>
 				</div>
 			)}
 
-			{/* QUICK PURCHASE MODAL (simplified) */}
-			{quickPurchaseOpen && (
-				<div
-					className={styles.modalOverlay}
-					onClick={() => setQuickPurchaseOpen(false)}
-				>
-					<div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-						<div className={styles.modalHeader}>
-							<h3>{t("quickPurchase")}</h3>
-							<button onClick={() => setQuickPurchaseOpen(false)}>
-								<X size={20} />
-							</button>
-						</div>
-						<div className={styles.modalBody}>
-							<p>{t("purchaseMockMessage")}</p>
-							{/* In real app, add supplier selection, product lines, quantities */}
-						</div>
-						<div className={styles.modalFooter}>
-							<button
-								className={styles.secondaryBtn}
-								onClick={() => setQuickPurchaseOpen(false)}
-							>
-								{t("cancel")}
-							</button>
-							<button
-								className={styles.primaryBtn}
-								onClick={handleQuickPurchase}
-							>
-								{t("completePurchase")}
-							</button>
-						</div>
-					</div>
+			{/* ── Error ── */}
+			{error && (
+				<div className={styles.errorCard}>
+					<AlertTriangle size={18} />
+					<span>{error}</span>
+					<button onClick={() => getData()} className={styles.retryBtn}>
+						{t("error.retry")}
+					</button>
 				</div>
 			)}
+
+			{/* ── Content ── */}
+			{!loading && !error && (
+				<>
+					{/* Date banner */}
+					<TodayLabel liveText={t("dateBanner.live")} />
+
+					{/* ── Key Metrics Grid ── */}
+					<div className={styles.metricsGrid}>
+						<MetricCard
+							icon={<TrendingUp size={15} />}
+							label={t("metrics.profit")}
+							value={`${totalProfit.toLocaleString(displayLocale)} DA`}
+							accent="success"
+						/>
+						<MetricCard
+							icon={<DollarSign size={15} />}
+							label={t("metrics.costs")}
+							value={`${totalCost.toLocaleString(displayLocale)} DA`}
+							accent="info"
+							subtitle={`${t("metrics.credit")} · ${totalCredit.toLocaleString(displayLocale)} DA`}
+						/>
+						<MetricCard
+							icon={<TrendingDown size={15} />}
+							label={t("metrics.losses")}
+							value={`${totalLoss.toLocaleString(displayLocale)} DA`}
+							accent="danger"
+						/>
+						<MetricCard
+							icon={<ShoppingCart size={15} />}
+							label={t("metrics.salesVolume")}
+							value={salesList.length}
+							accent="success"
+							subtitle={`${salesList
+								.reduce((s, x) => s + (x.total ?? 0), 0)
+								.toLocaleString(displayLocale)} DA`}
+						/>
+						<MetricCard
+							icon={<Package size={15} />}
+							label={t("metrics.purchases")}
+							value={purchasesList.length}
+							accent="info"
+							subtitle={`${purchasesList
+								.reduce((s, x) => s + (x.total ?? 0), 0)
+								.toLocaleString(displayLocale)} DA`}
+						/>
+					</div>
+
+					{/* ── Sales & Purchases in 2-col layout ── */}
+					<div className={styles.sectionsGrid}>
+						{/* Sales */}
+						<section className={styles.section}>
+							<div className={styles.sectionHeader}>
+								<h2 className={styles.sectionTitle}>
+									<ShoppingCart size={14} />
+									{t("sections.latestSales")}
+								</h2>
+								<span className={styles.sectionCount}>{salesList.length}</span>
+							</div>
+
+							{salesList.length === 0 ? (
+								<p className={styles.empty}>{t("empty.noSales")}</p>
+							) : (
+								<ul className={styles.list}>
+									{salesList.map((sale) => (
+										<li key={sale.id} className={styles.listItem}>
+											<div className={styles.listItemHeader}>
+												<span className={styles.listItemId}>
+													{t("labels.sale")} #{sale.id}
+												</span>
+												<span className={styles.listItemDate}>{sale.date}</span>
+											</div>
+											<div className={styles.listItemAmounts}>
+												{t("labels.total")}{" "}
+												<strong>
+													{sale.total.toLocaleString(displayLocale)} DA
+												</strong>
+												{" · "}
+												{t("labels.paid")}{" "}
+												<strong>
+													{sale.paid.toLocaleString(displayLocale)} DA
+												</strong>
+											</div>
+											<div className={styles.listItemItems}>
+												{sale.soldItems.map((item) => (
+													<span key={item.id} className={styles.itemChip}>
+														{item.quantity}× {item.batch.variant.name}
+													</span>
+												))}
+											</div>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+
+						{/* Purchases */}
+						<section className={styles.section}>
+							<div className={styles.sectionHeader}>
+								<h2 className={styles.sectionTitle}>
+									<Package size={14} />
+									{t("sections.latestPurchases")}
+								</h2>
+								<span className={styles.sectionCount}>
+									{purchasesList.length}
+								</span>
+							</div>
+
+							{purchasesList.length === 0 ? (
+								<p className={styles.empty}>{t("empty.noPurchases")}</p>
+							) : (
+								<ul className={styles.list}>
+									{purchasesList.map((p) => (
+										<li key={p.id} className={styles.listItem}>
+											<div className={styles.listItemHeader}>
+												<span className={styles.listItemId}>
+													{t("labels.purchaseOrder")} #{p.id}
+												</span>
+												<span className={styles.listItemDate}>{p.date}</span>
+											</div>
+											<div className={styles.listItemAmounts}>
+												{t("labels.amount")}{" "}
+												<strong>
+													{p.amount.toLocaleString(displayLocale)} DA
+												</strong>
+												{" · "}
+												{t("labels.remaining")}{" "}
+												<strong>
+													{p.remaining.toLocaleString(displayLocale)} DA
+												</strong>
+											</div>
+											<div className={styles.listItemSupplier}>
+												{p.supplier.name}
+											</div>
+											<div className={styles.listItemItems}>
+												{p.purchasedItems?.map((item) => (
+													<span key={item.id} className={styles.itemChip}>
+														{item.quantity}× {item.batch.variant.name}
+													</span>
+												))}
+											</div>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+
+						{/* Losses — full width */}
+						<section className={`${styles.section} ${styles.sectionFull}`}>
+							<div className={styles.sectionHeader}>
+								<h2 className={styles.sectionTitle}>
+									<AlertTriangle size={14} />
+									{t("sections.damagedExpired")}
+								</h2>
+								<span className={styles.sectionCount}>{lossesList.length}</span>
+							</div>
+
+							{lossesList.length === 0 ? (
+								<p className={styles.empty}>{t("empty.noLosses")}</p>
+							) : (
+								<ul className={styles.list}>
+									{lossesList.map((log) => (
+										<li
+											key={log.id}
+											className={`${styles.listItem} ${styles.lossItem}`}
+										>
+											<div className={styles.listItemHeader}>
+												<span
+													className={`${styles.badge} ${
+														log.reason === "damaged"
+															? styles.badgeDanger
+															: styles.badgeWarning
+													}`}
+												>
+													{t(`labels.lossReason.${log.reason}`)}
+												</span>
+												<span className={styles.listItemTime}>
+													{new Date(log.timestamp).toLocaleTimeString(
+														displayLocale,
+													)}
+												</span>
+											</div>
+											<div className={styles.listItemAmounts}>
+												{t("labels.qty")} <strong>{log.quantity}</strong>
+												{" · "}
+												{t("labels.lost")}{" "}
+												<strong>
+													{(
+														log.quantity * log.stock.batch.variant.purchasePrice
+													).toLocaleString(displayLocale)}{" "}
+													DA
+												</strong>
+											</div>
+											<div className={styles.listItemSupplier}>
+												{t("labels.batch")} #{log.stock.batch.id} ·{" "}
+												{t("labels.stock")} #{log.stock.id}
+											</div>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				</>
+			)}
+			<MakeSaleModal />
 		</div>
 	);
 }

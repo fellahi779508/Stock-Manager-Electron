@@ -180,6 +180,46 @@ export class ProductVariantService {
       meta: { total, page, limit, pages: Math.ceil(total / limit) },
     };
   }
+  async getSallableVariants(page: number, limit: number, search?: string) {
+    if (search) {
+      const [items, total] = await this.productVariantRepository.findAndCount({
+        where: [
+          { name: ILike(`%${search}%`) },
+          { barcode: Like(`%${search}%`) },
+        ],
+        take: limit,
+        skip: (page - 1) * limit,
+        relations: ['batches', 'batches.stock'],
+        select: {
+          batches: {
+            id: true,
+            nLot: true,
+            stock: { id: true, quantity: true },
+          },
+        },
+      });
+      return {
+        data: items,
+        meta: { total, page, limit, pages: Math.ceil(total / limit) },
+      };
+    }
+    const [items, total] = await this.productVariantRepository.findAndCount({
+      take: limit,
+      skip: (page - 1) * limit,
+      relations: ['batches', 'batches.stock'],
+      select: {
+        batches: {
+          id: true,
+          nLot: true,
+          stock: { id: true, quantity: true },
+        },
+      },
+    });
+    return {
+      data: items,
+      meta: { total, page, limit, pages: Math.ceil(total / limit) },
+    };
+  }
 
   async update(id: number, updateProductVariantDto: UpdateProductVariantDto) {
     const productVariant = await this.productVariantRepository.preload({

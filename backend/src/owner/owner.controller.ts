@@ -41,6 +41,10 @@ export class OwnerController {
   todayCosts() {
     return this.ownerService.getCostesOfTheDay();
   }
+  @Get('todayPurchases')
+  todayPurchases() {
+    return this.ownerService.getPurchasesOfTheDay();
+  }
 
   @Put()
   update(@Body() updateOwnerDto: UpdateOwnerDto) {

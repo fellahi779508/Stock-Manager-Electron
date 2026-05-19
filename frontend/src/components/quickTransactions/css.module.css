@@ -1,0 +1,414 @@
+/* ── Overlay & backdrop ── */
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.6); /* --foreground fallback */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+	backdrop-filter: blur(4px);
+}
+
+.container {
+	background: var(--background, #ffffff);
+	border-radius: 16px;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	width: 95%;
+	max-width: 1200px;
+	height: 85vh;
+	display: flex;
+	overflow: hidden;
+}
+
+/* ── Panels ── */
+.productPanel {
+	width: 45%;
+	border-right: 1px solid var(--border, #e2e8f0);
+	display: flex;
+	flex-direction: column;
+	padding: 1.5rem;
+	background: var(--background-secondary, #f8fafc);
+}
+
+.transactionPanel {
+	width: 55%;
+	display: flex;
+	flex-direction: column;
+	padding: 1.5rem;
+	gap: 1rem;
+	overflow-y: auto;
+}
+
+/* ── Typography ── */
+.panelTitle {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--foreground, #0f172a);
+	margin-bottom: 1rem;
+}
+
+.sectionTitle {
+	font-size: 1rem;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	color: var(--foreground-muted, #64748b);
+}
+
+/* ── Search & barcode ── */
+.searchArea {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.searchInput,
+.barcodeInput {
+	width: 100%;
+	padding: 0.6rem 0.8rem;
+	border: 1px solid var(--border, #e2e8f0);
+	border-radius: 8px;
+	background: var(--surface, #ffffff);
+	color: var(--foreground, #0f172a);
+	font-size: 0.9rem;
+	outline: none;
+	transition: border-color 0.2s;
+}
+
+.searchInput:focus,
+.barcodeInput:focus {
+	border-color: var(--accent, #6366f1);
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.barcodeForm {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.barcodeInput {
+	flex: 1;
+}
+
+.barcodeBtn {
+	white-space: nowrap;
+	padding: 0.6rem 1rem;
+	background: var(--info, #3b82f6);
+	color: #ffffff;
+	border: none;
+	border-radius: 8px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.barcodeBtn:hover {
+	background: var(--info, #3b82f6);
+	filter: brightness(0.9);
+}
+
+/* ── Product list ── */
+.productList {
+	flex: 1;
+	overflow-y: auto;
+	margin-bottom: 0.5rem;
+}
+
+.productItem {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.75rem 1rem;
+	margin-bottom: 0.3rem;
+	background: var(--surface, #ffffff);
+	border: 1px solid var(--border, #e2e8f0);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.productItem:hover {
+	background: var(--surface-hover, #f1f5f9);
+	border-color: var(--accent, #6366f1);
+}
+
+.productSelected {
+	border-color: var(--accent, #6366f1);
+	background: var(--accent-foreground, #ffffff);
+	box-shadow: 0 0 0 2px var(--accent, #6366f1);
+}
+
+.productName {
+	flex: 2;
+	font-weight: 500;
+}
+
+.productPrice {
+	flex: 1;
+	text-align: right;
+	color: var(--accent, #6366f1);
+	font-weight: 600;
+}
+
+.productBarcode {
+	flex: 1.5;
+	text-align: right;
+	font-size: 0.75rem;
+	color: var(--foreground-muted, #64748b);
+}
+
+.loadMoreBtn {
+	width: 100%;
+	padding: 0.7rem;
+	background: var(--surface-hover, #f1f5f9);
+	border: 1px dashed var(--border, #e2e8f0);
+	border-radius: 8px;
+	color: var(--accent, #6366f1);
+	cursor: pointer;
+	font-weight: 500;
+	transition: background 0.2s;
+}
+
+.loadMoreBtn:hover {
+	background: var(--surface, #ffffff);
+}
+
+.loadMoreBtn:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.statusText,
+.errorText,
+.emptyList {
+	text-align: center;
+	padding: 2rem;
+	color: var(--foreground-muted, #64748b);
+}
+
+.errorText {
+	color: var(--danger, #ef4444);
+}
+
+/* ── Selected product info ── */
+.selectedProductInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.75rem 1rem;
+	background: var(--surface-hover, #f1f5f9);
+	border-radius: 10px;
+	min-height: 3rem;
+}
+
+.selectedName {
+	font-weight: 600;
+}
+
+.selectedUnitPrice {
+	color: var(--accent, #6366f1);
+	font-weight: 700;
+}
+
+.selectHint {
+	color: var(--foreground-muted, #64748b);
+	font-style: italic;
+}
+
+/* ── Calculator ── */
+.calculator {
+	background: var(--surface-hover, #f1f5f9);
+	border-radius: 12px;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.calcDisplay {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--background, #ffffff);
+	padding: 0.6rem 1rem;
+	border-radius: 8px;
+	border: 1px solid var(--border, #e2e8f0);
+	min-height: 2.5rem;
+}
+
+.calcInput {
+	font-size: 1.4rem;
+	font-weight: 600;
+	color: var(--foreground, #0f172a);
+}
+
+.calcLineTotal {
+	font-size: 1.4rem;
+	color: var(--accent, #6366f1);
+	font-weight: 600;
+}
+
+.calcKeypad {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.5rem;
+}
+
+.calcKey {
+	padding: 0.9rem 0;
+	background: var(--surface, #ffffff);
+	border: 1px solid var(--border, #e2e8f0);
+	border-radius: 8px;
+	font-size: 1.1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.15s;
+}
+
+.calcKey:hover:not(:disabled) {
+	background: var(--accent, #6366f1);
+	color: #ffffff;
+	border-color: var(--accent, #6366f1);
+}
+
+.calcKey:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* ── Transaction items ── */
+.transactionItems {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
+
+.itemsList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.transactionItem {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--border, #e2e8f0);
+	font-size: 0.9rem;
+}
+
+.itemName {
+	flex: 2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.itemQty {
+	width: 2.5rem;
+	text-align: center;
+	font-weight: 600;
+}
+
+.itemUnitPrice,
+.itemLineTotal {
+	width: 5rem;
+	text-align: right;
+	font-weight: 500;
+}
+
+.removeItemBtn {
+	background: none;
+	border: none;
+	color: var(--danger, #ef4444);
+	font-size: 1rem;
+	cursor: pointer;
+	padding: 0.2rem 0.4rem;
+	border-radius: 4px;
+}
+
+.removeItemBtn:hover {
+	background: var(--danger-bg, #fef2f2);
+}
+
+/* ── Total section ── */
+.totalSection {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.75rem 1rem;
+	background: var(--success-bg, #ecfdf5);
+	border: 1px solid var(--success-border, #a7f3d0);
+	border-radius: 10px;
+}
+
+.totalLabel {
+	font-weight: 600;
+	color: var(--success, #10b981);
+}
+
+.totalAmount {
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: var(--success, #10b981);
+}
+
+/* ── Options ── */
+.options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+	padding: 0.5rem 0;
+}
+
+.optionLabel {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	color: var(--foreground-muted, #64748b);
+	cursor: pointer;
+}
+
+.optionLabel input[type="checkbox"] {
+	accent-color: var(--accent, #6366f1);
+}
+
+/* ── Actions ── */
+.actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-end;
+	margin-top: auto;
+}
+
+.cancelBtn,
+.proceedBtn {
+	padding: 0.8rem 2rem;
+	border-radius: 10px;
+	font-weight: 600;
+	border: none;
+	cursor: pointer;
+	transition: filter 0.2s;
+}
+
+.cancelBtn {
+	background: var(--surface-hover, #f1f5f9);
+	color: var(--foreground, #0f172a);
+	border: 1px solid var(--border, #e2e8f0);
+}
+
+.cancelBtn:hover {
+	background: #e2e8f0;
+}
+
+.proceedBtn {
+	background: var(--accent, #6366f1);
+	color: #ffffff;
+}
+
+.proceedBtn:hover {
+	filter: brightness(0.95);
+}

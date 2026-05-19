@@ -1,4 +1,54 @@
 {
+	"dashboard": {
+		"title": "Dashboard",
+		"subtitle": "Stock Manager · Overview",
+		"loading": "FETCHING DATA…",
+		"dateBanner": {
+			"live": "LIVE"
+		},
+		"actions": {
+			"quickSale": "Quick Sale",
+			"quickPurchase": "Quick Purchase"
+		},
+		"metrics": {
+			"profit": "Today's Profit",
+			"costs": "Total Costs",
+			"credit": "Credit",
+			"losses": "Total Losses",
+			"salesVolume": "Sales Volume",
+			"purchases": "Purchases"
+		},
+		"sections": {
+			"latestSales": "Latest Sales",
+			"latestPurchases": "Latest Purchases",
+			"damagedExpired": "Damaged & Expired"
+		},
+		"labels": {
+			"sale": "SALE",
+			"purchaseOrder": "PO",
+			"total": "Total",
+			"paid": "Paid",
+			"amount": "Amount",
+			"remaining": "Remaining",
+			"qty": "Qty",
+			"lost": "Lost",
+			"batch": "Batch",
+			"stock": "Stock",
+			"lossReason": {
+				"damaged": "DAMAGED",
+				"expired": "EXPIRED"
+			}
+		},
+		"empty": {
+			"noSales": "— no sales today —",
+			"noPurchases": "— no purchases today —",
+			"noLosses": "— no losses today —"
+		},
+		"error": {
+			"default": "Failed to load dashboard data",
+			"retry": "RETRY"
+		}
+	},
 	"sidebar": {
 		"appName": "Nexus",
 		"appTagline": "Management Suite",
@@ -537,5 +587,30 @@
 		"completePurchase": "Complete purchase",
 		"cancel": "Cancel",
 		"purchaseMockMessage": "Supplier selection and product lines will be added here."
+	},
+	"posOverlay": {
+		"quickSale": "Quick Sale",
+		"quickPurchase": "Quick Purchase",
+		"searchPlaceholder": "Search by name...",
+		"barcodePlaceholder": "Scan or type barcode...",
+		"scan": "Scan",
+		"loading": "Loading...",
+		"fetchError": "Failed to load products.",
+		"noProducts": "No products found.",
+		"loadMore": "Load more",
+		"selectProduct": "Select a product to begin",
+		"currentTransaction": "Current transaction",
+		"noItems": "No items added yet.",
+		"total": "Total",
+		"cancel": "Cancel",
+		"proceed": "Proceed",
+		"options": {
+			"printReceipt": "Print receipt",
+			"sendInvoice": "Send invoice",
+			"applyLoyalty": "Apply loyalty points",
+			"printOrder": "Print purchase order",
+			"updateStock": "Update stock automatically",
+			"notifySupplier": "Notify supplier"
+		}
 	}
 }

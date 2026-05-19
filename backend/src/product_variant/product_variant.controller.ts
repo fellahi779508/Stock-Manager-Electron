@@ -53,6 +53,14 @@ export class ProductVariantController {
   getStockByBarcode(@Param('barcode') barcode: string) {
     return this.productVariantService.findByBarceode(barcode);
   }
+  @Get('sallable')
+  getSallableVariants(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('search') search?: string,
+  ) {
+    return this.productVariantService.getSallableVariants(page, limit, search);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
