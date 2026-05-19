@@ -197,6 +197,9 @@ export class ProductVariantService {
             stock: { id: true, quantity: true },
           },
         },
+        order: {
+          batches: { expirationDate: 'DESC' },
+        },
       });
       return {
         data: items,
