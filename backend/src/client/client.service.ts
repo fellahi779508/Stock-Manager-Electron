@@ -16,37 +16,33 @@ export class ClientService {
   }
 
   async findAll(page: number, limit: number, search?: string) {
-    if (search) {
-      const [clients, total] = await this.clientRepository.findAndCount({
-        where: [
-          { name: ILike(`%${search}%`) },
-          { email: ILike(`%${search}%`) },
-          { phone: ILike(`%${search}%`) },
-          { address: ILike(`%${search}%`) },
-        ],
-        take: limit,
-        skip: (page - 1) * limit,
-        relations: ['sales', 'sales.credit'],
-      });
-      return {
-        data: clients,
-        meta: { total, page, limit, pages: Math.ceil(total / limit) },
-      };
+    const query: any = {
+      where: search ? { name: ILike(`%${search}%`) } : undefined,
+      skip: limit > 0 ? (page - 1) * limit : undefined,
+    };
+
+    // Only add take if limit > 0
+    if (limit > 0) {
+      query.take = limit;
     }
-    const [clients, total] = await this.clientRepository.findAndCount({
-      take: limit,
-      skip: (page - 1) * limit,
-    });
+
+    const [items, total] = await this.clientRepository.findAndCount(query);
+
     return {
-      data: clients,
-      meta: { total, page, limit, pages: Math.ceil(total / limit) },
+      data: items,
+      meta: {
+        total,
+        page,
+        limit,
+        pages: limit > 0 ? Math.ceil(total / limit) : 1,
+      },
     };
   }
 
   async findOne(id: number) {
     const client = this.clientRepository.findOne({
       where: { id },
-      relations: ['sales'],
+      relations: ['sales', 'sales.credit'],
     });
     if (!client) {
       throw new NotFoundException('Client not found');

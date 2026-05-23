@@ -505,7 +505,9 @@
 		"alertPeriodPerStockLabel": "Seuil d'alerte stock",
 		"alertPeriodPerDayPlaceholder": "Jours avant expiration",
 		"alertPeriodPerStockPlaceholder": "Seuil d'alerte stock",
-		"supplierSection": "Fournisseur & Alerts"
+		"supplierSection": "Fournisseur & Alerts",
+		"primary": "Principal (ce batch sera vendu en premier)",
+		"primaryPlaceHolder": "Définir comme batch principal"
 	},
 	"batchOptions": {
 		"eyebrow": "Actions de lot",
@@ -597,5 +599,70 @@
 	"cancel": "Annuler",
 
 	"price": "Prix",
-	"no_products": "Aucun produit trouvé"
+	"no_products": "Aucun produit trouvé",
+	"Clients": {
+		"title": "Clients",
+		"total": "{count} clients",
+		"addClient": "Add Client",
+		"searchPlaceholder": "Search clients...",
+		"refresh": "Refresh",
+		"errorLoad": "Failed to load clients. Please try again.",
+		"loading": "Loading clients...",
+		"emptyTitle": "No clients found",
+		"emptySubtitle": "Start by adding your first client.",
+		"emptySearchSubtitle": "No clients match \"{query}\".",
+		"pageInfo": "Page {page} of {pages}"
+	},
+	"addClient": {
+		"title": "Add Client",
+		"subtitle": "Fill in the details to create a new client.",
+		"updateTitle": "Update Client",
+		"updateSubtitle": "Edit the client's information below.",
+		"sectionLabel": "Client Information",
+		"nameLabel": "Full Name",
+		"namePlaceholder": "Enter full name",
+		"emailLabel": "Email",
+		"emailPlaceholder": "Enter email address",
+		"phoneLabel": "Phone",
+		"phonePlaceholder": "Enter phone number",
+		"addressLabel": "Address",
+		"addressPlaceholder": "Enter address",
+		"btnClose": "Cancel",
+		"btnCreate": "Create Client",
+		"updateBtn": "Save Changes",
+		"successCreate": "Client created successfully.",
+		"errorCreate": "Failed to create client. Please try again.",
+		"successUpdate": "Client updated successfully.",
+		"errorUpdate": "Failed to update client. Please try again.",
+		"errorNameRequired": "Name is required."
+	},
+	"clientOptions": {
+		"close": "Close",
+		"eyebrow": "Client Options",
+		"title": "What would you like to do?",
+		"viewDetails": {
+			"title": "View Details",
+			"desc": "See the full profile and history of this client."
+		},
+		"updateClient": {
+			"title": "Edit Client",
+			"desc": "Update this client's information."
+		},
+		"deleteClient": {
+			"title": "Delete Client"
+		},
+		"deleteCLient": {
+			"desc": "Permanently remove this client from the system."
+		},
+		"confirmDelete": "Are you sure you want to delete this client?"
+	},
+	"creditModal": {
+		"title": "Credit Payment",
+		"sectionLabel": "Credit Settings",
+		"activateLabel": "Enable Credit",
+		"paidLabel": "Amount Paid",
+		"paidPlaceholder": "Enter amount paid",
+		"clientLabel": "Select Client",
+		"clientListPlaceholder": "Search for a client..."
+	}
 }

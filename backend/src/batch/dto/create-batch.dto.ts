@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateBatchDto {
   @IsString()
@@ -35,4 +41,8 @@ export class CreateBatchDto {
   @IsOptional()
   @Transform(({ value }) => (value === 0 ? undefined : value))
   supplierId?: number;
+
+  @IsBoolean()
+  @Transform(({ value }) => (value == '' ? false : value))
+  primary: boolean;
 }

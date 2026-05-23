@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import styles from "./dashboard.module.css";
 import MakeSaleModal from "@/components/quickTransactions/sales";
+import Link from "next/link";
 
 /* ── Type definitions matching your backend responses ── */
 interface Variant {
@@ -270,10 +271,13 @@ export default function Dashboard() {
 				</div>
 
 				<div className={styles.quickActions}>
-					<button className={`${styles.actionButton} ${styles.actionSale}`}>
+					<Link
+						href="/sale"
+						className={`${styles.actionButton} ${styles.actionSale}`}
+					>
 						<ShoppingCart size={15} className={styles.btnIcon} />
 						{t("actions.quickSale")}
-					</button>
+					</Link>
 					<button className={`${styles.actionButton} ${styles.actionPurchase}`}>
 						<Package size={15} className={styles.btnIcon} />
 						{t("actions.quickPurchase")}

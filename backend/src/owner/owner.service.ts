@@ -9,6 +9,7 @@ import { Log } from 'src/logs/entities/log.entity';
 import { Reasons, Types } from 'utils/actions';
 import { PurchasedItem } from 'src/purchased-item/entities/purchased-item.entity';
 import { StockPayment } from 'src/stock-payment/entities/stock-payment.entity';
+import { Credit } from 'src/credit/entities/credit.entity';
 
 @Injectable()
 export class OwnerService {
@@ -39,12 +40,24 @@ export class OwnerService {
   async getProfitsFromSalesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];
     const saleRepo = this.dataSource.getRepository(Sale);
+    const creditRepo = this.dataSource.getRepository(Credit);
     const sales = await saleRepo.find({
       where: {
-        date: today,
+        date: ILike(`${today}%`),
       },
-      relations: ['soldItems', 'soldItems.batch', 'soldItems.batch.variant'],
+      relations: [
+        'soldItems',
+        'soldItems.batch',
+        'soldItems.batch.variant',
+        'credit',
+        'credit.sale',
+        'credit.sale.soldItems',
+      ],
     });
+    const credits = await creditRepo.find({
+      where: { date: ILike(`${today}%`) },
+    });
+
     const profits = sales.map((sale) => {
       return sale.soldItems.reduce((acc, item) => {
         return acc + item.batch.variant.profitTTC * item.quantity;

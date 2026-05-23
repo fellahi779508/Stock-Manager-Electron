@@ -2,7 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UpdateBatchDto } from './dto/update-batch.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, LessThanOrEqual, Repository } from 'typeorm';
+import {
+  DataSource,
+  ILike,
+  IsNull,
+  LessThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { Batch } from './entities/batch.entity';
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { Stock } from 'src/stock/entities/stock.entity';
@@ -43,7 +49,13 @@ export class BatchService {
       if (!variant) {
         throw new NotFoundException('Variant not found');
       }
-
+      if (createBatchDto.primary) {
+        // Set all other batches for this variant to not primary
+        await batchRepo.update(
+          { variant: { id: createBatchDto.variantId }, primary: true },
+          { primary: false },
+        );
+      }
       // 🔹 Create batch (without stock first)
       const batch = batchRepo.create({
         ...createBatchDto,
@@ -222,7 +234,7 @@ export class BatchService {
 
       const existingBatch = await batchRepo.findOne({
         where: { id },
-        relations: ['stock'], // ✅ IMPORTANT
+        relations: ['stock', 'variant'], // ✅ IMPORTANT
       });
 
       if (!existingBatch) {
@@ -302,14 +314,69 @@ export class BatchService {
           batch.stockQTYStatus = 'ok';
         }
       }
-
-      return await batchRepo.save(batch);
+      if (updateBatchDto.primary) {
+        await this.updateBatchPrimaryStatus(batch.variant.id);
+        await batchRepo.save(batch);
+        return;
+      } else {
+        await batchRepo.save(batch);
+        await this.checkBatchPrimaryStatus(batch.variant.id);
+        return;
+      }
     });
+  }
+  async checkBatchPrimaryStatus(variantId: number) {
+    const batch = await this.batchRepository.find({
+      where: { primary: true, variant: { id: variantId } },
+    });
+    console.log(batch);
+    if (batch.length === 0) {
+      console.log('here 2');
+      const batches = await this.batchRepository.find({
+        where: { expirationDate: IsNull(), variant: { id: variantId } },
+        relations: ['stock'],
+        order: {
+          stock: {
+            quantity: 'ASC',
+          },
+        },
+      });
+      if (batches && batches.length > 0) {
+        batches[0].primary = true;
+        await this.batchRepository.save(batches[0]);
+      } else {
+        console.log('here 3');
+
+        const batches = await this.batchRepository.find({
+          where: { variant: { id: variantId } },
+          order: { expirationDate: 'ASC' },
+        });
+        if (batches && batches.length > 0) {
+          batches[0].primary = true;
+          await this.batchRepository.save(batches[0]);
+        }
+      }
+    }
+    return;
+  }
+  async updateBatchPrimaryStatus(variantId: number) {
+    let [batches, total] = await this.batchRepository.findAndCount({
+      where: { primary: true, variant: { id: variantId } },
+    });
+    if (!batches || total === 0) {
+      return;
+    }
+    for (const batch of batches) {
+      batch.primary = false;
+      await this.batchRepository.save(batch);
+    }
   }
 
   async remove(id: number) {
     const batch = await this.findOne(id);
-    return await this.batchRepository.remove(batch);
+    await this.batchRepository.remove(batch);
+    await this.checkBatchPrimaryStatus(batch.variant.id);
+    return;
   }
 
   async getBatchByProductId(id: number) {

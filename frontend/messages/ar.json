@@ -507,7 +507,9 @@
 		"alertPeriodPerStockLabel": "حد تنبيه المخزون",
 		"alertPeriodPerDayPlaceholder": "أيام قبل الانتهاء",
 		"alertPeriodPerStockPlaceholder": "حد تنبيه المخزون",
-		"supplierSection": "المورد & التنبيهات"
+		"supplierSection": "المورد & التنبيهات",
+		"primary": "رئيسي (سيتم بيع هذه الدفعة أولاً)",
+		"primaryPlaceHolder": "تعيين كدفعة رئيسية"
 	},
 	"batchOptions": {
 		"eyebrow": "إجراءات الدفعة",
@@ -599,5 +601,70 @@
 	"cancel": "إلغاء",
 
 	"price": "السعر",
-	"no_products": "لا توجد منتجات"
+	"no_products": "لا توجد منتجات",
+	"Clients": {
+		"title": "العملاء",
+		"total": "{count} عملاء",
+		"addClient": "إضافة عميل",
+		"searchPlaceholder": "البحث عن عملاء...",
+		"refresh": "تحديث",
+		"errorLoad": "فشل في تحميل العملاء. يرجى المحاولة مرة أخرى.",
+		"loading": "جاري تحميل العملاء...",
+		"emptyTitle": "لا توجد عملاء",
+		"emptySubtitle": "ابدأ بإضافة عميلك الأول.",
+		"emptySearchSubtitle": "لا يوجد عملاء يطابقون \"{query}\".",
+		"pageInfo": "الصفحة {page} من {pages}"
+	},
+	"addClient": {
+		"title": "إضافة عميل",
+		"subtitle": "املأ التفاصيل لإنشاء عميل جديد.",
+		"updateTitle": "تحديث العميل",
+		"updateSubtitle": "قم بتحرير معلومات العميل أدناه.",
+		"sectionLabel": "معلومات العميل",
+		"nameLabel": "الاسم الكامل",
+		"namePlaceholder": "أدخل الاسم الكامل",
+		"emailLabel": "البريد الإلكتروني",
+		"emailPlaceholder": "أدخل عنوان البريد الإلكتروني",
+		"phoneLabel": "الهاتف",
+		"phonePlaceholder": "أدخل رقم الهاتف",
+		"addressLabel": "العنوان",
+		"addressPlaceholder": "أدخل العنوان",
+		"btnClose": "إلغاء",
+		"btnCreate": "إنشاء عميل",
+		"updateBtn": "حفظ التغييرات",
+		"successCreate": "تم إنشاء العميل بنجاح.",
+		"errorCreate": "فشل في إنشاء العميل. يرجى المحاولة مرة أخرى.",
+		"successUpdate": "تم تحديث العميل بنجاح.",
+		"errorUpdate": "فشل في تحديث العميل. يرجى المحاولة مرة أخرى.",
+		"errorNameRequired": "الاسم مطلوب."
+	},
+	"clientOptions": {
+		"close": "إغلاق",
+		"eyebrow": "خيارات العميل",
+		"title": "ما الذي تود القيام به؟",
+		"viewDetails": {
+			"title": "عرض التفاصيل",
+			"desc": "عرض ملف العميل والسجلات."
+		},
+		"updateClient": {
+			"title": "تعديل العميل",
+			"desc": "تحديث معلومات العميل."
+		},
+		"deleteClient": {
+			"title": "حذف العميل"
+		},
+		"deleteCLient": {
+			"desc": "حذف العميل نهائياً."
+		},
+		"confirmDelete": "هل أنت متأكد من حذف هذا العميل؟"
+	},
+	"creditModal": {
+		"title": "دفع بالائتمان",
+		"sectionLabel": "إعدادات الائتمان",
+		"activateLabel": "تفعيل الائتمان",
+		"paidLabel": "المبلغ المدفوع",
+		"paidPlaceholder": "أدخل المبلغ المدفوع",
+		"clientLabel": "اختر العميل",
+		"clientListPlaceholder": "ابحث عن عميل..."
+	}
 }

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductVariantDto } from './dto/create-product_variant.dto';
 import { UpdateProductVariantDto } from './dto/update-product_variant.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, Like, Repository } from 'typeorm';
+import { DataSource, ILike, IsNull, Like, Repository } from 'typeorm';
 import { ProductVariant } from './entities/product_variant.entity';
 import { ProductService } from 'src/product/product.service';
 import { Batch } from 'src/batch/entities/batch.entity';
@@ -181,42 +181,16 @@ export class ProductVariantService {
     };
   }
   async getSallableVariants(page: number, limit: number, search?: string) {
-    if (search) {
-      const [items, total] = await this.productVariantRepository.findAndCount({
-        where: [
-          { name: ILike(`%${search}%`) },
-          { barcode: Like(`%${search}%`) },
-        ],
-        take: limit,
-        skip: (page - 1) * limit,
-        relations: ['batches', 'batches.stock'],
-        select: {
-          batches: {
-            id: true,
-            nLot: true,
-            stock: { id: true, quantity: true },
-          },
-        },
-        order: {
-          batches: { expirationDate: 'DESC' },
-        },
-      });
-      return {
-        data: items,
-        meta: { total, page, limit, pages: Math.ceil(total / limit) },
-      };
-    }
     const [items, total] = await this.productVariantRepository.findAndCount({
+      where: [
+        { name: ILike(`%${search}%`), batches: { primary: true } },
+        { barcode: ILike(`%${search}%`), batches: { primary: true } },
+        { product: { name: ILike(`%${search}%`) }, batches: { primary: true } },
+      ],
       take: limit,
       skip: (page - 1) * limit,
-      relations: ['batches', 'batches.stock'],
-      select: {
-        batches: {
-          id: true,
-          nLot: true,
-          stock: { id: true, quantity: true },
-        },
-      },
+      relations: ['batches', 'product', 'batches.stock'],
+      select: { batches: { id: true, nLot: true, stock: { quantity: true } } },
     });
     return {
       data: items,
