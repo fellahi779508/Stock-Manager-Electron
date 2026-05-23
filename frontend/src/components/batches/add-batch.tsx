@@ -36,6 +36,7 @@ export default function AddBatchModal({
 		alertPeriodPerDay: undefined,
 		alertPeriodPerStock: undefined,
 		variantId: variantId || 0,
+		primary: false,
 	});
 
 	// Validation function
@@ -107,6 +108,7 @@ export default function AddBatchModal({
 				alertPeriodPerDay: result.response.alertPeriodPerDay || undefined,
 				alertPeriodPerStock: result.response.alertPeriodPerStock || undefined,
 				variantId: result.response.variantId || 0,
+				primary: result.response.primary,
 			});
 			setSelectedSupplier(result.response.supplier?.id);
 		}
@@ -126,6 +128,7 @@ export default function AddBatchModal({
 				alertPeriodPerDay: undefined,
 				alertPeriodPerStock: undefined,
 				variantId: variantId || 0,
+				primary: false,
 			});
 		}
 	}, [isUpdate, getBatch, variantId]);
@@ -321,6 +324,21 @@ export default function AddBatchModal({
 								setBatch({
 									...batch,
 									alertPeriodPerStock: parseInt(e.target.value) || undefined,
+								})
+							}
+						/>
+					</div>
+					<div className={styles.field}>
+						<label className={styles.label}>{t("primary")}</label>
+						<input
+							type="checkbox"
+							className={styles.input_checkbox}
+							placeholder={t("primaryPlaceHolder")}
+							checked={batch.primary}
+							onChange={(e) =>
+								setBatch({
+									...batch,
+									primary: e.target.checked,
 								})
 							}
 						/>

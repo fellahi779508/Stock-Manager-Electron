@@ -1,6 +1,7 @@
 "use client";
 import api from "@/utils/api";
 import { PostVarinat } from "@/utils/types";
+import { edgeServerAppPaths } from "next/dist/build/webpack/plugins/pages-manifest-plugin";
 
 export async function postVariant(body: PostVarinat) {
 	const now = new Date().toISOString();
@@ -92,6 +93,25 @@ export async function getAllBatchesOfVariant(
 	try {
 		const response = await api
 			.get(`/batch/variant/${id}?search=${search}&page=${page}&limit=${limit}`)
+			.then((res) => res.data);
+		console.log(response);
+
+		return { response, status: 1 };
+	} catch (error: any) {
+		console.log(error.response.data.message);
+		return { response: error.response.data.message, status: 0 };
+	}
+}
+export default async function getAllSallableVariants(
+	page: number,
+	limit: number,
+	search?: string,
+) {
+	try {
+		const response = await api
+			.get(
+				`/product-variant/sallable?page=${page}&limit=${limit}&search=${search}`,
+			)
 			.then((res) => res.data);
 		console.log(response);
 

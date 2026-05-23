@@ -69,15 +69,10 @@ export class SaleService {
         await this.batchService.updateBatchStatus(batch.id);
       }
       if (createSaleDto.total !== createSaleDto.paid) {
-        const client = await clientRepo.findOne({
-          where: { id: createSaleDto.clientId },
-        });
-        if (!client) throw new NotFoundException('Client not found');
-        savedSale.client = client;
-        await saleRepo.save(savedSale);
         const credit = creditRepo.create({
           amount: createSaleDto.total - createSaleDto.paid,
           sale: savedSale,
+          date: new Date().toISOString(),
         });
         await creditRepo.save(credit);
         const creditLog = logRepo.create({

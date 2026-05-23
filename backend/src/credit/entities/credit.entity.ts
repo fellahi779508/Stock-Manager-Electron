@@ -2,6 +2,7 @@ import { Log } from 'src/logs/entities/log.entity';
 import { Sale } from 'src/sale/entities/sale.entity';
 import { StockPayment } from 'src/stock-payment/entities/stock-payment.entity';
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -17,6 +18,8 @@ export class Credit {
 
   @Column()
   amount: number;
+  @Column()
+  date: string;
 
   @OneToMany(() => Log, (log) => log.credit, {
     cascade: true,
@@ -37,4 +40,8 @@ export class Credit {
   })
   @JoinColumn({ name: 'purchase_id' })
   stockPayment: StockPayment;
+  @BeforeInsert()
+  setDate() {
+    this.date = new Date().toISOString();
+  }
 }

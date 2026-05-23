@@ -129,4 +129,39 @@ export type PostBatch = {
 	alertPeriodPerDay?: number;
 	alertPeriodPerStock?: number;
 	variantId: number;
+	primary: boolean;
+};
+export type PostSale = {
+	total: number;
+	clientId?: number;
+	paid: number;
+	date: string;
+	soldItems: {
+		batchId: number;
+		quantity: number;
+	}[];
+};
+export type Cart = {
+	total: number;
+	soldItems: {
+		name: string;
+		barcode: string;
+		batchId: number;
+		quantity: number;
+		total: number;
+		sellingPriceTTC: number;
+	}[];
+};
+export type Client = {
+	id: number;
+	name: string;
+	address: string;
+	phone: string;
+	email: string;
+};
+export type PostClient = {
+	name: string;
+	address?: string;
+	phone?: string;
+	email?: string;
 };

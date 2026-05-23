@@ -1,6 +1,13 @@
 import { Log } from 'src/logs/entities/log.entity';
 import { Sale } from 'src/sale/entities/sale.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Client {
@@ -19,6 +26,11 @@ export class Client {
   @Column({ nullable: true })
   email: string;
 
+  @Column()
+  createdAt: string;
+  @Column()
+  updatedAt: string;
+
   @OneToMany(() => Log, (log) => log.client, { nullable: true })
   logs: Log[];
 
@@ -27,4 +39,13 @@ export class Client {
     onDelete: 'CASCADE',
   })
   sales: Sale[];
+  @BeforeInsert()
+  @BeforeUpdate()
+  setTimestamps() {
+    const now = new Date().toISOString();
+    if (!this.createdAt) {
+      this.createdAt = now;
+    }
+    this.updatedAt = now;
+  }
 }

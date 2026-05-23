@@ -44,6 +44,9 @@ export class Batch {
   @Column({ nullable: true })
   nLot: string;
 
+  @Column({ default: true })
+  primary: boolean;
+
   @Column({ nullable: true })
   status: string;
 
