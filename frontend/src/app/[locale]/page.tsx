@@ -20,7 +20,6 @@ import {
 	AlertTriangle,
 } from "lucide-react";
 import styles from "./dashboard.module.css";
-import MakeSaleModal from "@/components/quickTransactions/sales";
 import Link from "next/link";
 
 /* ── Type definitions matching your backend responses ── */
@@ -200,6 +199,7 @@ function TodayLabel({ liveText }: { liveText: string }) {
 
 export default function Dashboard() {
 	const t = useTranslations("dashboard");
+	const g = useTranslations();
 	const locale = useLocale();
 
 	const localeMap: Record<string, string> = {
@@ -315,20 +315,20 @@ export default function Dashboard() {
 						<MetricCard
 							icon={<TrendingUp size={15} />}
 							label={t("metrics.profit")}
-							value={`${totalProfit.toLocaleString(displayLocale)} DA`}
+							value={`${totalProfit.toLocaleString(displayLocale)} ${g("currency")}`}
 							accent="success"
 						/>
 						<MetricCard
 							icon={<DollarSign size={15} />}
 							label={t("metrics.costs")}
-							value={`${totalCost.toLocaleString(displayLocale)} DA`}
+							value={`${totalCost.toLocaleString(displayLocale)} ${g("currency")}`}
 							accent="info"
-							subtitle={`${t("metrics.credit")} · ${totalCredit.toLocaleString(displayLocale)} DA`}
+							subtitle={`${t("metrics.credit")} · ${totalCredit.toLocaleString(displayLocale)} ${g("currency")}`}
 						/>
 						<MetricCard
 							icon={<TrendingDown size={15} />}
 							label={t("metrics.losses")}
-							value={`${totalLoss.toLocaleString(displayLocale)} DA`}
+							value={`${totalLoss.toLocaleString(displayLocale)} ${g("currency")}`}
 							accent="danger"
 						/>
 						<MetricCard
@@ -338,7 +338,7 @@ export default function Dashboard() {
 							accent="success"
 							subtitle={`${salesList
 								.reduce((s, x) => s + (x.total ?? 0), 0)
-								.toLocaleString(displayLocale)} DA`}
+								.toLocaleString(displayLocale)} ${g("currency")}`}
 						/>
 						<MetricCard
 							icon={<Package size={15} />}
@@ -347,7 +347,7 @@ export default function Dashboard() {
 							accent="info"
 							subtitle={`${purchasesList
 								.reduce((s, x) => s + (x.total ?? 0), 0)
-								.toLocaleString(displayLocale)} DA`}
+								.toLocaleString(displayLocale)} ${g("currency")}`}
 						/>
 					</div>
 
@@ -378,12 +378,14 @@ export default function Dashboard() {
 											<div className={styles.listItemAmounts}>
 												{t("labels.total")}{" "}
 												<strong>
-													{sale.total.toLocaleString(displayLocale)} DA
+													{sale.total.toLocaleString(displayLocale)}{" "}
+													{g("currency")}
 												</strong>
 												{" · "}
 												{t("labels.paid")}{" "}
 												<strong>
-													{sale.paid.toLocaleString(displayLocale)} DA
+													{sale.paid.toLocaleString(displayLocale)}{" "}
+													{g("currency")}
 												</strong>
 											</div>
 											<div className={styles.listItemItems}>
@@ -426,12 +428,14 @@ export default function Dashboard() {
 											<div className={styles.listItemAmounts}>
 												{t("labels.amount")}{" "}
 												<strong>
-													{p.amount.toLocaleString(displayLocale)} DA
+													{p.amount.toLocaleString(displayLocale)}{" "}
+													{g("currency")}
 												</strong>
 												{" · "}
 												{t("labels.remaining")}{" "}
 												<strong>
-													{p.remaining.toLocaleString(displayLocale)} DA
+													{p.remaining.toLocaleString(displayLocale)}{" "}
+													{g("currency")}
 												</strong>
 											</div>
 											<div className={styles.listItemSupplier}>
@@ -493,7 +497,7 @@ export default function Dashboard() {
 													{(
 														log.quantity * log.stock.batch.variant.purchasePrice
 													).toLocaleString(displayLocale)}{" "}
-													DA
+													{g("currency")}
 												</strong>
 											</div>
 											<div className={styles.listItemSupplier}>
@@ -508,7 +512,6 @@ export default function Dashboard() {
 					</div>
 				</>
 			)}
-			<MakeSaleModal />
 		</div>
 	);
 }

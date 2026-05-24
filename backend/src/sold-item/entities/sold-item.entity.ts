@@ -1,12 +1,6 @@
 import { Batch } from 'src/batch/entities/batch.entity';
 import { Sale } from 'src/sale/entities/sale.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class SoldItem {
@@ -16,6 +10,8 @@ export class SoldItem {
   quantity: number;
   @Column()
   total: number;
+  @Column()
+  sellingPrice: number;
   @ManyToOne(() => Batch, (batch) => batch.soldItems, { onDelete: 'CASCADE' })
   batch: Batch;
 

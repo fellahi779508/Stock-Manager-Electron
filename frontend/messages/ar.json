@@ -666,5 +666,59 @@
 		"paidPlaceholder": "أدخل المبلغ المدفوع",
 		"clientLabel": "اختر العميل",
 		"clientListPlaceholder": "ابحث عن عميل..."
+	},
+	"currency": "د.ج",
+	"sale": {
+		"title": "بيع",
+		"searchPlaceholder": "ابحث بالاسم، الرمز الشريطي...",
+		"pageInfo": "الصفحة {page} من {pages}",
+		"cartTitle": "السلة",
+		"numpadTitle": "آلة الحاسبة",
+		"optionsTitle": "الخيارات",
+		"cancelBtn": "إلغاء",
+		"proceedBtn": "المتابعة",
+		"qte": "الكمية",
+		"price": "السعر",
+		"apply": "تطبيق",
+		"creditRequired": "العميل مطلوب عند تفعيل الائتمان.",
+		"successSale": "تم إنشاء البيع بنجاح.",
+		"errorSale": "فشل في إنشاء البيع.",
+		"totalAmount": "المبلغ الإجمالي",
+		"totalPaid": "المبلغ المدفوع",
+		"remise": "المبلغ الإجمالي (خصم)",
+		"remiseAlert": "الخصم لا يمكن أن يكون أكبر من المبلغ الإجمالي.",
+		"currency": "د.ج",
+		"transactionOptions": {
+			"print": "طباعة",
+			"credit": "ائتمان",
+			"discount": "خصم",
+			"history": "السجل"
+		},
+		"variantsTable": {
+			"productName": "اسم المنتج",
+			"nLot": "رقم اللوت",
+			"barcode": "الباركود",
+			"stockQty": "الكمية في المخزون",
+			"purchasePrice": "سعر الشراء",
+			"tva": "الضريبة",
+			"discountPrice": "سعر الخصم",
+			"sellingPrice": "سعر البيع"
+		},
+		"cartTable": {
+			"productName": "اسم المنتج",
+			"barcode": "الباركود",
+			"quantity": "الكمية",
+			"sellingPrice": "سعر البيع",
+			"total": "الإجمالي",
+			"remove": "إزالة"
+		},
+		"emptyCart": "لا توجد منتجات في السلة."
+	},
+	"remiseModal": {
+		"title": "خصم",
+		"sectionLabel": "إعدادات الخصم",
+		"activateLabel": "تفعيل الخصم",
+		"remiseLabel": "مبلغ الخصم",
+		"remisePlaceholder": "أدخل مبلغ الخصم"
 	}
 }

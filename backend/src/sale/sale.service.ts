@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,13 +28,14 @@ export class SaleService {
   ) {}
   async create(createSaleDto: CreateSaleDto) {
     return this.datasource.transaction(async (manager) => {
-      const bacthRepo = this.datasource.getRepository(Batch);
-      const stockRepo = this.datasource.getRepository(Stock);
-      const saleRepo = this.datasource.getRepository(Sale);
-      const clientRepo = this.datasource.getRepository(Client);
-      const creditRepo = this.datasource.getRepository(Credit);
-      const logRepo = this.datasource.getRepository(Log);
-      const soldItemRepo = this.datasource.getRepository(SoldItem);
+      const bacthRepo = manager.getRepository(Batch);
+      const stockRepo = manager.getRepository(Stock);
+      const saleRepo = manager.getRepository(Sale);
+      const clientRepo = manager.getRepository(Client);
+      const creditRepo = manager.getRepository(Credit);
+      const logRepo = manager.getRepository(Log);
+      const soldItemRepo = manager.getRepository(SoldItem);
+
       const sale = saleRepo.create(createSaleDto);
       if (createSaleDto.clientId) {
         const client = await clientRepo.findOne({
@@ -51,6 +56,7 @@ export class SaleService {
           total: item.quantity * batch.variant.sellingPriceTTC,
           batch,
           sale: savedSale,
+          sellingPrice: item.sellingPrice,
         });
         await soldItemRepo.save(soldItem);
         const stock = await this.stockService.findOne(batch.stock.id);
@@ -62,7 +68,7 @@ export class SaleService {
           reason: Reasons.SOLD,
           quantity: item.quantity,
           stock: stock,
-          sale: savedSale,
+          sale: { id: savedSale.id },
           timestamp: new Date().toISOString(),
         });
         await logRepo.save(stockLog);
@@ -115,6 +121,22 @@ export class SaleService {
       meta: { total, page, limit, pages: Math.ceil(total / limit) },
     };
   }
+  async getTodaysSales() {
+    const sales = await this.saleRepository.find({
+      where: { date: ILike(`%${new Date().toISOString().split('T')[0]}%`) },
+      relations: [
+        'client',
+        'soldItems',
+        'soldItems.batch',
+        'soldItems.batch.variant',
+        'credit',
+      ],
+      order: { id: 'DESC' },
+    });
+    console.log(sales[0].soldItems[0]);
+
+    return sales;
+  }
 
   async findOne(id: number) {
     const sale = await this.saleRepository.findOne({
@@ -125,10 +147,14 @@ export class SaleService {
     return sale;
   }
 
-  async update(id: number, updateSaleDto: UpdateSaleDto) {
-    const sale = await this.saleRepository.preload({ id, ...updateSaleDto });
-    if (!sale) throw new NotFoundException('Sale not found');
-    return this.saleRepository.save(sale);
+  async update(id: number, dto: UpdateSaleDto) {
+    return await this.datasource.transaction(async (manager) => {
+      const soldItemRepo = manager.getRepository(SoldItem);
+      const creditRepo = manager.getRepository(Credit);
+      const batchRepo = manager.getRepository(Batch);
+      const stockRepo = manager.getRepository(Stock);
+      const logRepo = manager.getRepository(Log);
+    });
   }
 
   async remove(id: number) {

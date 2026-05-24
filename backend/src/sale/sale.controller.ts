@@ -30,6 +30,10 @@ export class SaleController {
   ) {
     return this.saleService.findAll(page, limit, search);
   }
+  @Get('todays')
+  getTodaysSales() {
+    return this.saleService.getTodaysSales();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

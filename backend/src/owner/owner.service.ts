@@ -45,28 +45,18 @@ export class OwnerService {
       where: {
         date: ILike(`${today}%`),
       },
-      relations: [
-        'soldItems',
-        'soldItems.batch',
-        'soldItems.batch.variant',
-        'credit',
-        'credit.sale',
-        'credit.sale.soldItems',
-      ],
-    });
-    const credits = await creditRepo.find({
-      where: { date: ILike(`${today}%`) },
+      relations: ['soldItems', 'soldItems.batch', 'soldItems.batch.variant'],
     });
 
-    const profits = sales.map((sale) => {
-      return sale.soldItems.reduce((acc, item) => {
-        return acc + item.batch.variant.profitTTC * item.quantity;
-      }, 0);
-    });
-    return {
-      total: profits.reduce((acc, profit) => acc + profit, 0),
-      data: sales,
-    };
+    let totalSaleProfit = 0;
+    for (const sale of sales) {
+      for (const item of sale.soldItems) {
+        const baseProfit = item.sellingPrice - item.batch.variant.purchasePrice;
+        const total = baseProfit * item.quantity;
+        totalSaleProfit += total;
+      }
+    }
+    return { total: totalSaleProfit, data: sales };
   }
   async getSalesOfTheDay() {
     const today = new Date().toISOString().split('T')[0];

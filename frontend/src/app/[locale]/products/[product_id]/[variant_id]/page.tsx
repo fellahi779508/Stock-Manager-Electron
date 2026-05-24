@@ -93,6 +93,7 @@ function formatPrice(n?: number) {
 export default function VariantDetails() {
 	const param = useParams();
 	const t = useTranslations("variantDetails");
+	const g = useTranslations();
 
 	const [variant, setVariant] = useState<Variant | null>(null);
 	const [batches, setBatches] = useState<Batch[]>([]);
@@ -239,28 +240,33 @@ export default function VariantDetails() {
 						{[
 							{
 								label: t("hero.purchasePrice"),
-								value: formatPrice(variant.purchasePrice),
+								value: formatPrice(variant.purchasePrice) + " " + g("currency"),
 								cls: "",
 							},
 							{
 								label: t("hero.sellingHT"),
-								value: formatPrice(variant.sellingPriceHT),
+								value:
+									formatPrice(variant.sellingPriceHT) + " " + g("currency"),
 								cls: "",
 							},
 							{
 								label: t("hero.sellingTTC"),
-								value: formatPrice(variant.sellingPriceTTC),
+								value:
+									formatPrice(variant.sellingPriceTTC) + " " + g("currency"),
 								cls: "priceAccent",
 							},
 							{
 								label: t("hero.PPA"),
-								value: formatPrice(variant.PPA ? Number(variant.PPA) : 0),
+								value:
+									formatPrice(variant.PPA ? Number(variant.PPA) : 0) +
+									" " +
+									g("currency"),
 								cls: "priceAccent",
 							},
 							{ label: t("hero.vat"), value: `${variant.vatRate}%`, cls: "" },
 							{
 								label: t("hero.profit"),
-								value: formatPrice(variant.profit),
+								value: formatPrice(variant.profit) + " " + g("currency"),
 								cls: "priceGreen",
 							},
 							{
@@ -270,9 +276,12 @@ export default function VariantDetails() {
 							},
 							{
 								label: t("hero.promotion"),
-								value: formatPrice(
-									variant.promotionPrice ? variant.promotionPrice : 0,
-								),
+								value:
+									formatPrice(
+										variant.promotionPrice ? variant.promotionPrice : 0,
+									) +
+									" " +
+									g("currency"),
 								cls: "",
 							},
 							{
