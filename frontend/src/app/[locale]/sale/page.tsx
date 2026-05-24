@@ -24,6 +24,7 @@ export default function Sale() {
 	const t = useTranslations("sale");
 
 	type soldItem = {
+		id?: number;
 		batchId: number;
 		quantity: number;
 		total: number;
@@ -303,6 +304,7 @@ export default function Sale() {
 				quantity: item.quantity,
 				sellingPrice: item.sellingPriceTTC,
 				total: item.total,
+				id: item.id,
 			})),
 			date: new Date().toISOString(),
 		});

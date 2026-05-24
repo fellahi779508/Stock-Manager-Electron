@@ -16,6 +16,7 @@ import {
 
 /* ── helpers ─────────────────────────────────────────────────────────────── */
 type soldItem = {
+	id: number;
 	batchId: number;
 	quantity: number;
 	total: number;
@@ -94,12 +95,13 @@ export default function HistoryModal({
 		setIsSaleLoaded(true);
 		const selectedSoldItems =
 			selectedSale?.soldItems.map((item) => ({
+				id: item.id,
 				batchId: item.batch.id,
 				quantity: item.quantity,
 				name: item.batch?.variant?.name || "",
 				total: item.quantity * item.sellingPrice,
 				barcode: item.batch?.variant?.barcode || "",
-				sellingPriceTTC: item.sellingPrice * item.quantity,
+				sellingPriceTTC: item.sellingPrice,
 			})) || [];
 		if (selectedSale?.remise === true) {
 			setIsRemiseActivated(true);

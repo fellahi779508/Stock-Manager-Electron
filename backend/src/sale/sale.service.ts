@@ -133,7 +133,6 @@ export class SaleService {
       ],
       order: { id: 'DESC' },
     });
-    console.log(sales[0].soldItems[0]);
 
     return sales;
   }
@@ -154,6 +153,62 @@ export class SaleService {
       const batchRepo = manager.getRepository(Batch);
       const stockRepo = manager.getRepository(Stock);
       const logRepo = manager.getRepository(Log);
+      const sale = await this.saleRepository.findOne({
+        where: { id },
+        relations: [
+          'client',
+          'soldItems',
+          'soldItems.batch',
+          'soldItems.batch.variant',
+          'soldItems.batch.stock',
+        ],
+      });
+      if (!sale) throw new NotFoundException('Sale not found');
+      sale.paid = dto.paid ?? sale.paid;
+      sale.remise = dto.remise ?? sale.remise;
+      sale.remiseAmount = dto.remiseAmount ?? sale.remiseAmount;
+      sale.total = dto.total ?? sale.total;
+      sale.date = dto.date ?? sale.date;
+      const savedSale = await this.saleRepository.save(sale);
+
+      for (const item of sale.soldItems) {
+        const stock = item.batch.stock;
+        stock.quantity = stock.quantity + item.quantity;
+        await stockRepo.save(stock);
+        await soldItemRepo.remove(item);
+        // TODO: Update sold item
+      }
+      for (const item of dto.soldItems || []) {
+        const batch = await batchRepo.findOne({ where: { id: item.batchId } });
+        if (!batch) {
+          throw new NotFoundException('Batch not found');
+        }
+        console.log(item);
+
+        const soldItem = soldItemRepo.create({
+          sale: savedSale,
+          batch,
+          quantity: item.quantity,
+          sellingPrice: item.sellingPrice,
+          total: item.sellingPrice * item.quantity,
+        });
+        const savedSoldItem = await soldItemRepo.save(soldItem);
+        const stock = await stockRepo.findOne({
+          where: { batch: { id: savedSoldItem.batch.id } },
+        });
+        if (!stock) {
+          throw new NotFoundException('Stock not found');
+        }
+        stock.quantity = stock.quantity - item.quantity;
+        await stockRepo.save(stock);
+      }
+      const stockLog = logRepo.create({
+        action: 'update',
+        entityType: Types.SALE,
+        sale: savedSale,
+        timestamp: new Date().toISOString(),
+      });
+      await logRepo.save(stockLog);
     });
   }
 

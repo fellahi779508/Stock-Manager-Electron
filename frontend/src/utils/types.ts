@@ -147,6 +147,7 @@ export type PostSale = {
 export type Cart = {
 	total: number;
 	soldItems: {
+		id?: number;
 		name: string;
 		barcode: string;
 		batchId: number;
@@ -179,7 +180,7 @@ export type Sale = {
 	client: Client | null;
 };
 export type SoldItem = {
-	id: number;
+	id?: number;
 	batchId: number;
 	quantity: number;
 	sellingPrice: number;
