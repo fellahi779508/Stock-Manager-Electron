@@ -13,10 +13,16 @@ import { Cart, Meta, Variant } from "@/utils/types";
 import getAllSallableVariants from "@/api/variant-api";
 import PrintModal from "@/components/sale/printModal";
 import CreditModal from "@/components/sale/creditModal";
-import { createSale } from "@/api/sale-api";
+import updateSaleByid, { createSale } from "@/api/sale-api";
 import { toast, ToastContainer } from "react-toastify";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import RemiseModal from "@/components/sale/remiseModal";
+import HistoryModal from "@/components/sale/historyModal";
+
 export default function Sale() {
+	const t = useTranslations("sale");
+
 	type soldItem = {
 		batchId: number;
 		quantity: number;
@@ -28,24 +34,28 @@ export default function Sale() {
 	type transactionOptions = {
 		print: boolean;
 		credit: boolean;
-		test: boolean;
+		discount: boolean;
+		history: boolean;
 	};
+
 	const [variants, stVariants] = useState<Variant[] | null>(null);
 	const [openPrintModal, setOpenPrintModal] = useState(false);
 	const [openCreditModal, setOpenCreditModal] = useState(false);
+	const [openRemiseModal, setOpenRemiseModal] = useState(false);
 	const [paperType, setPaperType] = useState<"A4" | "Ticket" | null>(null);
-	// states for Credit Modal
 	const [paidAmount, setPaidAmount] = useState(0);
 	const [isCreditActivated, setIsCreditActivated] = useState(false);
 	const [clientId, setClientId] = useState<number | null>(null);
-
+	const [saleId, setSaleId] = useState<number | null>(null);
+	const [remise, setRemise] = useState(0);
+	const [remiseAmount, setRemiseAmount] = useState(0);
+	const [isRemiseActivated, setIsRemiseActivated] = useState(false);
+	const [openHistoryModal, setOpenHistoryModal] = useState(false);
+	const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
 	const [selectedSoldItem, setSelectedSoldItem] = useState<soldItem | null>(
 		null,
 	);
-	const [cart, setCart] = useState<Cart>({
-		total: 0,
-		soldItems: [],
-	});
+	const [cart, setCart] = useState<Cart>({ total: 0, soldItems: [] });
 	const [meta, setMeta] = useState<Meta>({
 		page: 1,
 		pages: 1,
@@ -57,7 +67,8 @@ export default function Sale() {
 		useState<transactionOptions>({
 			print: false,
 			credit: false,
-			test: false,
+			discount: false,
+			history: false,
 		});
 	const [search, setSearch] = useState("");
 	const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -65,28 +76,33 @@ export default function Sale() {
 		"Quantity",
 	);
 	const [numPad_value, setNumPad_value] = useState("");
-	//debounced search
+
 	useEffect(() => {
 		setTimeout(() => {
 			setDebouncedSearch(search);
 		}, 350);
 	}, [search]);
-	// callback to fetch all the sallable variants
+
 	const fetchVariants = useCallback(async () => {
 		const res = await getAllSallableVariants(page, 8, debouncedSearch);
 		stVariants(res.response.data);
 		setMeta(res.response.meta);
 	}, [debouncedSearch, page]);
-	//fetch variants
+
 	useEffect(() => {
 		fetchVariants();
 	}, [page, debouncedSearch]);
+	useEffect(() => {
+		if (isHistoryLoaded) {
+			setSelectedSoldItem(null);
+		}
+	}, [isHistoryLoaded]);
+
 	function addToCart(item: Variant) {
 		const existingItem = cart.soldItems.find(
 			(i) => i.batchId === item.batches[0].id,
 		);
 		if (existingItem) {
-			// TODO: Update quantity
 			setCart({
 				...cart,
 				soldItems: cart.soldItems.map((i) =>
@@ -100,7 +116,6 @@ export default function Sale() {
 				),
 			});
 		} else {
-			// TODO: Add new item
 			setCart({
 				...cart,
 				soldItems: [
@@ -117,27 +132,34 @@ export default function Sale() {
 			});
 		}
 	}
+
 	function DeleteFromCart(item: soldItem) {
-		const newCart = cart.soldItems.filter((i) => i.batchId !== item.batchId);
 		setCart({
 			...cart,
-			soldItems: newCart,
+			soldItems: cart.soldItems.filter((i) => i.batchId !== item.batchId),
 		});
 	}
-	//calculate total on each modification
+
 	useEffect(() => {
 		const total = cart.soldItems.reduce((acc, item) => acc + item.total, 0);
-		setCart({
-			...cart,
-			total,
-		});
+		setCart({ ...cart, total });
 	}, [cart.soldItems]);
+	useEffect(() => {
+		if (isRemiseActivated && cart.total - remise <= 0) {
+			alert(t("remiseAlert"));
+			setRemise(0);
+			setRemiseAmount(cart.total);
+			return;
+		}
+		const r = cart.total - remise;
+		setRemiseAmount(r);
+	}, [cart.total, remise]);
 	useEffect(() => {
 		setOpenPrintModal(transaction_options.print);
 	}, [transaction_options.print]);
+
 	function modifyQte(item: soldItem, type: string) {
 		if (type === "add") {
-			// TODO: Add quantity
 			const stockQte =
 				variants?.find((v) => v.batches[0].id === item.batchId)?.batches[0]
 					.stock.quantity || 0;
@@ -159,7 +181,6 @@ export default function Sale() {
 			});
 		} else if (type === "remove") {
 			const newQte = item.quantity - 1;
-
 			setCart({
 				...cart,
 				soldItems: cart.soldItems.map((i) =>
@@ -177,22 +198,19 @@ export default function Sale() {
 			});
 		}
 	}
+
 	function applyNumPadModifications() {
 		const verify = variants?.find(
 			(v) => v.batches[0].id === selectedSoldItem?.batchId,
 		);
-
-		if (!verify) {
-			return;
-		}
+		if (!verify) return;
 		let fixedValue = numPad_value;
 		if (Number(numPad_value) > verify?.batches[0].stock.quantity) {
-			console.log("reached");
 			fixedValue = verify?.batches[0].stock.quantity.toString();
 		}
-		if (Number(numPad_value) === 0 && numPad_option === "Quantity") {
+		if (Number(numPad_value) === 0 && numPad_option === "Quantity")
 			fixedValue = "1";
-		}
+
 		if (numPad_option === "Quantity") {
 			const newSoldItems = cart.soldItems.map((i) =>
 				i.batchId === selectedSoldItem?.batchId
@@ -206,14 +224,12 @@ export default function Sale() {
 						}
 					: i,
 			);
-			const newTotal = newSoldItems.reduce((acc, item) => acc + item.total, 0);
 			setCart({
 				...cart,
 				soldItems: newSoldItems,
-				total: newTotal,
+				total: newSoldItems.reduce((acc, i) => acc + i.total, 0),
 			});
 		} else {
-			// TODO: Modify price
 			const newSoldItems = cart.soldItems.map((i) =>
 				i.batchId === selectedSoldItem?.batchId
 					? {
@@ -223,63 +239,111 @@ export default function Sale() {
 						}
 					: i,
 			);
-			const newTotal = newSoldItems.reduce((acc, item) => acc + item.total, 0);
 			setCart({
 				...cart,
 				soldItems: newSoldItems,
-				total: newTotal,
+				total: newSoldItems.reduce((acc, i) => acc + i.total, 0),
 			});
 		}
 	}
-	async function makeSale() {
-		if (cart.soldItems.length === 0) {
-			return;
-		}
-		if (isCreditActivated && !clientId) {
-			alert("Client is required when credit is activated");
-			return;
-		}
 
-		// TODO: Make sale
+	async function makeSale() {
+		if (cart.soldItems.length === 0) return;
+		if (isCreditActivated && !clientId) {
+			alert(t("creditRequired"));
+			return;
+		}
 		const res = await createSale({
-			total: cart.total,
+			total: isRemiseActivated ? remiseAmount : cart.total,
 			clientId: isCreditActivated ? (clientId ?? undefined) : undefined,
-			paid: isCreditActivated ? paidAmount : cart.total,
+			paid: isCreditActivated
+				? paidAmount
+				: isRemiseActivated
+					? remiseAmount
+					: cart.total,
+			remise: isRemiseActivated,
+			remiseAmount: isRemiseActivated ? remise : 0,
 			soldItems: cart.soldItems.map((item) => ({
 				batchId: item.batchId,
 				quantity: item.quantity,
+				sellingPrice: item.sellingPriceTTC,
+				total: item.total,
 			})),
 			date: new Date().toISOString(),
 		});
-		console.log(res);
 		if (res.status === 1) {
-			toast.success("sucess");
-			alert("Sale created successfully");
+			toast.success(t("successSale"));
+			alert(t("successSale"));
 			fetchVariants();
-			setClientId(null);
-			setIsCreditActivated(false);
-			setCart({
-				soldItems: [],
-				total: 0,
-			});
+			resetStatus();
 		} else {
-			console.log("reached");
-
-			toast.error("error");
-			alert("Failed to create sale");
+			toast.error(t("errorSale"));
+			alert(t("errorSale"));
 		}
 	}
+	async function updateSale() {
+		if (cart.soldItems.length === 0) return;
+		if (isCreditActivated && !clientId) {
+			alert(t("creditRequired"));
+			return;
+		}
+
+		const res = await updateSaleByid(saleId!, {
+			total: isRemiseActivated ? remiseAmount : cart.total,
+			clientId: isCreditActivated ? (clientId ?? undefined) : undefined,
+			paid: isCreditActivated
+				? paidAmount
+				: isRemiseActivated
+					? remiseAmount
+					: cart.total,
+			remise: isRemiseActivated,
+			remiseAmount: isRemiseActivated ? remise : 0,
+			soldItems: cart.soldItems.map((item) => ({
+				batchId: item.batchId,
+				quantity: item.quantity,
+				sellingPrice: item.sellingPriceTTC,
+				total: item.total,
+			})),
+			date: new Date().toISOString(),
+		});
+		if (res.status === 1) {
+			toast.success(t("successSaleUpdate"));
+			alert(t("successSaleUpdate"));
+			fetchVariants();
+			resetStatus();
+		} else {
+			toast.error(t("errorSaleUpdate"));
+			alert(t("errorSaleUpdate"));
+		}
+	}
+	function resetStatus() {
+		setCart({ soldItems: [], total: 0 });
+		setClientId(0);
+		setIsCreditActivated(false);
+		setPaidAmount(0);
+		setPaperType(null);
+		setIsRemiseActivated(false);
+		setRemiseAmount(0);
+		setRemise(0);
+		setNumPad_value("");
+		setNumPad_option("Quantity");
+		setIsHistoryLoaded(false);
+		setSelectedSoldItem(null);
+		setSaleId(null);
+	}
+
 	return (
 		<div className={styles.container}>
 			<section className={styles.sect1}>
 				<div className={styles.title}>
-					<h2>Sale</h2>
+					<h2>{t("title")}</h2>
 				</div>
+
 				<div className={styles.searchBar}>
 					<Search />
 					<input
 						type="text"
-						placeholder="search by name , barcode..."
+						placeholder={t("searchPlaceholder")}
 						className={styles.searchField}
 						onChange={(e) => setSearch(e.target.value)}
 					/>
@@ -289,17 +353,28 @@ export default function Sale() {
 					<table className={styles.table}>
 						<thead className={styles.tableHead}>
 							<tr>
-								<th className={styles.tableCell}>Product Name</th>
-								<th className={styles.tableCell}>nLot</th>
-								<th className={styles.tableCell}>Barcode</th>
-								<th className={styles.tableCell}>Stock quantity</th>
-								<th className={styles.tableCell}>Purchase price</th>
-								<th className={styles.tableCell}>TVA</th>
-								<th className={styles.tableCell}>Discount Price</th>
-								<th className={styles.tableCell}>Selling price</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.productName")}
+								</th>
+								<th className={styles.tableCell}>{t("variantsTable.nLot")}</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.barcode")}
+								</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.stockQty")}
+								</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.purchasePrice")}
+								</th>
+								<th className={styles.tableCell}>{t("variantsTable.tva")}</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.discountPrice")}
+								</th>
+								<th className={styles.tableCell}>
+									{t("variantsTable.sellingPrice")}
+								</th>
 							</tr>
 						</thead>
-
 						<tbody className={styles.tableBody}>
 							{variants?.map((item) => (
 								<tr
@@ -308,31 +383,30 @@ export default function Sale() {
 									onDoubleClick={() => addToCart(item)}
 								>
 									<td className={styles.tableCell}>{item.name}</td>
-
 									<td className={styles.tableCell}>
 										{item.batches?.[0]?.nLot ?? "-"}
 									</td>
 									<td className={styles.tableCell}>{item.barcode}</td>
-
 									<td className={styles.tableCell}>
 										{item.batches?.[0]?.stock?.quantity}
 									</td>
-
-									<td className={styles.tableCell}>{item.purchasePrice} DZD</td>
-
-									<td className={styles.tableCell}>{item.vatRate} %</td>
-
 									<td className={styles.tableCell}>
-										{item.promotionPrice ? `${item.promotionPrice} DZD` : "-"}
+										{item.purchasePrice} {t("currency")}
 									</td>
-
+									<td className={styles.tableCell}>{item.vatRate} %</td>
 									<td className={styles.tableCell}>
-										{item.sellingPriceTTC} DZD
+										{item.promotionPrice
+											? `${item.promotionPrice} ${t("currency")}`
+											: "-"}
+									</td>
+									<td className={styles.tableCell}>
+										{item.sellingPriceTTC} {t("currency")}
 									</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
+
 					{meta.pages > 1 && (
 						<div className={styles.pagination}>
 							<button
@@ -342,7 +416,6 @@ export default function Sale() {
 							>
 								<ChevronLeft size={16} />
 							</button>
-
 							<div className={styles.pageNumbers}>
 								{Array.from({ length: meta.pages }, (_, i) => i + 1)
 									.filter(
@@ -352,9 +425,7 @@ export default function Sale() {
 									.reduce<(number | "...")[]>((acc, p, idx, arr) => {
 										if (idx > 0 && p - (arr[idx - 1] as number) > 1)
 											acc.push("...");
-
 										acc.push(p);
-
 										return acc;
 									}, [])
 									.map((p, i) =>
@@ -365,9 +436,7 @@ export default function Sale() {
 										) : (
 											<button
 												key={p}
-												className={`${styles.pageNumber} ${
-													page === p ? styles.pageActive : ""
-												}`}
+												className={`${styles.pageNumber} ${page === p ? styles.pageActive : ""}`}
 												onClick={() => setPage(p as number)}
 											>
 												{p}
@@ -375,7 +444,6 @@ export default function Sale() {
 										),
 									)}
 							</div>
-
 							<button
 								className={styles.pageBtn}
 								onClick={() => setPage((p) => Math.min(meta.pages, p + 1))}
@@ -383,17 +451,17 @@ export default function Sale() {
 							>
 								<ChevronRight size={16} />
 							</button>
-
 							<span className={styles.pageInfo}>
-								Page {page} of {meta.pages}
+								{t("pageInfo", { page, pages: meta.pages })}
 							</span>
 						</div>
 					)}
 				</div>
 
 				<div className={styles.title}>
-					<h2>Cart</h2>
+					<h2>{t("cartTitle")}</h2>
 				</div>
+
 				<div
 					className={styles.cartWrapper}
 					onClick={() => setSelectedSoldItem(null)}
@@ -401,37 +469,38 @@ export default function Sale() {
 					<table className={styles.table}>
 						<thead className={styles.tableHead}>
 							<tr>
-								<th className={styles.tableCell}>Product Name</th>
-								<th className={styles.tableCell}>Barcode</th>
-								<th className={styles.tableCell}>quantity</th>
-								<th className={styles.tableCell}>Selling Price</th>
-								<th className={styles.tableCell}>Total</th>
-								<th className={styles.tableCell}>Remove</th>
+								<th className={styles.tableCell}>
+									{t("cartTable.productName")}
+								</th>
+								<th className={styles.tableCell}>{t("cartTable.barcode")}</th>
+								<th className={styles.tableCell}>{t("cartTable.quantity")}</th>
+								<th className={styles.tableCell}>
+									{t("cartTable.sellingPrice")}
+								</th>
+								<th className={styles.tableCell}>{t("cartTable.total")}</th>
+								<th className={styles.tableCell}>{t("cartTable.remove")}</th>
 							</tr>
 						</thead>
-
 						<tbody
 							className={
-								cart.soldItems.length === 0
+								cart.soldItems.length === 0 && isHistoryLoaded === false
 									? styles.emptyCartBody
 									: styles.cartBody
 							}
 						>
 							{cart.soldItems.length === 0 ? (
 								<tr className={styles.emptyCart}>
-									<td>No items in cart</td>
+									<td>{t("emptyCart")}</td>
 								</tr>
 							) : (
 								cart.soldItems.map((item) => (
 									<tr
-										className={`${styles.tableRow} ${selectedSoldItem?.batchId === item.batchId ? styles.selectedRow : styles.tableRow}`}
+										className={`${styles.tableRow} ${selectedSoldItem != null && selectedSoldItem?.batchId === item.batchId ? styles.selectedRow : styles.tableRow}`}
 										key={item.batchId}
 										onDoubleClick={() => setSelectedSoldItem(item)}
 									>
 										<td className={styles.tableCell}>{item.name}</td>
-
 										<td className={styles.tableCell}>{item.barcode}</td>
-
 										<td className={styles.tableCell}>
 											<div className={styles.quantityControl}>
 												<Minus
@@ -448,8 +517,9 @@ export default function Sale() {
 											</div>
 										</td>
 										<td className={styles.tableCell}>{item.sellingPriceTTC}</td>
-
-										<td className={styles.tableCell}>{item.total} DZD</td>
+										<td className={styles.tableCell}>
+											{item.total} {t("currency")}
+										</td>
 										<td className={styles.tableCell}>
 											<X
 												className={styles.deleteIcon}
@@ -462,21 +532,37 @@ export default function Sale() {
 						</tbody>
 					</table>
 				</div>
+
 				<div className={styles.totalSec}>
-					<h2>Total Amount : </h2>
-					<h2 className={styles.total}>{cart.total} DZD</h2>
-				</div>
-				{isCreditActivated && (
-					<div className={styles.totalSec}>
-						<h2>Total Paid : </h2>
-						<h2 className={styles.total}>{paidAmount} DZD</h2>
+					<div className={styles.totalSec_item}>
+						<h2>{t("totalAmount")} :</h2>
+						<h2 className={styles.total}>
+							{cart.total} {t("currency")}
+						</h2>
 					</div>
-				)}
+					{isRemiseActivated && (
+						<div className={styles.totalSec_item}>
+							<h2>{t("remise")} :</h2>
+							<h2 className={styles.total}>
+								{remiseAmount} {t("currency")}
+							</h2>
+						</div>
+					)}
+					{isCreditActivated && (
+						<div className={styles.totalSec_item}>
+							<h2>{t("totalPaid")} :</h2>
+							<h2 className={styles.total}>
+								{paidAmount} {t("currency")}
+							</h2>
+						</div>
+					)}
+				</div>
 			</section>
+
 			<section className={styles.sec2}>
 				<div className={styles.numPad}>
 					<div className={styles.numPadHeader}>
-						<h2>NumPad</h2>
+						<h2>{t("numpadTitle")}</h2>
 						<div className={styles.numpadOptions}>
 							<div
 								className={`${styles.numpadOption} ${numPad_option === "Quantity" ? styles.active : ""}`}
@@ -485,19 +571,19 @@ export default function Sale() {
 									setNumPad_value("")
 								)}
 							>
-								Qte
+								{t("qte")}
 							</div>
 							<div
 								className={`${styles.numpadOption} ${numPad_option === "Price" ? styles.active : ""}`}
 								onClick={() => (setNumPad_option("Price"), setNumPad_value(""))}
 							>
-								Price
+								{t("price")}
 							</div>
 						</div>
 					</div>
 					<div className={styles.result_field}>
 						<div className={styles.resultFieldValue}>
-							<h3>{numPad_option}</h3>
+							<h3>{numPad_option === "Quantity" ? t("qte") : t("price")}</h3>
 							<h2>{numPad_value || "0"}</h2>
 						</div>
 					</div>
@@ -535,9 +621,9 @@ export default function Sale() {
 							<div
 								className={styles.numpadButton}
 								onClick={() =>
-									selectedSoldItem && numPad_option != "Quantity"
+									selectedSoldItem && numPad_option !== "Quantity"
 										? numPad_value.includes(".")
-											? numPad_value
+											? undefined
 											: setNumPad_value(numPad_value + ".")
 										: null
 								}
@@ -551,16 +637,20 @@ export default function Sale() {
 									setNumPad_value("")
 								)}
 							>
-								Apply
+								{t("apply")}
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div className={styles.title}>
-					<h2>Options</h2>
+					<h2>{t("optionsTitle")}</h2>
 				</div>
+
 				<div className={styles.transaction_options}>
-					{Object.entries(transaction_options).map(([key, value]) => (
+					{(
+						Object.keys(transaction_options) as Array<keyof transactionOptions>
+					).map((key) => (
 						<div
 							className={styles.transaction_option}
 							key={key}
@@ -569,34 +659,41 @@ export default function Sale() {
 									? setOpenPrintModal(true)
 									: key === "credit"
 										? setOpenCreditModal(true)
-										: null
+										: key === "discount"
+											? setOpenRemiseModal(true)
+											: key === "history"
+												? setOpenHistoryModal(true)
+												: null
 							}
 						>
-							<h3>{key.charAt(0).toUpperCase() + key.slice(1)}</h3>
+							<h3>{t(`transactionOptions.${key}`)}</h3>
 						</div>
 					))}
 				</div>
+
 				<div className={styles.actions}>
 					<Link
-						href="/"
+						href={isHistoryLoaded ? "#" : "/"}
 						className={styles.cancelBtn}
 						style={{
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "center",
 						}}
+						onClick={isHistoryLoaded ? resetStatus : () => {}}
 					>
-						Cancel
+						{t("cancelBtn")}
 					</Link>
 					<button
-						className={styles.proceedBtn}
-						onClick={makeSale}
-						disabled={cart.soldItems.length === 0 ? true : false}
+						className={isHistoryLoaded ? styles.updateBtn : styles.proceedBtn}
+						onClick={isHistoryLoaded ? updateSale : makeSale}
+						disabled={cart.soldItems.length === 0}
 					>
-						Proceed
+						{isHistoryLoaded ? t("updateBtn") : t("proceedBtn")}
 					</button>
 				</div>
 			</section>
+
 			{openPrintModal && (
 				<PrintModal
 					setOpenPrintModal={setOpenPrintModal}
@@ -612,6 +709,32 @@ export default function Sale() {
 					setOpenCreditModal={setOpenCreditModal}
 					isCreditActivated={isCreditActivated}
 					setIsCreditActivated={setIsCreditActivated}
+					clientId={clientId}
+				/>
+			)}
+			{openRemiseModal && (
+				<RemiseModal
+					setOpenRemiseModal={setOpenRemiseModal}
+					remise={remise}
+					setRemise={setRemise}
+					isRemiseActivated={isRemiseActivated}
+					setIsRemiseActivated={setIsRemiseActivated}
+					remiseAmount={remiseAmount}
+					setRemiseAmount={setRemiseAmount}
+				/>
+			)}
+			{openHistoryModal && (
+				<HistoryModal
+					setIsSaleLoaded={setIsHistoryLoaded}
+					setOpenHistoryModal={setOpenHistoryModal}
+					setCart={setCart}
+					setPaidAmount={setPaidAmount}
+					setClientId={setClientId}
+					setRemise={setRemise}
+					setRemiseAmount={setRemiseAmount}
+					setIsCreditActivated={setIsCreditActivated}
+					setIsRemiseActivated={setIsRemiseActivated}
+					setSaleId={setSaleId}
 				/>
 			)}
 			<ToastContainer />

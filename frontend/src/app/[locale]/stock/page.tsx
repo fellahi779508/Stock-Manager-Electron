@@ -31,6 +31,7 @@ function formatDate(iso?: string) {
 
 export default function StockPage() {
 	const t = useTranslations("stock");
+	const g = useTranslations();
 
 	const [stocks, setStocks] = useState<Stock[]>([]);
 	const [search, setSearch] = useState("");
@@ -235,11 +236,13 @@ export default function StockPage() {
 											</td>
 
 											<td className={styles.td}>
-												{variant?.purchasePrice?.toFixed(2) ?? "—"}
+												{variant?.purchasePrice?.toFixed(2) ?? "—"}{" "}
+												{g("currency")}
 											</td>
 
 											<td className={styles.td}>
-												{variant?.sellingPriceTTC?.toFixed(2) ?? "—"}
+												{variant?.sellingPriceTTC?.toFixed(2) ?? "—"}{" "}
+												{g("currency")}
 											</td>
 
 											<td className={styles.td}>
@@ -247,7 +250,7 @@ export default function StockPage() {
 											</td>
 
 											<td className={styles.td}>
-												{variant?.profit?.toFixed(2) ?? "—"}
+												{variant?.profit?.toFixed(2) ?? "—"} {g("currency")}
 											</td>
 
 											<td className={styles.td}>

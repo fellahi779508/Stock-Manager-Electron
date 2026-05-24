@@ -1,4 +1,10 @@
-import { IsArray, IsDateString, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateSaleDto {
   @IsNumber()
@@ -11,6 +17,12 @@ export class CreateSaleDto {
   @IsNumber()
   paid: number;
 
+  @IsBoolean()
+  remise: boolean;
+
+  @IsNumber()
+  remiseAmount: number;
+
   @IsDateString()
   date: string;
 
@@ -18,5 +30,6 @@ export class CreateSaleDto {
   soldItems: {
     batchId: number;
     quantity: number;
+    sellingPrice: number;
   }[];
 }

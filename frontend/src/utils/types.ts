@@ -136,9 +136,12 @@ export type PostSale = {
 	clientId?: number;
 	paid: number;
 	date: string;
+	remise: boolean;
+	remiseAmount: number;
 	soldItems: {
 		batchId: number;
 		quantity: number;
+		sellingPrice: number;
 	}[];
 };
 export type Cart = {
@@ -164,4 +167,21 @@ export type PostClient = {
 	address?: string;
 	phone?: string;
 	email?: string;
+};
+export type Sale = {
+	id: number;
+	total: number;
+	paid: number;
+	remise: boolean;
+	remiseAmount: number;
+	date: string;
+	soldItems: SoldItem[];
+	client: Client | null;
+};
+export type SoldItem = {
+	id: number;
+	batchId: number;
+	quantity: number;
+	sellingPrice: number;
+	batch: Batch;
 };

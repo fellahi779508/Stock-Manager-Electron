@@ -26,12 +26,17 @@ export class Sale {
   @Column()
   date: string;
 
+  @Column({ default: false })
+  remise: boolean;
+  @Column({ default: 0 })
+  remiseAmount: number;
+
   @OneToMany(() => Log, (log) => log.sale)
   logs: Log[];
 
   @OneToOne(() => Credit, (credit) => credit.sale, {
     nullable: true,
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
   })
   credit: Credit;
 

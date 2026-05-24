@@ -131,11 +131,18 @@
 }
 .totalSec {
 	display: flex;
-	justify-content: space-between;
-	background-color: var(--surface);
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
 	padding: 2rem;
 	border-radius: 10px;
-	border: 1px solid var(--border);
+}
+.totalSec_item {
+	display: flex;
+	justify-content: flex-end;
+	gap: 1rem;
+	align-items: center;
+	width: 100%;
 }
 .total {
 	color: var(--success);
@@ -260,8 +267,8 @@
 	border-radius: 10px;
 	gap: 1rem;
 	cursor: pointer;
-	background-color: var(--accent);
-	color: var(--background);
+	background-color: var(--surface);
+	color: var(--foreground);
 }
 .transaction_option:hover {
 	background-color: var(--info-border);
@@ -300,6 +307,19 @@
 	border: 1px solid var(--border);
 	cursor: pointer;
 }
+
+.updateBtn {
+	width: 200px;
+	height: 50px;
+	color: white;
+	border: 1px solid var(--border);
+	cursor: pointer;
+	background-color: var(--accent);
+}
+.updateBtn:hover {
+	opacity: 0.8;
+}
+
 .proceedBtn:hover {
 	opacity: 0.8;
 }

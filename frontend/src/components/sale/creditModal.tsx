@@ -17,6 +17,7 @@ export default function CreditModal({
 	paidAmount,
 	isCreditActivated,
 	setIsCreditActivated,
+	clientId,
 }: {
 	setOpenCreditModal: (value: boolean) => void;
 	setClientId: (value: number | null) => void;
@@ -24,6 +25,7 @@ export default function CreditModal({
 	paidAmount: number;
 	isCreditActivated: boolean;
 	setIsCreditActivated: (value: boolean) => void;
+	clientId: number | null;
 }) {
 	const t = useTranslations("creditModal");
 	const [search, setSearch] = useState("");
@@ -31,7 +33,9 @@ export default function CreditModal({
 		{ value: number; label: string }[]
 	>([]);
 	const [clients, setClients] = useState<Client[]>([]);
-	const [selectedClient, setSelectedClient] = useState<number | null>(null);
+	const [selectedClient, setSelectedClient] = useState<number | null>(
+		clientId ?? null,
+	);
 	const [successToast, setSuccessToast] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const fetchClients = useCallback(async () => {

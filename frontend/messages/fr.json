@@ -664,5 +664,59 @@
 		"paidPlaceholder": "Enter amount paid",
 		"clientLabel": "Select Client",
 		"clientListPlaceholder": "Search for a client..."
+	},
+	"currency": "DZD",
+	"sale": {
+		"title": "Vente",
+		"searchPlaceholder": "Rechercher par nom, code-barre...",
+		"pageInfo": "Page {page} sur {pages}",
+		"cartTitle": "Panier",
+		"numpadTitle": "NumPad",
+		"optionsTitle": "Options",
+		"cancelBtn": "Annuler",
+		"proceedBtn": "Procéder",
+		"qte": "Qté",
+		"price": "Prix",
+		"apply": "Appliquer",
+		"creditRequired": "Le client est requis lorsque le crédit est activé.",
+		"successSale": "Vente créée avec succès.",
+		"errorSale": "Échec de la création de la vente.",
+		"totalAmount": "Montant total",
+		"totalPaid": "Total payé",
+		"remise": "Montant total (Remise)",
+		"remiseAlert": "La remise ne peut pas être supérieure au montant total.",
+		"currency": "DZD",
+		"transactionOptions": {
+			"print": "Imprimer",
+			"credit": "Crédit",
+			"discount": "Remise",
+			"history": "Historique"
+		},
+		"variantsTable": {
+			"productName": "Nom du produit",
+			"nLot": "N° Lot",
+			"barcode": "Code-barre",
+			"stockQty": "Qté en stock",
+			"purchasePrice": "Prix d'achat",
+			"tva": "TVA",
+			"discountPrice": "Prix de vente (Promotion)",
+			"sellingPrice": "Prix de vente"
+		},
+		"cartTable": {
+			"productName": "Nom du produit",
+			"barcode": "Code-barre",
+			"quantity": "Quantité",
+			"sellingPrice": "Prix de vente",
+			"total": "Total",
+			"remove": "Supprimer"
+		},
+		"emptyCart": "Aucun article dans le panier."
+	},
+	"remiseModal": {
+		"title": "Remise",
+		"sectionLabel": "Paramètres de remise",
+		"activateLabel": "Activer la remise",
+		"remiseLabel": "Montant de la remise",
+		"remisePlaceholder": "Entrez le montant de la remise"
 	}
 }

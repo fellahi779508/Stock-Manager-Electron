@@ -679,5 +679,75 @@
 		"paidPlaceholder": "Enter amount paid",
 		"clientLabel": "Select Client",
 		"clientListPlaceholder": "Search for a client..."
+	},
+	"currency": "DZD",
+	"sale": {
+		"title": "Sale",
+		"searchPlaceholder": "Search by name, barcode...",
+		"pageInfo": "Page {page} of {pages}",
+		"cartTitle": "Cart",
+		"numpadTitle": "NumPad",
+		"optionsTitle": "Options",
+		"cancelBtn": "Cancel",
+		"proceedBtn": "Proceed",
+		"updateBtn": "Update",
+		"qte": "Qty",
+		"price": "Price",
+		"apply": "Apply",
+		"creditRequired": "Client is required when credit is activated.",
+		"successSale": "Sale created successfully.",
+		"successSaleUpdate": "Sale updated successfully.",
+		"errorSale": "Failed to create sale.",
+		"errorSaleUpdate": "Failed to update sale.",
+		"totalAmount": "Total Amount",
+		"totalPaid": "Total Paid",
+		"remise": "Total Amount (Discount)",
+		"remiseAlert": "Discount cannot be greater than total amount.",
+		"currency": "DZD",
+		"transactionOptions": {
+			"print": "Print",
+			"credit": "Credit",
+			"discount": "Discount",
+			"history": "History"
+		},
+		"variantsTable": {
+			"productName": "Product Name",
+			"nLot": "Lot No.",
+			"barcode": "Barcode",
+			"stockQty": "Stock Qty",
+			"purchasePrice": "Purchase Price",
+			"tva": "VAT",
+			"discountPrice": "Discount Price",
+			"sellingPrice": "Selling Price"
+		},
+		"cartTable": {
+			"productName": "Product Name",
+			"barcode": "Barcode",
+			"quantity": "Quantity",
+			"sellingPrice": "Selling Price",
+			"total": "Total",
+			"remove": "Remove"
+		},
+		"emptyCart": "No items in cart."
+	},
+	"remiseModal": {
+		"title": "Discount",
+		"sectionLabel": "Discount Settings",
+		"activateLabel": "Enable Discount",
+		"remiseLabel": "Discount Amount",
+		"remisePlaceholder": "Enter discount amount"
+	},
+	"historyModal": {
+		"title": "Sales History",
+		"subtitle": "Select a sale to load it",
+		"close": "Close",
+		"cancel": "Cancel",
+		"load": "Load",
+		"loading": "Loading sales…",
+		"errorLoad": "Failed to load sales",
+		"empty": "No sales recorded today",
+		"items": "items",
+		"paid": "Paid",
+		"remise": "Discount"
 	}
 }
